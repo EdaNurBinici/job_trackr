@@ -16,7 +16,7 @@ Modern, AI-powered job application tracking system built with React, Node.js, an
 - 📧 **Smart Email Parsing**: Automatically parse job-related emails
 - 🔔 **Reminder System**: Never miss an interview or follow-up
 - 📊 **Analytics Dashboard**: Visualize your job search progress
-- 🌐 **Multi-language Support**: English and Turkish
+- 🌐 **Chrome Extension**: Save jobs from LinkedIn, Kariyer.net, Indeed, and Secretcv
 - 🎨 **Dark/Light Theme**: Comfortable viewing in any environment
 - 🔐 **Secure Authentication**: JWT-based auth with Google OAuth support
 
@@ -29,7 +29,7 @@ Modern, AI-powered job application tracking system built with React, Node.js, an
 - **Vite** for blazing fast builds
 - **TailwindCSS** for styling
 - **React Router** for navigation
-- **i18next** for internationalization
+- **Theme Support** for dark/light mode
 - **Axios** for API calls
 
 ### Backend
@@ -40,7 +40,7 @@ Modern, AI-powered job application tracking system built with React, Node.js, an
 - **BullMQ** for background jobs
 - **JWT** for authentication
 - **Groq AI** for CV analysis and cover letter generation
-- **Nodemailer** for email notifications
+- **Resend** for email notifications
 
 ### Infrastructure
 - **Vercel** for frontend hosting
@@ -63,8 +63,8 @@ Modern, AI-powered job application tracking system built with React, Node.js, an
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/jobtrackr.git
-cd jobtrackr
+git clone https://github.com/EdaNurBinici/job_trackr.git
+cd job_trackr
 ```
 
 2. **Install backend dependencies**
@@ -113,10 +113,6 @@ Backend: http://localhost:3000
 
 ## 🌐 Deployment
 
-See [QUICK-START.md](QUICK-START.md) for a 15-minute deployment guide.
-
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
-
 ### Quick Deployment Steps
 
 1. **Database**: Create Neon PostgreSQL database
@@ -128,10 +124,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
 ## 📚 Documentation
 
-- [API Documentation](API-DOCUMENTATION.md)
-- [Deployment Guide](DEPLOYMENT.md)
-- [Quick Start Guide](QUICK-START.md)
-- [Deployment Checklist](.deployment-checklist.md)
+Full documentation available in the repository.
 
 ---
 
@@ -258,15 +251,7 @@ jobtrackr/
 
 ---
 
-## 🌍 Internationalization
 
-JobTrackr supports multiple languages:
-- 🇬🇧 English
-- 🇹🇷 Turkish
-
-Add more languages by creating translation files in `client/src/i18n/locales/`.
-
----
 
 ## 🤝 Contributing
 
@@ -288,7 +273,7 @@ This project is licensed under the ISC License.
 
 ## 👨‍💻 Author
 
-[Your Name] - [GitHub Profile](https://github.com/yourusername)
+Eda Nur Binici - [GitHub Profile](https://github.com/EdaNurBinici)
 
 ---
 
@@ -310,13 +295,12 @@ If you have any questions or need help, please open an issue on GitHub.
 
 ## 🗺️ Roadmap
 
+- [x] Chrome extension for LinkedIn, Kariyer.net, Indeed, and Secretcv
 - [ ] Mobile app (React Native)
-- [ ] Chrome extension for LinkedIn
 - [ ] Gmail API integration
 - [ ] Advanced analytics
 - [ ] Team collaboration features
 - [ ] Interview preparation tools
-- [ ] Salary negotiation tracker
 
 ---
 
