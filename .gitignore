@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+uploads/
+*.log
+coverage/
+.DS_Store
+
+# Test files
+test-*.html
+
+# Deployment files (keep in repo but ignore local copies)
+# .deployment-checklist.md
+# DEPLOYMENT-FILES.md

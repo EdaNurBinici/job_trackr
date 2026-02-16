@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "JobTrackr Assistant",
+  "version": "1.0.0",
+  "description": "LinkedIn, Kariyer.net, Indeed ve Secretcv'den iş ilanlarını tek tıkla JobTrackr'a ekleyin!",
+  "permissions": ["activeTab", "storage", "scripting"],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "https://www.kariyer.net/*",
+    "https://tr.indeed.com/*",
+    "https://www.secretcv.com/*",
+    "http://localhost:3001/*",
+    "http://localhost:5173/*",
+    "http://localhost:3000/*",
+    "https://*.jobtrackr.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/jobs/*"],
+      "js": ["content-linkedin.js"]
+    },
+    {
+      "matches": ["https://www.kariyer.net/is-ilani/*"],
+      "js": ["content-kariyer.js"]
+    },
+    {
+      "matches": ["https://tr.indeed.com/viewjob*", "https://tr.indeed.com/jobs*"],
+      "js": ["content-indeed.js"]
+    },
+    {
+      "matches": ["https://www.secretcv.com/*/*"],
+      "js": ["content-secretcv.js"]
+    }
+  ]
+}

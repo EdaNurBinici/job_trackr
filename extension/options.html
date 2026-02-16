@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>JobTrackr Extension - Ayarlar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .help-text {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+      display: none;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      display: block;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      display: block;
+    }
+
+    .info-box {
+      background: #e7f3ff;
+      border-left: 4px solid #2196F3;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+
+    .info-box p {
+      font-size: 13px;
+      color: #0c5460;
+      line-height: 1.6;
+    }
+
+    .info-box strong {
+      color: #004085;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ JobTrackr Ayarları</h1>
+    <p class="subtitle">Extension'ı kullanmak için ayarları yapılandırın</p>
+
+    <div class="info-box">
+      <p><strong>Token nasıl alınır?</strong></p>
+      <p>1. JobTrackr web uygulamasını açın (http://localhost:5173)</p>
+      <p>2. Giriş yapın</p>
+      <p>3. F12 tuşuna basın (Developer Tools)</p>
+      <p>4. Console sekmesine gidin</p>
+      <p>5. Şunu yazın: <code>localStorage.getItem('token')</code></p>
+      <p>6. Çıkan değeri kopyalayıp aşağıya yapıştırın</p>
+    </div>
+
+    <form id="settingsForm">
+      <div class="form-group">
+        <label for="apiUrl">API URL</label>
+        <input 
+          type="text" 
+          id="apiUrl" 
+          placeholder="http://localhost:3001"
+          value="http://localhost:3001"
+        >
+        <div class="help-text">Backend API'nizin adresi</div>
+      </div>
+
+      <div class="form-group">
+        <label for="authToken">Auth Token</label>
+        <input 
+          type="password" 
+          id="authToken" 
+          placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          required
+        >
+        <div class="help-text">JobTrackr'dan aldığınız JWT token</div>
+      </div>
+
+      <button type="submit">💾 Ayarları Kaydet</button>
+    </form>
+
+    <div id="status" class="status"></div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

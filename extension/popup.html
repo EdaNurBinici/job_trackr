@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobTrackr Assistant</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>📋 JobTrackr</h1>
+      <p class="subtitle">İş İlanı Yakalayıcı</p>
+    </div>
+
+    <!-- Token Setup (shown if no token) -->
+    <div id="tokenSetup" class="token-setup hidden">
+      <div class="info-box">
+        <p><strong>🔐 Giriş Gerekli</strong></p>
+        <p>JobTrackr'da giriş yapın, extension otomatik bağlanacak!</p>
+        <p style="margin-top: 8px; font-size: 11px;">Veya manuel token girebilirsiniz:</p>
+      </div>
+      <input 
+        type="password" 
+        id="tokenInput" 
+        placeholder="Token (opsiyonel)"
+        class="token-input"
+      >
+      <button id="saveTokenBtn" class="btn btn-primary">💾 Manuel Token Kaydet</button>
+    </div>
+
+    <!-- Status Messages -->
+    <div id="status" class="status hidden"></div>
+
+    <!-- Job Info -->
+    <div id="jobInfo" class="job-info hidden">
+      <h3>Yakalanan İlan:</h3>
+      <div class="info-item">
+        <strong>Şirket:</strong>
+        <span id="companyName">-</span>
+      </div>
+      <div class="info-item">
+        <strong>Pozisyon:</strong>
+        <span id="position">-</span>
+      </div>
+      <div class="info-item">
+        <strong>Lokasyon:</strong>
+        <span id="location">-</span>
+      </div>
+      <div class="info-item">
+        <strong>Kaynak:</strong>
+        <span id="source">-</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div id="actions" class="actions">
+      <button id="captureBtn" class="btn btn-primary">
+        🎯 İlanı Yakala
+      </button>
+      <button id="saveBtn" class="btn btn-success hidden">
+        💾 JobTrackr'a Kaydet
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <a href="#" id="clearTokenLink">🔄 Token'ı Sıfırla</a>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
