@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { applicationsApi } from '../services/api';
 import type { ApplicationStatus } from '../types';
 
 export const ApplicationForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const isEdit = !!id;
 
   const [formData, setFormData] = useState({
@@ -24,8 +25,16 @@ export const ApplicationForm = () => {
   useEffect(() => {
     if (isEdit) {
       loadApplication();
+    } else if (location.state?.fromShare) {
+      // Pre-fill from share data
+      const { jobUrl, jobTitle } = location.state;
+      setFormData(prev => ({
+        ...prev,
+        position: jobTitle || '',
+        notes: jobUrl ? `İlan Linki: ${jobUrl}` : '',
+      }));
     }
-  }, [id]);
+  }, [id, location.state]);
 
   const loadApplication = async () => {
     try {

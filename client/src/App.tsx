@@ -10,6 +10,7 @@ import { Register } from './pages/Register';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword';
 import { AuthCallback } from './pages/AuthCallback';
+import { ShareTarget } from './pages/ShareTarget';
 import { Dashboard } from './pages/Dashboard';
 import { ApplicationList } from './pages/ApplicationList';
 import { ApplicationForm } from './pages/ApplicationForm';
@@ -35,6 +36,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/share" element={<ShareTarget />} />
           
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route path="/dashboard" element={<Dashboard />} />
