@@ -20,6 +20,8 @@ export default function CoverLetterList() {
   const [error, setError] = useState('');
   const [selectedLetter, setSelectedLetter] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState('');
 
   useEffect(() => {
     loadCoverLetters();
@@ -41,10 +43,36 @@ export default function CoverLetterList() {
     try {
       const response = await api.get(`/cover-letter/${id}`);
       setSelectedLetter(response.data.data);
+      setEditedContent(response.data.data.content);
+      setIsEditing(false);
       setShowModal(true);
     } catch (err: any) {
       setError('Ön yazı yüklenemedi');
     }
+  };
+
+  const handleSaveEdit = async () => {
+    if (!selectedLetter) return;
+
+    try {
+      await api.put(`/cover-letter/${selectedLetter.id}`, {
+        content: editedContent
+      });
+      
+      // Update local state
+      setSelectedLetter({ ...selectedLetter, content: editedContent });
+      setIsEditing(false);
+      
+      // Show success message
+      alert('✅ Ön yazı güncellendi!');
+    } catch (err: any) {
+      setError('Güncelleme başarısız oldu');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditedContent(selectedLetter.content);
+    setIsEditing(false);
   };
 
   const handleDelete = async (id: string) => {
@@ -200,28 +228,65 @@ export default function CoverLetterList() {
             </div>
 
             {/* Modal Actions */}
-            <div className="p-6 border-b dark:border-gray-700 flex gap-2">
-              <button
-                onClick={handleCopy}
-                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center space-x-1"
-              >
-                <span>📋</span>
-                <span>Kopyala</span>
-              </button>
-              <button
-                onClick={handleDownload}
-                className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors flex items-center space-x-1"
-              >
-                <span>💾</span>
-                <span>İndir</span>
-              </button>
+            <div className="p-6 border-b dark:border-gray-700 flex gap-2 flex-wrap">
+              {!isEditing ? (
+                <>
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center space-x-1"
+                  >
+                    <span>✏️</span>
+                    <span>Düzenle</span>
+                  </button>
+                  <button
+                    onClick={handleCopy}
+                    className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center space-x-1"
+                  >
+                    <span>📋</span>
+                    <span>Kopyala</span>
+                  </button>
+                  <button
+                    onClick={handleDownload}
+                    className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors flex items-center space-x-1"
+                  >
+                    <span>💾</span>
+                    <span>İndir</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={handleSaveEdit}
+                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center space-x-1"
+                  >
+                    <span>✅</span>
+                    <span>Kaydet</span>
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center space-x-1"
+                  >
+                    <span>❌</span>
+                    <span>İptal</span>
+                  </button>
+                </>
+              )}
             </div>
 
             {/* Modal Content */}
             <div className="p-6">
-              <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 whitespace-pre-wrap leading-relaxed text-gray-900 dark:text-gray-300">
-                {selectedLetter.content}
-              </div>
+              {!isEditing ? (
+                <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 whitespace-pre-wrap leading-relaxed text-gray-900 dark:text-gray-300">
+                  {selectedLetter.content}
+                </div>
+              ) : (
+                <textarea
+                  value={editedContent}
+                  onChange={(e) => setEditedContent(e.target.value)}
+                  className="w-full h-96 p-5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  placeholder="Ön yazınızı düzenleyin..."
+                />
+              )}
             </div>
           </div>
         </div>
