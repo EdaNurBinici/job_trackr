@@ -13,13 +13,13 @@ Modern, AI-powered job application tracking system built with React, Node.js, an
 ## Screenshots
 
 ### Dashboard
-![Dashboard](https://via.placeholder.com/800x450/1f2937/ffffff?text=Dashboard+Screenshot+Coming+Soon)
+![Dashboard](screenshots/dashboard.png)
 
 ### AI-Powered CV Analysis
-![CV Analysis](https://via.placeholder.com/800x450/1f2937/ffffff?text=AI+Analysis+Screenshot+Coming+Soon)
+![CV Analysis](screenshots/cv-analysis.png)
 
 ### Cover Letter Generator
-![Cover Letter](https://via.placeholder.com/800x450/1f2937/ffffff?text=Cover+Letter+Screenshot+Coming+Soon)
+![Cover Letter](screenshots/cover-letter.png)
 
 ## Features
 
