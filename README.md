@@ -5,7 +5,7 @@ Modern, AI-powered job application tracking system built with React, Node.js, an
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue?style=for-the-badge&logo=vercel)](https://jobtrackr-jjfi.vercel.app)
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-ISC-green.svg)
-![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)
 ![TypeScript](https://img.shields.io/badge/typescript-5.3.3-blue.svg)
 
 > **Note**: The live demo requires login. You can use Google OAuth or create a test account to explore the full features.
@@ -67,7 +67,7 @@ JobTrackr uses **Groq AI** to analyze your CV against job descriptions and gener
 ## Installation
 
 ### Prerequisites
-- Node.js >= 18.0.0
+- Node.js >= 20.0.0
 - PostgreSQL >= 14
 - Redis (or Upstash account)
 - npm or yarn
@@ -138,29 +138,37 @@ Backend: http://localhost:3000
 #### Backend (.env)
 ```bash
 # Database
-DATABASE_URL=postgresql://...
+DATABASE_URL=postgresql://user:password@host:port/dbname
 
 # JWT
-JWT_SECRET=your-secret-key
+JWT_SECRET=your-secret-key-change-in-production
 JWT_EXPIRES_IN=24h
 
 # Server
 NODE_ENV=development
 PORT=3000
 FRONTEND_URL=http://localhost:5173
-SESSION_SECRET=your-session-secret
+SESSION_SECRET=your-session-secret-change-in-production
 
-# Redis
-REDIS_URL=redis://...
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_CALLBACK_URL=http://localhost:3000/api/auth/google/callback
 
-# Email
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-password
+# Redis (Upstash)
+REDIS_URL=redis://default:password@endpoint.upstash.io:6379
+
+# Email (Resend)
+RESEND_API_KEY=your_resend_api_key
 
 # AI
-GROQ_API_KEY=your-groq-api-key
+GROQ_API_KEY=your_groq_api_key
+
+# File Storage (Optional)
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+AWS_S3_BUCKET=jobtrackr-files
 ```
 
 #### Frontend (client/.env)
