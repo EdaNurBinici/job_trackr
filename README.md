@@ -2,19 +2,37 @@
 
 Modern, AI-powered job application tracking system built with React, Node.js, and PostgreSQL.
 
-![JobTrackr](https://img.shields.io/badge/version-1.0.0-blue.svg)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue?style=for-the-badge&logo=vercel)](https://jobtrackr-jjfi.vercel.app)
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-ISC-green.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)
 ![TypeScript](https://img.shields.io/badge/typescript-5.3.3-blue.svg)
 
+> **Note**: The live demo requires login. You can use Google OAuth or create a test account to explore the full features.
+
+## Screenshots
+
+### Dashboard
+![Dashboard](https://via.placeholder.com/800x450/1f2937/ffffff?text=Dashboard+Screenshot+Coming+Soon)
+
+### AI-Powered CV Analysis
+![CV Analysis](https://via.placeholder.com/800x450/1f2937/ffffff?text=AI+Analysis+Screenshot+Coming+Soon)
+
+### Cover Letter Generator
+![Cover Letter](https://via.placeholder.com/800x450/1f2937/ffffff?text=Cover+Letter+Screenshot+Coming+Soon)
+
 ## Features
 
+### AI-Powered Intelligence
+JobTrackr uses **Groq AI** to analyze your CV against job descriptions and generate a **Fit Score** that shows how well you match the position. The system reads job requirements, compares them with your skills and experience, and provides actionable feedback to improve your application success rate.
+
+### Core Features
 - **Application Tracking**: Track all your job applications in one place
-- **AI-Powered Analysis**: CV analysis and cover letter generation using Groq AI
-- **Smart Email Parsing**: Automatically parse job-related emails
-- **Reminder System**: Never miss an interview or follow-up
-- **Analytics Dashboard**: Visualize your job search progress
-- **Chrome Extension**: Save jobs from LinkedIn, Kariyer.net, Indeed, and Secretcv
+- **AI CV Analysis**: Get detailed feedback and fit scores for each job posting
+- **Smart Cover Letter Generation**: Generate personalized cover letters using AI
+- **Email Reminders**: Never miss an interview or follow-up
+- **Analytics Dashboard**: Visualize your job search progress with interactive charts
+- **Chrome Extension**: Save jobs from LinkedIn, Kariyer.net, Indeed, and Secretcv with one click
 - **Dark/Light Theme**: Comfortable viewing in any environment
 - **PWA Support**: Install as a mobile app on any device
 - **Secure Authentication**: JWT-based auth with Google OAuth support
@@ -257,9 +275,8 @@ If you have any questions or need help, please open an issue on GitHub.
 
 ## Roadmap
 
-- [x] Chrome extension for LinkedIn, Kariyer.net, Indeed, and Secretcv
 - [ ] Mobile app (React Native)
 - [ ] Gmail API integration
-- [ ] Advanced analytics
+- [ ] Advanced analytics with ML predictions
 - [ ] Team collaboration features
-- [ ] Interview preparation tools
+- [ ] Interview preparation tools with AI coaching
