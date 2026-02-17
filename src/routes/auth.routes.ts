@@ -351,11 +351,12 @@ router.get(
       const user = req.user;
 
       // JWT token oluştur
-      const jwtSecret = process.env.JWT_SECRET || 'secret';
+      const jwtSecret: string = process.env.JWT_SECRET || 'secret';
+      const jwtExpires: string = process.env.JWT_EXPIRES_IN || '24h';
       const token = jwt.sign(
         { userId: user.id, email: user.email, role: user.role },
         jwtSecret,
-        { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+        { expiresIn: jwtExpires }
       );
 
       // Frontend'e token ile yönlendir
