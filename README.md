@@ -1,4 +1,4 @@
-# 🎯 JobTrackr
+# JobTrackr
 
 Modern, AI-powered job application tracking system built with React, Node.js, and PostgreSQL.
 
@@ -7,52 +7,46 @@ Modern, AI-powered job application tracking system built with React, Node.js, an
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)
 ![TypeScript](https://img.shields.io/badge/typescript-5.3.3-blue.svg)
 
----
+## Features
 
-## ✨ Features
+- **Application Tracking**: Track all your job applications in one place
+- **AI-Powered Analysis**: CV analysis and cover letter generation using Groq AI
+- **Smart Email Parsing**: Automatically parse job-related emails
+- **Reminder System**: Never miss an interview or follow-up
+- **Analytics Dashboard**: Visualize your job search progress
+- **Chrome Extension**: Save jobs from LinkedIn, Kariyer.net, Indeed, and Secretcv
+- **Dark/Light Theme**: Comfortable viewing in any environment
+- **PWA Support**: Install as a mobile app on any device
+- **Secure Authentication**: JWT-based auth with Google OAuth support
 
-- 📝 **Application Tracking**: Track all your job applications in one place
-- 🤖 **AI-Powered Analysis**: CV analysis and cover letter generation using Groq AI
-- 📧 **Smart Email Parsing**: Automatically parse job-related emails
-- 🔔 **Reminder System**: Never miss an interview or follow-up
-- 📊 **Analytics Dashboard**: Visualize your job search progress
-- 🌐 **Chrome Extension**: Save jobs from LinkedIn, Kariyer.net, Indeed, and Secretcv
-- 🎨 **Dark/Light Theme**: Comfortable viewing in any environment
-- 📱 **PWA Support**: Install as a mobile app on any device
-- 🔐 **Secure Authentication**: JWT-based auth with Google OAuth support
-
----
-
-## 🚀 Tech Stack
+## Tech Stack
 
 ### Frontend
-- **React 19** with TypeScript
-- **Vite** for blazing fast builds
-- **TailwindCSS** for styling
-- **React Router** for navigation
-- **Theme Support** for dark/light mode
-- **Axios** for API calls
+- React 19 with TypeScript
+- Vite for blazing fast builds
+- TailwindCSS for styling
+- React Router for navigation
+- Theme support for dark/light mode
+- Axios for API calls
 
 ### Backend
-- **Node.js** with Express
-- **TypeScript** for type safety
-- **PostgreSQL** for database
-- **Redis** (Upstash) for queue management
-- **BullMQ** for background jobs
-- **JWT** for authentication
-- **Groq AI** for CV analysis and cover letter generation
-- **Resend** for email notifications
+- Node.js with Express
+- TypeScript for type safety
+- PostgreSQL for database
+- Redis (Upstash) for queue management
+- BullMQ for background jobs
+- JWT for authentication
+- Groq AI for CV analysis and cover letter generation
+- Resend for email notifications
 
 ### Infrastructure
-- **Vercel** for frontend hosting
-- **Railway** for backend hosting
-- **Neon** for PostgreSQL database
-- **Upstash** for Redis
-- **AWS S3** for file storage (optional)
+- Vercel for frontend hosting
+- Railway for backend hosting
+- Neon for PostgreSQL database
+- Upstash for Redis
+- AWS S3 for file storage (optional)
 
----
-
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 - Node.js >= 18.0.0
@@ -62,36 +56,36 @@ Modern, AI-powered job application tracking system built with React, Node.js, an
 
 ### Local Development
 
-1. **Clone the repository**
+1. Clone the repository
 ```bash
 git clone https://github.com/EdaNurBinici/job_trackr.git
 cd job_trackr
 ```
 
-2. **Install backend dependencies**
+2. Install backend dependencies
 ```bash
 npm install
 ```
 
-3. **Install frontend dependencies**
+3. Install frontend dependencies
 ```bash
 cd client
 npm install
 cd ..
 ```
 
-4. **Setup environment variables**
+4. Setup environment variables
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
 ```
 
-5. **Run database migrations**
+5. Run database migrations
 ```bash
 npm run migrate:up
 ```
 
-6. **Start development servers**
+6. Start development servers
 
 Backend:
 ```bash
@@ -104,32 +98,22 @@ cd client
 npm run dev
 ```
 
-7. **Open your browser**
+7. Open your browser
 ```
 Frontend: http://localhost:5173
 Backend: http://localhost:3000
 ```
 
----
-
-## 🌐 Deployment
+## Deployment
 
 ### Quick Deployment Steps
 
-1. **Database**: Create Neon PostgreSQL database
-2. **Redis**: Create Upstash Redis database
-3. **Backend**: Deploy to Railway
-4. **Frontend**: Deploy to Vercel
+1. Database: Create Neon PostgreSQL database
+2. Redis: Create Upstash Redis database
+3. Backend: Deploy to Railway
+4. Frontend: Deploy to Vercel
 
----
-
-## 📚 Documentation
-
-Full documentation available in the repository.
-
----
-
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -166,9 +150,7 @@ GROQ_API_KEY=your-groq-api-key
 VITE_API_URL=http://localhost:3000
 ```
 
----
-
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -181,9 +163,7 @@ npm run test:watch
 npm run test:coverage
 ```
 
----
-
-## 📊 Project Structure
+## Project Structure
 
 ```
 jobtrackr/
@@ -193,7 +173,6 @@ jobtrackr/
 │   │   ├── pages/         # Page components
 │   │   ├── services/      # API services
 │   │   ├── context/       # React context
-│   │   ├── i18n/          # Internationalization
 │   │   └── types/         # TypeScript types
 │   └── public/            # Static assets
 ├── src/                   # Backend Node.js application
@@ -210,9 +189,7 @@ jobtrackr/
 └── tests/                # Test files
 ```
 
----
-
-## 🎨 Features in Detail
+## Features in Detail
 
 ### Application Tracking
 - Create, update, and delete job applications
@@ -222,10 +199,10 @@ jobtrackr/
 - Generate cover letters
 
 ### AI-Powered Features
-- **CV Analysis**: Get detailed feedback on your CV
-- **Fit Score**: See how well your CV matches a job description
-- **Cover Letter Generation**: Generate personalized cover letters
-- **Email Parsing**: Automatically extract job details from emails
+- CV Analysis: Get detailed feedback on your CV
+- Fit Score: See how well your CV matches a job description
+- Cover Letter Generation: Generate personalized cover letters
+- Email Parsing: Automatically extract job details from emails
 
 ### Dashboard & Analytics
 - Application statistics
@@ -239,9 +216,7 @@ jobtrackr/
 - Interview reminders
 - Follow-up notifications
 
----
-
-## 🔐 Security
+## Security
 
 - JWT-based authentication
 - Password hashing with bcrypt
@@ -250,11 +225,7 @@ jobtrackr/
 - XSS protection
 - Rate limiting (coming soon)
 
----
-
-
-
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -264,21 +235,15 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
----
-
-## 📝 License
+## License
 
 This project is licensed under the ISC License.
 
----
-
-## 👨‍💻 Author
+## Author
 
 Eda Nur Binici - [GitHub Profile](https://github.com/EdaNurBinici)
 
----
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Groq](https://groq.com) for AI capabilities
 - [Neon](https://neon.tech) for PostgreSQL hosting
@@ -286,15 +251,11 @@ Eda Nur Binici - [GitHub Profile](https://github.com/EdaNurBinici)
 - [Vercel](https://vercel.com) for frontend hosting
 - [Upstash](https://upstash.com) for Redis hosting
 
----
-
-## 📞 Support
+## Support
 
 If you have any questions or need help, please open an issue on GitHub.
 
----
-
-## 🗺️ Roadmap
+## Roadmap
 
 - [x] Chrome extension for LinkedIn, Kariyer.net, Indeed, and Secretcv
 - [ ] Mobile app (React Native)
@@ -302,7 +263,3 @@ If you have any questions or need help, please open an issue on GitHub.
 - [ ] Advanced analytics
 - [ ] Team collaboration features
 - [ ] Interview preparation tools
-
----
-
-**Made with ❤️ for job seekers everywhere**
