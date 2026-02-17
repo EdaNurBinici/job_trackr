@@ -81,9 +81,6 @@ export const Layout = () => {
 
             {/* Right Side - Desktop */}
             <div className="hidden md:flex items-center space-x-4">
-              {/* Install App Button */}
-              <InstallButton />
-              
               {/* Tema Değiştirme Butonu */}
               <button
                 onClick={toggleTheme}
@@ -170,6 +167,11 @@ export const Layout = () => {
 
               {/* Mobile User Info */}
               <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                {/* Install App Button - Mobile Only */}
+                <div className="px-4 mb-3">
+                  <InstallButton />
+                </div>
+                
                 <div className="flex items-center space-x-3 px-4 py-2 mb-2">
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
                     <span className="text-white font-semibold">
