@@ -2,6 +2,7 @@ import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useState } from 'react';
+import InstallButton from './InstallButton';
 
 export const Layout = () => {
   const { user, logout } = useAuth();
@@ -80,6 +81,9 @@ export const Layout = () => {
 
             {/* Right Side - Desktop */}
             <div className="hidden md:flex items-center space-x-4">
+              {/* Install App Button */}
+              <InstallButton />
+              
               {/* Tema Değiştirme Butonu */}
               <button
                 onClick={toggleTheme}
