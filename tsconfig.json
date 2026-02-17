@@ -19,8 +19,7 @@
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false,
     "strictNullChecks": false,
-    "noImplicitAny": false,
-    "suppressImplicitAnyIndexErrors": true
+    "noImplicitAny": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
