@@ -1,32 +1,32 @@
 # JobTrackr Chrome Extension 🚀
 
-LinkedIn, Kariyer.net, Indeed ve Secretcv'den tek tıkla iş ilanlarını JobTrackr'a ekleyin!
+Add job postings to JobTrackr with one click from LinkedIn, Kariyer.net, Indeed, and Secretcv!
 
-## Özellikler ✨
+## Features ✨
 
-- 🎯 LinkedIn iş ilanlarını otomatik yakala
-- 🎯 Kariyer.net iş ilanlarını otomatik yakala
-- 💾 Tek tıkla JobTrackr'a kaydet
-- ⚡ Hızlı ve kolay kullanım
-- 🔒 Güvenli token-based authentication
+- 🎯 Auto-capture LinkedIn job postings
+- 🎯 Auto-capture Kariyer.net job postings
+- 💾 Save to JobTrackr with one click
+- ⚡ Fast and easy to use
+- 🔒 Secure token-based authentication
 
-## Kurulum 📦
+## Installation 📦
 
-### 1. Extension'ı Yükle
+### 1. Load the Extension
 
-1. Bu `extension/` klasörünü bilgisayarınıza indirin
-2. Chrome tarayıcınızı açın
-3. Adres çubuğuna `chrome://extensions/` yazın
-4. Sağ üstten "Developer mode" (Geliştirici modu) açın
-5. "Load unpacked" (Paketlenmemiş uzantı yükle) butonuna tıklayın
-6. `extension/` klasörünü seçin
-7. Extension yüklendi! 🎉
+1. Download this `extension/` folder to your computer
+2. Open Chrome browser
+3. Navigate to `chrome://extensions/`
+4. Enable "Developer mode" in the top right
+5. Click "Load unpacked"
+6. Select the `extension/` folder
+7. Extension loaded! 🎉
 
-### 2. Ayarları Yapılandır
+### 2. Configure Settings
 
-1. Extension ikonuna tıklayın
-2. "⚙️ Ayarlar" linkine tıklayın
-3. Aşağıdaki bilgileri girin:
+1. Click the extension icon
+2. Click "⚙️ Settings" link
+3. Enter the following information:
 
 **API URL:**
 ```
@@ -34,84 +34,84 @@ http://localhost:3000
 ```
 
 **Auth Token:**
-Token'ı almak için:
-1. JobTrackr'a giriş yapın (http://localhost:5173)
-2. F12 ile Developer Tools'u açın
-3. Console'a gidin
-4. Şunu yazın: `localStorage.getItem('token')`
-5. Çıkan token'ı kopyalayın (tırnak işaretleri olmadan)
-6. Ayarlar sayfasına yapıştırın
+To get your token:
+1. Log in to JobTrackr (http://localhost:5173)
+2. Open Developer Tools with F12
+3. Go to Console
+4. Type: `localStorage.getItem('token')`
+5. Copy the token (without quotes)
+6. Paste it in the settings page
 
-4. "💾 Kaydet" butonuna tıklayın
-5. "🔍 Bağlantıyı Test Et" ile test edin
+4. Click "💾 Save"
+5. Test with "🔍 Test Connection"
 
-## Kullanım 📖
+## Usage 📖
 
-### LinkedIn'den İlan Ekleme
+### Adding Jobs from LinkedIn
 
-1. LinkedIn'de bir iş ilanına gidin
-   - Örnek: https://www.linkedin.com/jobs/view/123456789
-2. Extension ikonuna tıklayın
-3. "🎯 İlanı Yakala" butonuna tıklayın
-4. İlan bilgileri otomatik çekilecek
-5. "💾 JobTrackr'a Kaydet" butonuna tıklayın
-6. Başarılı! ✅
+1. Go to a job posting on LinkedIn
+   - Example: https://www.linkedin.com/jobs/view/123456789
+2. Click the extension icon
+3. Click "🎯 Capture Job"
+4. Job details will be auto-extracted
+5. Click "💾 Save to JobTrackr"
+6. Success! ✅
 
-### Kariyer.net'ten İlan Ekleme
+### Adding Jobs from Kariyer.net
 
-1. Kariyer.net'te bir iş ilanına gidin
-   - Örnek: https://www.kariyer.net/is-ilani/...
-2. Extension ikonuna tıklayın
-3. "🎯 İlanı Yakala" butonuna tıklayın
-4. İlan bilgileri otomatik çekilecek
-5. "💾 JobTrackr'a Kaydet" butonuna tıklayın
-6. Başarılı! ✅
+1. Go to a job posting on Kariyer.net
+   - Example: https://www.kariyer.net/is-ilani/...
+2. Click the extension icon
+3. Click "🎯 Capture Job"
+4. Job details will be auto-extracted
+5. Click "💾 Save to JobTrackr"
+6. Success! ✅
 
-## Desteklenen Siteler 🌐
+## Supported Sites 🌐
 
 - ✅ LinkedIn Jobs (linkedin.com/jobs/*)
 - ✅ Kariyer.net (kariyer.net/is-ilani/*)
 - ✅ Indeed (tr.indeed.com/viewjob*, tr.indeed.com/jobs*)
 - ✅ Secretcv (secretcv.com/ilan/*)
 
-## Sorun Giderme 🔧
+## Troubleshooting 🔧
 
-### "Bu sayfa desteklenmiyor" Hatası
-- LinkedIn veya Kariyer.net iş ilanı sayfasında olduğunuzdan emin olun
-- Sayfa tam yüklenene kadar bekleyin
+### "This page is not supported" Error
+- Make sure you're on a LinkedIn or Kariyer.net job posting page
+- Wait for the page to fully load
 
-### "İlan bilgileri çekilemedi" Hatası
-- Sayfayı yenileyin (F5)
-- Birkaç saniye bekleyip tekrar deneyin
-- LinkedIn'de farklı bir ilan sayfası deneyin
+### "Could not extract job details" Error
+- Refresh the page (F5)
+- Wait a few seconds and try again
+- Try a different job posting on LinkedIn
 
-### "API'ye bağlanılamadı" Hatası
-- Ayarlardan API URL'in doğru olduğundan emin olun
-- Backend'in çalıştığından emin olun (http://localhost:3000/health)
-- Token'ın geçerli olduğundan emin olun
+### "Could not connect to API" Error
+- Check that the API URL is correct in settings
+- Make sure the backend is running (http://localhost:3000/health)
+- Verify your token is valid
 
-### "Token geçersiz" Hatası
-- JobTrackr'dan çıkış yapıp tekrar giriş yapın
-- Yeni token'ı alıp ayarlara girin
+### "Invalid token" Error
+- Log out and log back in to JobTrackr
+- Get a new token and update settings
 
-## Teknik Detaylar 🛠️
+## Technical Details 🛠️
 
 - **Manifest Version:** 3
 - **Permissions:** activeTab, storage
-- **Content Scripts:** LinkedIn ve Kariyer.net için
+- **Content Scripts:** For LinkedIn and Kariyer.net
 - **API:** REST API (JWT authentication)
 
-## Güvenlik 🔒
+## Security 🔒
 
-- Token'lar Chrome'un güvenli storage'ında saklanır
-- HTTPS üzerinden iletişim (production'da)
-- Token'lar asla loglanmaz
+- Tokens are stored in Chrome's secure storage
+- Communication over HTTPS (in production)
+- Tokens are never logged
 
-## Geliştirici Notları 💻
+## Developer Notes 💻
 
-Extension pure vanilla JavaScript ile yazılmıştır, build gerektirmez.
+Extension is written in pure vanilla JavaScript, no build required.
 
-**Dosya Yapısı:**
+**File Structure:**
 ```
 extension/
 ├── manifest.json       # Extension config
@@ -121,37 +121,37 @@ extension/
 ├── settings.html       # Settings page
 ├── settings.js         # Settings logic
 ├── icons/              # Extension icons
-└── README.md           # Bu dosya
+└── README.md           # This file
 ```
 
-**Test:**
+**Testing:**
 ```bash
-# Backend'i başlat
+# Start backend
 npm run dev
 
-# Frontend'i başlat
+# Start frontend
 cd client && npm run dev
 
-# Extension'ı Chrome'a yükle
+# Load extension in Chrome
 # chrome://extensions/ → Load unpacked → extension/
 ```
 
-## Sürüm Geçmişi 📝
+## Version History 📝
 
 ### v1.0.0 (2026-02-12)
-- ✨ İlk sürüm
-- ✅ LinkedIn desteği
-- ✅ Kariyer.net desteği
+- ✨ Initial release
+- ✅ LinkedIn support
+- ✅ Kariyer.net support
 - ✅ Quick-add API endpoint
-- ✅ Settings sayfası
+- ✅ Settings page
 
-## Lisans 📄
+## License 📄
 
 MIT License
 
-## Destek 💬
+## Support 💬
 
-Sorun mu yaşıyorsunuz? GitHub'da issue açın!
+Having issues? Open an issue on GitHub!
 
 ---
 
