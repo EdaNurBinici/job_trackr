@@ -25,8 +25,8 @@ export const ApplicationForm = () => {
   useEffect(() => {
     if (isEdit) {
       loadApplication();
-    } else if (location.state?.fromShare) {
-      // Pre-fill from share data
+    } else if (location.state?.fromShare || location.state?.fromLink) {
+      // Pre-fill from share/link data
       const { jobUrl, jobTitle } = location.state;
       setFormData(prev => ({
         ...prev,

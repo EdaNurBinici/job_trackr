@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { dashboardApi, applicationsApi } from '../services/api';
 import type { DashboardStats, Application } from '../types';
+import AddJobByLink from '../components/AddJobByLink';
 
 export const Dashboard = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -418,6 +419,9 @@ export const Dashboard = () => {
           </div>
         </div>
       )}
+
+      {/* Add Job By Link - Mobile Only */}
+      <AddJobByLink />
     </div>
   );
 };
