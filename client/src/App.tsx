@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Layout } from './components/Layout';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { LandingPage } from './pages/LandingPage';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
@@ -26,6 +27,7 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
+        <PWAInstallPrompt />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />

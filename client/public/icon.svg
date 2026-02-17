@@ -1,0 +1,19 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="115" fill="#3b82f6"/>
+  
+  <!-- Briefcase Icon -->
+  <path d="M128 192H384C401.673 192 416 206.327 416 224V384C416 401.673 401.673 416 384 416H128C110.327 416 96 401.673 96 384V224C96 206.327 110.327 192 128 192Z" fill="white"/>
+  
+  <!-- Briefcase Handle -->
+  <path d="M192 192V160C192 142.327 206.327 128 224 128H288C305.673 128 320 142.327 320 160V192" stroke="white" stroke-width="16" stroke-linecap="round"/>
+  
+  <!-- AI Sparkle -->
+  <circle cx="400" cy="160" r="48" fill="#fbbf24"/>
+  <path d="M400 128L408 152L432 160L408 168L400 192L392 168L368 160L392 152L400 128Z" fill="white"/>
+  
+  <!-- Document Lines -->
+  <line x1="160" y1="256" x2="352" y2="256" stroke="#3b82f6" stroke-width="12" stroke-linecap="round"/>
+  <line x1="160" y1="304" x2="280" y2="304" stroke="#3b82f6" stroke-width="12" stroke-linecap="round"/>
+  <line x1="160" y1="352" x2="320" y2="352" stroke="#3b82f6" stroke-width="12" stroke-linecap="round"/>
+</svg>

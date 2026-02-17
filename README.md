@@ -18,6 +18,7 @@ Modern, AI-powered job application tracking system built with React, Node.js, an
 - 📊 **Analytics Dashboard**: Visualize your job search progress
 - 🌐 **Chrome Extension**: Save jobs from LinkedIn, Kariyer.net, Indeed, and Secretcv
 - 🎨 **Dark/Light Theme**: Comfortable viewing in any environment
+- 📱 **PWA Support**: Install as a mobile app on any device
 - 🔐 **Secure Authentication**: JWT-based auth with Google OAuth support
 
 ---
