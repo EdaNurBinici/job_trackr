@@ -174,6 +174,6 @@ To test the component:
 ## Notes
 
 - JWT token must be present in localStorage
-- Backend endpoint must be running at `http://localhost:3001`
+- Backend endpoint must be running at `http://localhost:3000`
 - S3 bucket must be configured on the backend
 - Signed URLs expire after 1 hour (backend configuration)

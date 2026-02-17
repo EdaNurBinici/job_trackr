@@ -30,7 +30,7 @@ LinkedIn, Kariyer.net, Indeed ve Secretcv'den tek tıkla iş ilanlarını JobTra
 
 **API URL:**
 ```
-http://localhost:3001
+http://localhost:3000
 ```
 
 **Auth Token:**
@@ -87,7 +87,7 @@ Token'ı almak için:
 
 ### "API'ye bağlanılamadı" Hatası
 - Ayarlardan API URL'in doğru olduğundan emin olun
-- Backend'in çalıştığından emin olun (http://localhost:3001/health)
+- Backend'in çalıştığından emin olun (http://localhost:3000/health)
 - Token'ın geçerli olduğundan emin olun
 
 ### "Token geçersiz" Hatası

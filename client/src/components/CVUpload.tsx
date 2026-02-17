@@ -64,7 +64,7 @@ const CVUpload: React.FC<CVUploadProps> = ({ onUploadSuccess, onUploadError }) =
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post<{ data: UploadedFile }>(
-        'http://localhost:3001/api/cv/upload',
+        '/api/cv/upload',
         formData,
         {
           headers: {

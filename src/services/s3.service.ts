@@ -94,7 +94,7 @@ export class S3Service {
         return {
           key: localPath,
           bucket: 'local',
-          url: `http://localhost:${process.env.PORT || 3001}/uploads/cvs/${userId}/${localFileName}`,
+          url: `http://localhost:${process.env.PORT || 3000}/uploads/cvs/${userId}/${localFileName}`,
         };
       }
     } catch (error) {
@@ -126,7 +126,7 @@ export class S3Service {
         const userId = pathParts[pathParts.length - 2];
         const fileName = pathParts[pathParts.length - 1];
         
-        return `http://localhost:${process.env.PORT || 3001}/uploads/cvs/${userId}/${fileName}`;
+        return `http://localhost:${process.env.PORT || 3000}/uploads/cvs/${userId}/${fileName}`;
       }
     } catch (error) {
       console.error('Signed URL error:', error);

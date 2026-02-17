@@ -26,7 +26,7 @@ Extension için 3 boyutta ikon gerekli:
 
 ```javascript
 // Değiştir:
-const apiUrl = 'http://localhost:3001';
+const apiUrl = 'http://localhost:3000';
 
 // Şununla:
 const apiUrl = 'https://api.jobtrackr.com'; // Senin production API URL'in

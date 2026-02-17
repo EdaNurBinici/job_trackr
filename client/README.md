@@ -26,4 +26,4 @@ Frontend will start on http://localhost:5173
 
 ## Backend
 
-Make sure backend is running on http://localhost:3001
+Make sure backend is running on http://localhost:3000
