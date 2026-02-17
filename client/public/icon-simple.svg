@@ -1,0 +1,24 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with rounded corners -->
+  <rect width="512" height="512" rx="115" fill="#3b82f6"/>
+  
+  <!-- White circle background for icon -->
+  <circle cx="256" cy="256" r="180" fill="white" opacity="0.95"/>
+  
+  <!-- Briefcase icon -->
+  <g transform="translate(256, 256)">
+    <!-- Main briefcase body -->
+    <rect x="-80" y="-40" width="160" height="100" rx="8" fill="#3b82f6"/>
+    
+    <!-- Briefcase handle -->
+    <path d="M -40 -40 L -40 -60 Q -40 -80 -20 -80 L 20 -80 Q 40 -80 40 -60 L 40 -40" 
+          stroke="#3b82f6" stroke-width="12" fill="none" stroke-linecap="round"/>
+    
+    <!-- Lock/clasp -->
+    <rect x="-15" y="-10" width="30" height="20" rx="4" fill="#fbbf24"/>
+    
+    <!-- AI sparkle -->
+    <circle cx="70" cy="-70" r="35" fill="#fbbf24"/>
+    <text x="70" y="-60" font-size="40" text-anchor="middle" fill="white" font-weight="bold">AI</text>
+  </g>
+</svg>
