@@ -1,6 +1,10 @@
 import { Router, Request, Response } from 'express';
 import { AuthService } from '../services';
 import { RegisterDTO, LoginDTO } from '../types';
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { pool } from '../config/database';
+import * as jwt from 'jsonwebtoken';
 
 const router = Router();
 
@@ -253,16 +257,9 @@ router.post('/reset-password', async (req: Request, res: Response) => {
   }
 });
 
-export default router;
-
-
 /**
  * Google OAuth Routes
  */
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import { pool } from '../config/database';
-import jwt from 'jsonwebtoken';
 
 // Google Strategy Configuration
 passport.use(
@@ -351,12 +348,10 @@ router.get(
       const user = req.user;
 
       // JWT token oluştur
-      const jwtSecret: string = process.env.JWT_SECRET || 'secret';
-      const jwtExpires: string = process.env.JWT_EXPIRES_IN || '24h';
       const token = jwt.sign(
         { userId: user.id, email: user.email, role: user.role },
-        jwtSecret,
-        { expiresIn: jwtExpires }
+        String(process.env.JWT_SECRET || 'secret'),
+        { expiresIn: String(process.env.JWT_EXPIRES_IN || '24h') }
       );
 
       // Frontend'e token ile yönlendir
@@ -368,3 +363,5 @@ router.get(
     }
   }
 );
+
+export default router;
