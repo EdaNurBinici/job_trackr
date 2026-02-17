@@ -8,8 +8,19 @@ interface BeforeInstallPromptEvent extends Event {
 export default function PWAInstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
+    // Check if iOS
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    setIsIOS(iOS);
+    
+    // Check if already installed (standalone mode)
+    const standalone = window.matchMedia('(display-mode: standalone)').matches;
+    setIsStandalone(standalone);
+    
+    // Android Chrome install prompt
     const handler = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
@@ -17,6 +28,13 @@ export default function PWAInstallPrompt() {
     };
 
     window.addEventListener('beforeinstallprompt', handler);
+
+    // Show iOS prompt after 3 seconds if not installed
+    if (iOS && !standalone) {
+      setTimeout(() => {
+        setShowInstallPrompt(true);
+      }, 3000);
+    }
 
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
@@ -37,9 +55,18 @@ export default function PWAInstallPrompt() {
 
   const handleDismiss = () => {
     setShowInstallPrompt(false);
+    // Don't show again for 7 days
+    localStorage.setItem('pwa-install-dismissed', Date.now().toString());
   };
 
-  if (!showInstallPrompt) return null;
+  // Don't show if dismissed recently or already installed
+  if (!showInstallPrompt || isStandalone) return null;
+  
+  // Check if dismissed in last 7 days
+  const dismissed = localStorage.getItem('pwa-install-dismissed');
+  if (dismissed && Date.now() - parseInt(dismissed) < 7 * 24 * 60 * 60 * 1000) {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-4 border border-gray-200 dark:border-gray-700 z-50 animate-slide-up">
@@ -55,23 +82,36 @@ export default function PWAInstallPrompt() {
             Install JobTrackr
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-            Add to your home screen for quick access and offline support
+            {isIOS 
+              ? "Tap the Share button below and select 'Add to Home Screen'" 
+              : "Add to your home screen for quick access and offline support"}
           </p>
           
-          <div className="flex gap-2">
-            <button
-              onClick={handleInstallClick}
-              className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-            >
-              Install
-            </button>
+          {!isIOS && (
+            <div className="flex gap-2">
+              <button
+                onClick={handleInstallClick}
+                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Install
+              </button>
+              <button
+                onClick={handleDismiss}
+                className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-sm font-medium transition-colors"
+              >
+                Not now
+              </button>
+            </div>
+          )}
+          
+          {isIOS && (
             <button
               onClick={handleDismiss}
-              className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-sm font-medium transition-colors"
+              className="w-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
-              Not now
+              Got it
             </button>
-          </div>
+          )}
         </div>
         
         <button
