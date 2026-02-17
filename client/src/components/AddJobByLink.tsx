@@ -30,10 +30,43 @@ export default function AddJobByLink() {
       return;
     }
 
-    // Navigate to application form with the URL
+    // Try to extract job title from URL
+    let extractedTitle = '';
+    try {
+      const url = new URL(jobUrl.trim());
+      
+      // LinkedIn: Extract from path
+      if (url.hostname.includes('linkedin.com')) {
+        const pathParts = url.pathname.split('/');
+        const titleIndex = pathParts.findIndex(part => part === 'jobs' || part === 'view');
+        if (titleIndex > 0 && pathParts[titleIndex + 1]) {
+          // LinkedIn URLs often have job title in the path
+          extractedTitle = decodeURIComponent(pathParts[titleIndex + 1])
+            .replace(/-/g, ' ')
+            .replace(/\d+/g, '')
+            .trim();
+        }
+      }
+      
+      // Kariyer.net: Extract from path
+      if (url.hostname.includes('kariyer.net')) {
+        const pathParts = url.pathname.split('/');
+        if (pathParts.length > 2) {
+          extractedTitle = decodeURIComponent(pathParts[pathParts.length - 1])
+            .replace(/-/g, ' ')
+            .replace(/\d+/g, '')
+            .trim();
+        }
+      }
+    } catch (e) {
+      // Invalid URL, continue without extraction
+    }
+
+    // Navigate to application form with the URL and extracted title
     navigate('/applications/new', {
       state: {
         jobUrl: jobUrl.trim(),
+        jobTitle: extractedTitle,
         fromLink: true
       }
     });
