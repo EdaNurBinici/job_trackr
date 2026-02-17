@@ -351,9 +351,10 @@ router.get(
       const user = req.user;
 
       // JWT token oluştur
+      const jwtSecret = process.env.JWT_SECRET || 'secret';
       const token = jwt.sign(
         { userId: user.id, email: user.email, role: user.role },
-        process.env.JWT_SECRET || 'secret',
+        jwtSecret,
         { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
       );
 

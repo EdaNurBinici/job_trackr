@@ -13,7 +13,7 @@ export class PDFParserService {
     try {
       // Dynamic import for pdf-parse
       const pdfParse = await import('pdf-parse');
-      const parseFunction = pdfParse.default || pdfParse;
+      const parseFunction = typeof pdfParse === 'function' ? pdfParse : pdfParse.default;
       
       const data = await parseFunction(buffer);
       
