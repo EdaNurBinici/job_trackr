@@ -1,15 +1,7 @@
-/* eslint-disable camelcase */
-
-exports.shorthands = undefined;
-
+﻿exports.shorthands = undefined;
 exports.up = (pgm) => {
-  // Create application_status enum
   pgm.createType('application_status', ['Applied', 'Interview', 'Offer', 'Rejected']);
-
-  // Create audit_action enum
   pgm.createType('audit_action', ['CREATE', 'UPDATE', 'DELETE']);
-
-  // Create users table
   pgm.createTable('users', {
     id: {
       type: 'uuid',
@@ -41,11 +33,7 @@ exports.up = (pgm) => {
       default: pgm.func('NOW()')
     }
   });
-
-  // Create index on users email
   pgm.createIndex('users', 'email', { name: 'idx_users_email' });
-
-  // Create applications table
   pgm.createTable('applications', {
     id: {
       type: 'uuid',
@@ -95,14 +83,10 @@ exports.up = (pgm) => {
       default: pgm.func('NOW()')
     }
   });
-
-  // Create indexes on applications
   pgm.createIndex('applications', 'user_id', { name: 'idx_applications_user_id' });
   pgm.createIndex('applications', 'status', { name: 'idx_applications_status' });
   pgm.createIndex('applications', 'application_date', { name: 'idx_applications_date' });
   pgm.createIndex('applications', 'company_name', { name: 'idx_applications_company' });
-
-  // Create files table
   pgm.createTable('files', {
     id: {
       type: 'uuid',
@@ -137,11 +121,7 @@ exports.up = (pgm) => {
       default: pgm.func('NOW()')
     }
   });
-
-  // Create index on files
   pgm.createIndex('files', 'application_id', { name: 'idx_files_application_id' });
-
-  // Create audit_log table
   pgm.createTable('audit_log', {
     id: {
       type: 'uuid',
@@ -177,21 +157,15 @@ exports.up = (pgm) => {
       default: pgm.func('NOW()')
     }
   });
-
-  // Create indexes on audit_log
   pgm.createIndex('audit_log', 'user_id', { name: 'idx_audit_user_id' });
   pgm.createIndex('audit_log', ['entity', 'entity_id'], { name: 'idx_audit_entity' });
   pgm.createIndex('audit_log', 'timestamp', { name: 'idx_audit_timestamp' });
 };
-
 exports.down = (pgm) => {
-  // Drop tables in reverse order
   pgm.dropTable('audit_log');
   pgm.dropTable('files');
   pgm.dropTable('applications');
   pgm.dropTable('users');
-
-  // Drop types
   pgm.dropType('audit_action');
   pgm.dropType('application_status');
 };

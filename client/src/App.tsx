@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+﻿import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -22,7 +22,6 @@ import CVAnalysis from './pages/CVAnalysis';
 import AnalysisHistory from './pages/AnalysisHistory';
 import CoverLetterGenerator from './pages/CoverLetterGenerator';
 import CoverLetterList from './pages/CoverLetterList';
-
 function App() {
   return (
     <ThemeProvider>
@@ -37,7 +36,6 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/share" element={<ShareTarget />} />
-          
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/applications" element={<ApplicationList />} />
@@ -59,5 +57,4 @@ function App() {
     </ThemeProvider>
   );
 }
-
 export default App;

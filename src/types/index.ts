@@ -1,5 +1,4 @@
-// User types
-export interface User {
+﻿export interface User {
   id: string;
   email: string;
   passwordHash: string;
@@ -7,10 +6,7 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
 }
-
-// Application types
 export type ApplicationStatus = 'Applied' | 'Interview' | 'Offer' | 'Rejected';
-
 export interface Application {
   id: string;
   userId: string;
@@ -26,8 +22,6 @@ export interface Application {
   createdAt: Date;
   updatedAt: Date;
 }
-
-// File types
 export interface FileMetadata {
   id: string;
   applicationId: string;
@@ -37,10 +31,7 @@ export interface FileMetadata {
   storagePath: string;
   uploadedAt: Date;
 }
-
-// Audit types
 export type AuditAction = 'CREATE' | 'UPDATE' | 'DELETE';
-
 export interface AuditEntry {
   id: string;
   userId: string;
@@ -51,8 +42,6 @@ export interface AuditEntry {
   afterData?: any;
   timestamp: Date;
 }
-
-// DTOs
 export interface CreateApplicationDTO {
   companyName: string;
   position: string;
@@ -64,7 +53,6 @@ export interface CreateApplicationDTO {
   sourceLink?: string;
   reminderDate?: string;
 }
-
 export interface UpdateApplicationDTO {
   companyName?: string;
   position?: string;
@@ -76,7 +64,6 @@ export interface UpdateApplicationDTO {
   sourceLink?: string;
   reminderDate?: string;
 }
-
 export interface ApplicationFilters {
   search?: string;
   status?: ApplicationStatus;
@@ -87,7 +74,6 @@ export interface ApplicationFilters {
   page?: number;
   pageSize?: number;
 }
-
 export interface PaginatedResult<T> {
   data: T[];
   total: number;
@@ -95,27 +81,22 @@ export interface PaginatedResult<T> {
   pageSize: number;
   totalPages: number;
 }
-
-// Statistics types
 export interface UserStatistics {
   totalApplications: number;
   interviewCount: number;
   offerCount: number;
   rejectedCount: number;
 }
-
 export interface SystemStatistics {
   totalUsers: number;
   totalApplications: number;
   topCompanies: CompanyStats[];
   averageResponseTime: number;
 }
-
 export interface CompanyStats {
   companyName: string;
   applicationCount: number;
 }
-
 export interface Activity {
   id: string;
   companyName: string;
@@ -123,39 +104,29 @@ export interface Activity {
   status: ApplicationStatus;
   applicationDate: Date;
 }
-
-// Auth types
 export interface LoginResponse {
   user: Omit<User, 'passwordHash'>;
   token: string;
 }
-
 export interface RegisterDTO {
   email: string;
   password: string;
 }
-
 export interface LoginDTO {
   email: string;
   password: string;
 }
-
-// Request extensions
 export interface AuthRequest extends Express.Request {
   user?: User;
 }
-
-// Application Analysis types (Sprint 1)
 export interface Strength {
   point: string;
   cv_evidence: string;
 }
-
 export interface Gap {
   point: string;
   impact: string;
 }
-
 export interface ApplicationAnalysis {
   id: string;
   applicationId: string;

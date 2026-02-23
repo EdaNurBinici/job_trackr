@@ -1,35 +1,17 @@
-/**
- * CV Routes
- * API endpoints for CV file management
- * Requirements: 1.1, 1.3, 2.1, 2.2
- */
-
-import { Router, Response } from 'express';
+﻿import { Router, Response } from 'express';
 import { IncomingForm } from 'formidable';
 import { readFile } from 'fs/promises';
 import { CVService } from '../services/cv.service';
 import { requireAuth, AuthRequest } from '../middleware/auth.middleware';
-
 const router = Router();
-
-// All CV routes require authentication
 router.use(requireAuth);
-
-/**
- * POST /api/cv/upload
- * Upload a CV file
- * Requirements: 1.1, 4.1
- */
 router.post('/upload', (req: AuthRequest, res: Response): void => {
   try {
     const userId = req.user!.id;
-
-    // Parse multipart form data
     const form = new IncomingForm({
       maxFileSize: 10 * 1024 * 1024, // 10MB
       allowEmptyFiles: false,
     });
-
     form.parse(req, async (err, _fields, files) => {
       if (err) {
         return res.status(400).json({
@@ -39,9 +21,7 @@ router.post('/upload', (req: AuthRequest, res: Response): void => {
           },
         });
       }
-
       const file = Array.isArray(files.file) ? files.file[0] : files.file;
-
       if (!file) {
         return res.status(400).json({
           error: {
@@ -50,19 +30,14 @@ router.post('/upload', (req: AuthRequest, res: Response): void => {
           },
         });
       }
-
       try {
-        // Read file buffer
         const buffer = await readFile(file.filepath);
-
-        // Upload CV
         const result = await CVService.uploadCV(
           buffer,
           file.originalFilename || 'cv.pdf',
           userId,
           file.mimetype || 'application/pdf'
         );
-
         return res.status(201).json({
           data: {
             id: result.cvFile.id,
@@ -82,7 +57,6 @@ router.post('/upload', (req: AuthRequest, res: Response): void => {
             });
           }
         }
-
         console.error('CV upload error:', error);
         return res.status(500).json({
           error: {
@@ -102,19 +76,11 @@ router.post('/upload', (req: AuthRequest, res: Response): void => {
     });
   }
 });
-
-/**
- * GET /api/cv/:id
- * Get CV file with signed URL
- * Requirements: 1.3
- */
 router.get('/:id', async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.id;
     const cvId = req.params.id;
-
     const result = await CVService.getCV(cvId, userId);
-
     return res.status(200).json({
       data: {
         id: result.cvFile.id,
@@ -135,7 +101,6 @@ router.get('/:id', async (req: AuthRequest, res: Response) => {
           },
         });
       }
-
       if (error.message === 'Unauthorized access to CV file') {
         return res.status(403).json({
           error: {
@@ -145,7 +110,6 @@ router.get('/:id', async (req: AuthRequest, res: Response) => {
         });
       }
     }
-
     console.error('CV get error:', error);
     return res.status(500).json({
       error: {
@@ -155,18 +119,10 @@ router.get('/:id', async (req: AuthRequest, res: Response) => {
     });
   }
 });
-
-/**
- * GET /api/cv/user/list
- * List all CV files for the authenticated user
- * Requirements: 2.1
- */
 router.get('/user/list', async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.id;
-
     const cvFiles = await CVService.listUserCVs(userId);
-
     return res.status(200).json({
       data: cvFiles.map(cv => ({
         id: cv.id,
@@ -186,19 +142,10 @@ router.get('/user/list', async (req: AuthRequest, res: Response) => {
     });
   }
 });
-
-/**
- * GET /api/cv/user/:userId
- * List all CV files for a specific user
- * Requirements: 2.1
- * Authorization: User can only access their own CVs
- */
 router.get('/user/:userId', async (req: AuthRequest, res: Response) => {
   try {
     const requestingUserId = req.user!.id;
     const targetUserId = req.params.userId;
-
-    // Authorization check: users can only access their own CVs
     if (requestingUserId !== targetUserId) {
       return res.status(403).json({
         error: {
@@ -207,9 +154,7 @@ router.get('/user/:userId', async (req: AuthRequest, res: Response) => {
         },
       });
     }
-
     const cvFiles = await CVService.listUserCVs(targetUserId);
-
     return res.status(200).json({
       data: cvFiles.map(cv => ({
         id: cv.id,
@@ -229,19 +174,11 @@ router.get('/user/:userId', async (req: AuthRequest, res: Response) => {
     });
   }
 });
-
-/**
- * DELETE /api/cv/:id
- * Delete a CV file
- * Requirements: 2.2, 3.2
- */
 router.delete('/:id', async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.id;
     const cvId = req.params.id;
-
     await CVService.deleteCV(cvId, userId);
-
     return res.status(204).send();
   } catch (error) {
     if (error instanceof Error) {
@@ -253,7 +190,6 @@ router.delete('/:id', async (req: AuthRequest, res: Response) => {
           },
         });
       }
-
       if (error.message === 'Unauthorized access to CV file') {
         return res.status(403).json({
           error: {
@@ -263,7 +199,6 @@ router.delete('/:id', async (req: AuthRequest, res: Response) => {
         });
       }
     }
-
     console.error('CV delete error:', error);
     return res.status(500).json({
       error: {
@@ -273,5 +208,4 @@ router.delete('/:id', async (req: AuthRequest, res: Response) => {
     });
   }
 });
-
 export default router;

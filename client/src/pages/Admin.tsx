@@ -1,18 +1,15 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { adminApi } from '../services/api';
 import type { User } from '../types';
-
 export const Admin = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     loadData();
   }, []);
-
   const loadData = async () => {
     try {
       const [usersRes, statsRes] = await Promise.all([
@@ -27,7 +24,6 @@ export const Admin = () => {
       setLoading(false);
     }
   };
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -35,7 +31,6 @@ export const Admin = () => {
       </div>
     );
   }
-
   const statCards = [
     {
       title: 'Toplam Kullanıcı',
@@ -59,10 +54,9 @@ export const Admin = () => {
       bgColor: 'bg-purple-50',
     },
   ];
-
   return (
     <div className="space-y-8">
-      {/* Header */}
+      {}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
@@ -76,8 +70,7 @@ export const Admin = () => {
           <span>Denetim Günlüğü</span>
         </button>
       </div>
-
-      {/* Stats Grid */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {statCards.map((card, index) => (
           <div
@@ -97,8 +90,7 @@ export const Admin = () => {
           </div>
         ))}
       </div>
-
-      {/* Top Companies */}
+      {}
       {stats?.topCompanies && stats.topCompanies.length > 0 && (
         <div className="card p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-6">En Popüler Şirketler</h2>
@@ -122,8 +114,7 @@ export const Admin = () => {
           </div>
         </div>
       )}
-
-      {/* Users Table */}
+      {}
       <div className="card p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-6">Tüm Kullanıcılar</h2>
         <div className="overflow-x-auto">

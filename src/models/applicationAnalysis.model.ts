@@ -1,21 +1,13 @@
-/**
- * Application Analysis Model
- * Sprint 1: AI Fit Score Analysis
- */
-
-import { pool } from '../config/database';
+﻿import { pool } from '../config/database';
 import { createHash } from 'crypto';
-
 export interface Strength {
   point: string;
   cv_evidence: string;
 }
-
 export interface Gap {
   point: string;
   impact: string;
 }
-
 export interface ApplicationAnalysis {
   id: string;
   applicationId: string;
@@ -29,7 +21,6 @@ export interface ApplicationAnalysis {
   createdAt: Date;
   updatedAt: Date;
 }
-
 export interface CreateApplicationAnalysisDTO {
   applicationId: string;
   cvFileId: string;
@@ -40,23 +31,14 @@ export interface CreateApplicationAnalysisDTO {
   suggestions: string[];
   aiRawResponse?: any;
 }
-
 export class ApplicationAnalysisModel {
-  /**
-   * Generate SHA-256 hash of job description
-   */
   static hashJobDescription(jobDescription: string): string {
     return createHash('sha256')
       .update(jobDescription.trim().toLowerCase())
       .digest('hex');
   }
-
-  /**
-   * Create new application analysis
-   */
   static async create(data: CreateApplicationAnalysisDTO): Promise<ApplicationAnalysis> {
     const jobDescriptionHash = this.hashJobDescription(data.jobDescription);
-
     const query = `
       INSERT INTO application_analyses (
         application_id, cv_file_id, job_description_hash,
@@ -85,7 +67,6 @@ export class ApplicationAnalysisModel {
         created_at AS "createdAt",
         updated_at AS "updatedAt"
     `;
-
     const values = [
       data.applicationId,
       data.cvFileId,
@@ -96,14 +77,9 @@ export class ApplicationAnalysisModel {
       JSON.stringify(data.suggestions),
       data.aiRawResponse ? JSON.stringify(data.aiRawResponse) : null,
     ];
-
     const result = await pool.query(query, values);
     return this.mapRow(result.rows[0]);
   }
-
-  /**
-   * Find analysis by application ID
-   */
   static async findByApplicationId(applicationId: string): Promise<ApplicationAnalysis | null> {
     const query = `
       SELECT
@@ -123,20 +99,14 @@ export class ApplicationAnalysisModel {
       ORDER BY created_at DESC
       LIMIT 1
     `;
-
     const result = await pool.query(query, [applicationId]);
     return result.rows.length > 0 ? this.mapRow(result.rows[0]) : null;
   }
-
-  /**
-   * Check if analysis exists for application and job description
-   */
   static async findByApplicationAndJobHash(
     applicationId: string,
     jobDescription: string
   ): Promise<ApplicationAnalysis | null> {
     const jobDescriptionHash = this.hashJobDescription(jobDescription);
-
     const query = `
       SELECT
         id,
@@ -153,14 +123,9 @@ export class ApplicationAnalysisModel {
       FROM application_analyses
       WHERE application_id = $1 AND job_description_hash = $2
     `;
-
     const result = await pool.query(query, [applicationId, jobDescriptionHash]);
     return result.rows.length > 0 ? this.mapRow(result.rows[0]) : null;
   }
-
-  /**
-   * Get all analyses for a user (via applications)
-   */
   static async findByUserId(userId: string, limit: number = 50): Promise<ApplicationAnalysis[]> {
     const query = `
       SELECT
@@ -181,22 +146,13 @@ export class ApplicationAnalysisModel {
       ORDER BY aa.created_at DESC
       LIMIT $2
     `;
-
     const result = await pool.query(query, [userId, limit]);
     return result.rows.map(this.mapRow);
   }
-
-  /**
-   * Delete analysis
-   */
   static async delete(id: string): Promise<void> {
     const query = 'DELETE FROM application_analyses WHERE id = $1';
     await pool.query(query, [id]);
   }
-
-  /**
-   * Get user statistics
-   */
   static async getUserStats(userId: string): Promise<{
     totalAnalyses: number;
     averageFitScore: number;
@@ -213,10 +169,8 @@ export class ApplicationAnalysisModel {
       INNER JOIN applications a ON aa.application_id = a.id
       WHERE a.user_id = $1
     `;
-
     const result = await pool.query(query, [userId]);
     const row = result.rows[0];
-
     return {
       totalAnalyses: row.total_analyses,
       averageFitScore: row.average_fit_score,
@@ -224,10 +178,6 @@ export class ApplicationAnalysisModel {
       lowestFitScore: row.lowest_fit_score,
     };
   }
-
-  /**
-   * Map database row to ApplicationAnalysis object
-   */
   private static mapRow(row: any): ApplicationAnalysis {
     return {
       id: row.id,

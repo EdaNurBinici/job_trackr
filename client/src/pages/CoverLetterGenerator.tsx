@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-
 interface CVFile {
   id: string;
   fileName: string;
 }
-
 export default function CoverLetterGenerator() {
   const { user: _user } = useAuth();
   const [cvFiles, setCvFiles] = useState<CVFile[]>([]);
@@ -22,11 +20,9 @@ export default function CoverLetterGenerator() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [coverLetterId, setCoverLetterId] = useState('');
-
   useEffect(() => {
     loadCVs();
   }, []);
-
   const loadCVs = async () => {
     try {
       const response = await api.get('/cv/user/list');
@@ -38,26 +34,21 @@ export default function CoverLetterGenerator() {
       setError('CV listesi yüklenemedi');
     }
   };
-
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!selectedCVId) {
       setError('Lütfen bir CV seçin');
       return;
     }
-
     if (jobDescription.trim().length < 50) {
       setError('İş ilanı açıklaması en az 50 karakter olmalıdır');
       return;
     }
-
     try {
       setGenerating(true);
       setError('');
       setSuccess('');
       setCoverLetter('');
-
       const response = await api.post('/cover-letter/generate', {
         cvFileId: selectedCVId,
         companyName: companyName.trim(),
@@ -66,7 +57,6 @@ export default function CoverLetterGenerator() {
         tone,
         language,
       });
-
       setCoverLetter(response.data.data.content);
       setCoverLetterId(response.data.data.id);
       setSuccess('✅ Ön yazı başarıyla oluşturuldu!');
@@ -79,13 +69,11 @@ export default function CoverLetterGenerator() {
       setGenerating(false);
     }
   };
-
   const handleCopy = () => {
     navigator.clipboard.writeText(coverLetter);
     setSuccess('📋 Panoya kopyalandı!');
     setTimeout(() => setSuccess(''), 3000);
   };
-
   const handleDownload = () => {
     const blob = new Blob([coverLetter], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -99,10 +87,8 @@ export default function CoverLetterGenerator() {
     setSuccess('💾 İndirildi!');
     setTimeout(() => setSuccess(''), 3000);
   };
-
   const handleSaveEdit = async () => {
     if (!coverLetterId) return;
-
     try {
       await api.put(`/cover-letter/${coverLetterId}`, {
         content: coverLetter,
@@ -114,16 +100,14 @@ export default function CoverLetterGenerator() {
       setError('Kaydetme başarısız oldu');
     }
   };
-
   return (
     <div className="p-5 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold text-gray-900 dark:text-white">✍️ Ön Yazı Oluştur</h1>
       <p className="mt-2 text-gray-600 dark:text-gray-400">AI ile kişiselleştirilmiş ön yazı (cover letter) oluşturun!</p>
-
-      {/* Generator Form */}
+      {}
       <div className="mt-8 p-8 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
         <form onSubmit={handleGenerate}>
-          {/* CV Selection */}
+          {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
               CV Seçin (Sadece PDF)
@@ -143,8 +127,7 @@ export default function CoverLetterGenerator() {
               ))}
             </select>
           </div>
-
-          {/* Company Name */}
+          {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
               Şirket Adı
@@ -159,8 +142,7 @@ export default function CoverLetterGenerator() {
               className="w-full px-4 py-2.5 text-base rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
-
-          {/* Position */}
+          {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
               Pozisyon
@@ -175,8 +157,7 @@ export default function CoverLetterGenerator() {
               className="w-full px-4 py-2.5 text-base rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
-
-          {/* Job Description */}
+          {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
               İş İlanı Açıklaması (Min 50 karakter)
@@ -195,8 +176,7 @@ export default function CoverLetterGenerator() {
               {jobDescription.length} / 50 karakter
             </p>
           </div>
-
-          {/* Tone Selection */}
+          {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
               Ton
@@ -237,8 +217,7 @@ export default function CoverLetterGenerator() {
               </label>
             </div>
           </div>
-
-          {/* Language Selection */}
+          {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
               Dil
@@ -268,8 +247,7 @@ export default function CoverLetterGenerator() {
               </label>
             </div>
           </div>
-
-          {/* Generate Button */}
+          {}
           <button
             type="submit"
             disabled={generating || cvFiles.length === 0}
@@ -283,22 +261,19 @@ export default function CoverLetterGenerator() {
           </button>
         </form>
       </div>
-
-      {/* Success Message */}
+      {}
       {success && (
         <div className="mt-5 p-4 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 rounded border border-green-300 dark:border-green-800">
           {success}
         </div>
       )}
-
-      {/* Error Message */}
+      {}
       {error && (
         <div className="mt-5 p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded border border-red-300 dark:border-red-800">
           ❌ {error}
         </div>
       )}
-
-      {/* Cover Letter Preview */}
+      {}
       {coverLetter && (
         <div className="mt-8">
           <div className="flex justify-between items-center mb-4">
@@ -324,7 +299,6 @@ export default function CoverLetterGenerator() {
               </button>
             </div>
           </div>
-
           {isEditing ? (
             <div>
               <textarea

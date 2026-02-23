@@ -1,4 +1,4 @@
-export { UserModel } from './user.model';
+﻿export { UserModel } from './user.model';
 export { ApplicationModel } from './application.model';
 export { AuditModel } from './audit.model';
 export { FileModel } from './file.model';

@@ -1,14 +1,12 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { validatePassword } from '../utils/passwordValidation';
-
 export const ResetPassword = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const emailFromUrl = searchParams.get('email') || '';
   const { theme, toggleTheme } = useTheme();
-
   const [email, setEmail] = useState(emailFromUrl);
   const [code, setCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -16,25 +14,19 @@ export const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
   const passwordValidation = validatePassword(newPassword);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-
     if (newPassword !== confirmPassword) {
       setError('Şifreler eşleşmiyor');
       return;
     }
-
     if (!passwordValidation.isValid) {
       setError('Şifre gereksinimleri karşılanmıyor');
       return;
     }
-
     setLoading(true);
-
     try {
       const response = await fetch('https://jobtrackr-production-029f.up.railway.app/api/auth/reset-password', {
         method: 'POST',
@@ -47,14 +39,10 @@ export const ResetPassword = () => {
           newPassword,
         }),
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.error?.message || 'Bir hata oluştu');
       }
-
-      // Başarılı - login sayfasına yönlendir
       alert('Şifreniz başarıyla sıfırlandı! Giriş yapabilirsiniz.');
       navigate('/login');
     } catch (err: any) {
@@ -63,7 +51,6 @@ export const ResetPassword = () => {
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 relative">
       <button
@@ -73,7 +60,6 @@ export const ResetPassword = () => {
       >
         <span className="text-2xl">{theme === 'light' ? '🌙' : '☀️'}</span>
       </button>
-      
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl shadow-xl mb-4">
@@ -84,14 +70,12 @@ export const ResetPassword = () => {
           </h2>
           <p className="mt-2 text-gray-600 dark:text-gray-400">Email'inize gelen kodu kullanarak yeni şifrenizi belirleyin</p>
         </div>
-
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft border border-gray-100 dark:border-gray-700 p-8">
           {error && (
             <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg">
               <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
             </div>
           )}
-
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -107,7 +91,6 @@ export const ResetPassword = () => {
                 placeholder="ornek@email.com"
               />
             </div>
-
             <div>
               <label htmlFor="code" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 6 Haneli Kod
@@ -124,7 +107,6 @@ export const ResetPassword = () => {
               />
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">Email'inize gelen 6 haneli kodu girin</p>
             </div>
-
             <div>
               <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Yeni Şifre
@@ -147,8 +129,7 @@ export const ResetPassword = () => {
                   {showPassword ? '👁️' : '👁️‍🗨️'}
                 </button>
               </div>
-
-              {/* Şifre Gereksinimleri */}
+              {}
               {newPassword && (
                 <div className="mt-3 space-y-2">
                   <div className="flex items-center gap-2 text-xs">
@@ -194,7 +175,6 @@ export const ResetPassword = () => {
                 </div>
               )}
             </div>
-
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Yeni Şifre (Tekrar)
@@ -212,7 +192,6 @@ export const ResetPassword = () => {
                 <p className="mt-1 text-xs text-red-600">Şifreler eşleşmiyor</p>
               )}
             </div>
-
             <button
               type="submit"
               disabled={loading || !passwordValidation.isValid || newPassword !== confirmPassword}

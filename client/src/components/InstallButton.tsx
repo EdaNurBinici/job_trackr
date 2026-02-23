@@ -1,51 +1,38 @@
-import { useState, useEffect } from 'react';
-
+﻿import { useState, useEffect } from 'react';
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
-
 export default function InstallButton() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
-
   useEffect(() => {
     const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     setIsIOS(iOS);
-    
     const standalone = window.matchMedia('(display-mode: standalone)').matches;
     setIsStandalone(standalone);
-    
     const handler = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
     };
-
     window.addEventListener('beforeinstallprompt', handler);
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
-
   const handleInstallClick = async () => {
     if (isIOS) {
       setShowInstructions(true);
       return;
     }
-
     if (!deferredPrompt) return;
-
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    
     if (outcome === 'accepted') {
       setDeferredPrompt(null);
     }
   };
-
-  // Already installed
   if (isStandalone) return null;
-
   return (
     <>
       <button
@@ -57,8 +44,7 @@ export default function InstallButton() {
         </svg>
         Install App
       </button>
-
-      {/* iOS Instructions Modal */}
+      {}
       {showInstructions && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full">

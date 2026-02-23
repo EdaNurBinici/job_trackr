@@ -1,25 +1,18 @@
-import { useEffect } from 'react';
+﻿import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-
 export const AuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-
   useEffect(() => {
     const token = searchParams.get('token');
     const error = searchParams.get('error');
-
     if (error) {
       console.error('OAuth error:', error);
       navigate('/login?error=auth_failed');
       return;
     }
-
     if (token) {
-      // Token'ı localStorage'a kaydet
       localStorage.setItem('token', token);
-
-      // Token'dan kullanıcı bilgilerini çıkar (JWT decode)
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         const user = {
@@ -27,11 +20,7 @@ export const AuthCallback = () => {
           email: payload.email,
           role: payload.role,
         };
-        
-        // User'ı da localStorage'a kaydet
         localStorage.setItem('user', JSON.stringify(user));
-
-        // Dashboard'a yönlendir (sayfa yenilenecek ve AuthContext otomatik yükleyecek)
         window.location.href = '/dashboard';
       } catch (err) {
         console.error('Token parse error:', err);
@@ -41,7 +30,6 @@ export const AuthCallback = () => {
       navigate('/login');
     }
   }, [searchParams, navigate]);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-50 to-white flex items-center justify-center">
       <div className="text-center">

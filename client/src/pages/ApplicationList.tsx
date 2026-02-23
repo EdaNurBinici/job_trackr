@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { applicationsApi } from '../services/api';
 import type { Application, ApplicationStatus } from '../types';
-
 export const ApplicationList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [applications, setApplications] = useState<Application[]>([]);
@@ -10,26 +9,21 @@ export const ApplicationList = () => {
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus | ''>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
-  // Initialize status filter from URL
   useEffect(() => {
     const statusFromUrl = searchParams.get('status');
     if (statusFromUrl) {
       setStatusFilter(statusFromUrl as ApplicationStatus);
     }
   }, [searchParams]);
-
   useEffect(() => {
     loadApplications();
   }, [search, statusFilter]);
-
   const loadApplications = async () => {
     try {
       setError('');
       const params: any = {};
       if (search) params.search = search;
       if (statusFilter) params.status = statusFilter;
-      
       const response = await applicationsApi.getAll(params);
       setApplications(response.data.data);
     } catch (error: any) {
@@ -39,10 +33,8 @@ export const ApplicationList = () => {
       setLoading(false);
     }
   };
-
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this application?')) return;
-    
     try {
       await applicationsApi.delete(id);
       loadApplications();
@@ -50,7 +42,6 @@ export const ApplicationList = () => {
       console.error('Failed to delete application:', error);
     }
   };
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -58,7 +49,6 @@ export const ApplicationList = () => {
       </div>
     );
   }
-
   if (error) {
     return (
       <div className="card p-6 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800">
@@ -66,10 +56,9 @@ export const ApplicationList = () => {
       </div>
     );
   }
-
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Başvurularım</h1>
@@ -80,8 +69,7 @@ export const ApplicationList = () => {
           <span>Yeni Başvuru</span>
         </Link>
       </div>
-
-      {/* Filters */}
+      {}
       <div className="card p-4">
         <div className="flex flex-col md:flex-row gap-4">
           <input
@@ -112,8 +100,7 @@ export const ApplicationList = () => {
           </select>
         </div>
       </div>
-
-      {/* Applications List */}
+      {}
       {applications.length === 0 ? (
         <div className="card p-12 text-center">
           <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">

@@ -1,73 +1,50 @@
-import { useState, useEffect } from 'react';
-
+﻿import { useState, useEffect } from 'react';
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
-
 export default function PWAInstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
-
   useEffect(() => {
-    // Check if iOS
     const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     setIsIOS(iOS);
-    
-    // Check if already installed (standalone mode)
     const standalone = window.matchMedia('(display-mode: standalone)').matches;
     setIsStandalone(standalone);
-    
-    // Android Chrome install prompt
     const handler = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       setShowInstallPrompt(true);
     };
-
     window.addEventListener('beforeinstallprompt', handler);
-
-    // Show iOS prompt after 3 seconds if not installed
     if (iOS && !standalone) {
       setTimeout(() => {
         setShowInstallPrompt(true);
       }, 3000);
     }
-
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
-
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
-
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    
     if (outcome === 'accepted') {
       console.log('User accepted the install prompt');
     }
-    
     setDeferredPrompt(null);
     setShowInstallPrompt(false);
   };
-
   const handleDismiss = () => {
     setShowInstallPrompt(false);
-    // Don't show again for 1 day (testing: was 7 days)
     localStorage.setItem('pwa-install-dismissed', Date.now().toString());
   };
-
-  // Don't show if dismissed recently or already installed
   if (!showInstallPrompt || isStandalone) return null;
-  
-  // Check if dismissed in last 1 day (testing: was 7 days)
   const dismissed = localStorage.getItem('pwa-install-dismissed');
   if (dismissed && Date.now() - parseInt(dismissed) < 1 * 24 * 60 * 60 * 1000) {
     return null;
   }
-
   return (
     <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-4 border border-gray-200 dark:border-gray-700 z-50 animate-slide-up">
       <div className="flex items-start gap-3">
@@ -76,7 +53,6 @@ export default function PWAInstallPrompt() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
           </svg>
         </div>
-        
         <div className="flex-1">
           <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
             Install JobTrackr
@@ -86,7 +62,6 @@ export default function PWAInstallPrompt() {
               ? "Tap the Share button below and select 'Add to Home Screen'" 
               : "Add to your home screen for quick access and offline support"}
           </p>
-          
           {!isIOS && (
             <div className="flex gap-2">
               <button
@@ -103,7 +78,6 @@ export default function PWAInstallPrompt() {
               </button>
             </div>
           )}
-          
           {isIOS && (
             <button
               onClick={handleDismiss}
@@ -113,7 +87,6 @@ export default function PWAInstallPrompt() {
             </button>
           )}
         </div>
-        
         <button
           onClick={handleDismiss}
           className="flex-shrink-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"

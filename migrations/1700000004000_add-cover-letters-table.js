@@ -1,10 +1,4 @@
-/**
- * Migration: Add cover_letters table
- * Phase 5: Auto-Cover Letter Generator
- */
-
-exports.up = (pgm) => {
-  // Create cover_letters table
+﻿exports.up = (pgm) => {
   pgm.createTable('cover_letters', {
     id: {
       type: 'uuid',
@@ -58,21 +52,16 @@ exports.up = (pgm) => {
       default: pgm.func('NOW()'),
     },
   });
-
-  // Create indexes
   pgm.createIndex('cover_letters', 'user_id', {
     name: 'idx_cover_letters_user',
   });
-
   pgm.createIndex('cover_letters', 'application_id', {
     name: 'idx_cover_letters_application',
   });
-
   pgm.createIndex('cover_letters', 'created_at', {
     name: 'idx_cover_letters_created_at',
   });
 };
-
 exports.down = (pgm) => {
   pgm.dropTable('cover_letters');
 };

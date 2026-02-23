@@ -1,9 +1,7 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-
 export const LandingPage = () => {
   const { theme, toggleTheme } = useTheme();
-
   const features = [
     {
       icon: '🎯',
@@ -36,10 +34,9 @@ export const LandingPage = () => {
       description: 'LinkedIn, Kariyer.net, Indeed ve Secretcv\'den tek tıkla iş ilanlarını kaydedin. Manuel veri girişine son!',
     },
   ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Navigation */}
+      {}
       <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -75,8 +72,7 @@ export const LandingPage = () => {
           </div>
         </div>
       </nav>
-
-      {/* Hero Section */}
+      {}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
@@ -107,8 +103,7 @@ export const LandingPage = () => {
           </p>
         </div>
       </section>
-
-      {/* Features Section */}
+      {}
       <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -118,7 +113,6 @@ export const LandingPage = () => {
             İş arama sürecinizi kolaylaştıran ve hızlandıran özelliklerle donatıldı
           </p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <div
@@ -138,8 +132,7 @@ export const LandingPage = () => {
           ))}
         </div>
       </section>
-
-      {/* Stats Section */}
+      {}
       <section className="bg-gradient-to-r from-blue-600 to-purple-600 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-white">
@@ -158,8 +151,7 @@ export const LandingPage = () => {
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
+      {}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="card p-12 text-center bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 border-2 border-blue-200 dark:border-blue-800">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -177,8 +169,7 @@ export const LandingPage = () => {
           </Link>
         </div>
       </section>
-
-      {/* Footer */}
+      {}
       <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

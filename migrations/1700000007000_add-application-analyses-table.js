@@ -1,10 +1,4 @@
-/**
- * Migration: Add Application Analyses Table
- * Sprint 1: AI Fit Score Analysis for Job Applications
- */
-
-exports.up = async (pgm) => {
-  // Create application_analyses table
+﻿exports.up = async (pgm) => {
   pgm.createTable('application_analyses', {
     id: {
       type: 'uuid',
@@ -67,8 +61,6 @@ exports.up = async (pgm) => {
       default: pgm.func('NOW()'),
     },
   });
-
-  // Create indexes
   pgm.createIndex('application_analyses', 'application_id');
   pgm.createIndex('application_analyses', 'cv_file_id');
   pgm.createIndex('application_analyses', ['application_id', 'job_description_hash'], {
@@ -77,14 +69,11 @@ exports.up = async (pgm) => {
   });
   pgm.createIndex('application_analyses', 'fit_score');
   pgm.createIndex('application_analyses', 'created_at');
-
-  // Add comment
   pgm.sql(`
     COMMENT ON TABLE application_analyses IS 
     'AI-powered fit score analysis for job applications. Prevents duplicate API calls via job_description_hash.';
   `);
 };
-
 exports.down = async (pgm) => {
   pgm.dropTable('application_analyses');
 };

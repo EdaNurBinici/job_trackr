@@ -1,10 +1,4 @@
-/**
- * Migration: Add reminder_sent table
- * Tracks which reminders have been sent to prevent duplicates
- */
-
-exports.up = (pgm) => {
-  // Create reminder_sent table
+﻿exports.up = (pgm) => {
   pgm.createTable('reminder_sent', {
     id: {
       type: 'uuid',
@@ -24,11 +18,8 @@ exports.up = (pgm) => {
       default: pgm.func('NOW()')
     }
   });
-
-  // Create index on application_id for faster lookups
   pgm.createIndex('reminder_sent', 'application_id');
 };
-
 exports.down = (pgm) => {
   pgm.dropTable('reminder_sent');
 };

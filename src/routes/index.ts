@@ -1,4 +1,4 @@
-export { default as authRoutes } from './auth.routes';
+﻿export { default as authRoutes } from './auth.routes';
 export { default as applicationRoutes } from './application.routes';
 export { default as adminRoutes } from './admin.routes';
 export { default as fileRoutes } from './file.routes';

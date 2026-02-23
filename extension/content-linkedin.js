@@ -1,9 +1,4 @@
-// LinkedIn content script
-// This script runs on LinkedIn job pages
-
-console.log('JobTrackr: LinkedIn content script loaded');
-
-// Listen for messages from popup
+﻿console.log('JobTrackr: LinkedIn content script loaded');
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'captureJob') {
     try {
@@ -15,9 +10,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
   return true; // Keep channel open for async response
 });
-
 function captureLinkedInJob() {
-  // Try multiple selectors for company name - 2026 güncel versiyonu
   const companyName = 
     document.querySelector('.job-details-jobs-unified-top-card__company-name a')?.textContent?.trim() ||
     document.querySelector('.job-details-jobs-unified-top-card__company-name')?.textContent?.trim() ||
@@ -28,8 +21,6 @@ function captureLinkedInJob() {
     document.querySelector('.topcard__flavor')?.textContent?.trim() ||
     document.querySelector('a[data-tracking-control-name="public_jobs_topcard-org-name"]')?.textContent?.trim() ||
     document.querySelector('.job-details-jobs-unified-top-card__primary-description a')?.textContent?.trim();
-
-  // Try multiple selectors for job title
   const position = 
     document.querySelector('.job-details-jobs-unified-top-card__job-title h1')?.textContent?.trim() ||
     document.querySelector('.job-details-jobs-unified-top-card__job-title')?.textContent?.trim() ||
@@ -40,8 +31,6 @@ function captureLinkedInJob() {
     document.querySelector('h1.t-24')?.textContent?.trim() ||
     document.querySelector('.jobs-unified-top-card__job-title a')?.textContent?.trim() ||
     document.querySelector('h1')?.textContent?.trim();
-
-  // Try multiple selectors for location
   const location = 
     document.querySelector('.job-details-jobs-unified-top-card__primary-description')?.textContent?.trim() ||
     document.querySelector('.job-details-jobs-unified-top-card__bullet')?.textContent?.trim() ||
@@ -50,16 +39,12 @@ function captureLinkedInJob() {
     document.querySelector('.topcard__flavor--bullet')?.textContent?.trim() ||
     document.querySelector('.jobs-unified-top-card__workplace-type')?.textContent?.trim() ||
     '';
-
   if (!companyName || !position) {
     throw new Error('İlan bilgileri bulunamadı. Sayfa tam yüklendi mi?');
   }
-
-  // Temizle
   const cleanCompanyName = companyName.split('·')[0].split('\n')[0].trim();
   const cleanPosition = position.split('\n')[0].trim();
   const cleanLocation = location.split('·')[0].split('\n')[0].trim();
-
   return {
     companyName: cleanCompanyName,
     position: cleanPosition,

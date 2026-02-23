@@ -1,12 +1,10 @@
-export type ApplicationStatus = 'Applied' | 'Interview' | 'Offer' | 'Rejected';
-
+﻿export type ApplicationStatus = 'Applied' | 'Interview' | 'Offer' | 'Rejected';
 export interface User {
   id: string;
   email: string;
   role: 'user' | 'admin';
   createdAt: string;
 }
-
 export interface Application {
   id: string;
   userId: string;
@@ -21,7 +19,6 @@ export interface Application {
   createdAt: string;
   updatedAt: string;
 }
-
 export interface DashboardStats {
   total: number;
   interview: number;
@@ -29,17 +26,14 @@ export interface DashboardStats {
   rejected: number;
   recentActivity: number;
 }
-
 export interface AuthResponse {
   token: string;
   user: User;
 }
-
 export interface ApiError {
   message: string;
   errors?: Record<string, string>;
 }
-
 export interface AuditEntry {
   id: string;
   userId: string;
@@ -51,18 +45,14 @@ export interface AuditEntry {
   createdAt: string;
   userEmail?: string;
 }
-
-// Sprint 1: Application Analysis Types
 export interface Strength {
   point: string;
   cv_evidence: string;
 }
-
 export interface Gap {
   point: string;
   impact: string;
 }
-
 export interface ApplicationAnalysis {
   id: string;
   applicationId: string;
@@ -76,7 +66,6 @@ export interface ApplicationAnalysis {
   createdAt: string;
   updatedAt: string;
 }
-
 export interface AnalysisStats {
   totalAnalyses: number;
   averageFitScore: number;

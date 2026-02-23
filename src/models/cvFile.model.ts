@@ -1,11 +1,4 @@
-/**
- * CV File Model
- * Database operations for CV files
- * Requirements: 2.1, 4.1
- */
-
-import { pool } from '../config/database';
-
+﻿import { pool } from '../config/database';
 export interface CVFile {
   id: string;
   userId: string;
@@ -17,7 +10,6 @@ export interface CVFile {
   createdAt: Date;
   updatedAt: Date;
 }
-
 export interface CreateCVFileDTO {
   userId: string;
   fileName: string;
@@ -26,11 +18,7 @@ export interface CreateCVFileDTO {
   fileSize: number;
   mimeType: string;
 }
-
 export class CVFileModel {
-  /**
-   * Create a new CV file record
-   */
   static async create(data: CreateCVFileDTO): Promise<CVFile> {
     const query = `
       INSERT INTO cv_files (user_id, file_name, original_name, s3_key, file_size, mime_type)
@@ -46,7 +34,6 @@ export class CVFileModel {
         created_at AS "createdAt",
         updated_at AS "updatedAt"
     `;
-
     const values = [
       data.userId,
       data.fileName,
@@ -55,14 +42,9 @@ export class CVFileModel {
       data.fileSize,
       data.mimeType,
     ];
-
     const result = await pool.query(query, values);
     return result.rows[0];
   }
-
-  /**
-   * Find CV file by ID
-   */
   static async findById(id: string): Promise<CVFile | null> {
     const query = `
       SELECT 
@@ -78,14 +60,9 @@ export class CVFileModel {
       FROM cv_files
       WHERE id = $1
     `;
-
     const result = await pool.query(query, [id]);
     return result.rows[0] || null;
   }
-
-  /**
-   * Find all CV files for a user
-   */
   static async findByUser(userId: string): Promise<CVFile[]> {
     const query = `
       SELECT 
@@ -102,23 +79,14 @@ export class CVFileModel {
       WHERE user_id = $1
       ORDER BY created_at DESC
     `;
-
     const result = await pool.query(query, [userId]);
     return result.rows;
   }
-
-  /**
-   * Delete CV file record
-   */
   static async delete(id: string): Promise<boolean> {
     const query = 'DELETE FROM cv_files WHERE id = $1';
     const result = await pool.query(query, [id]);
     return result.rowCount !== null && result.rowCount > 0;
   }
-
-  /**
-   * Check if user owns the CV file
-   */
   static async isOwner(id: string, userId: string): Promise<boolean> {
     const query = 'SELECT id FROM cv_files WHERE id = $1 AND user_id = $2';
     const result = await pool.query(query, [id, userId]);

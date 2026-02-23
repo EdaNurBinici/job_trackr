@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { applicationsApi } from '../services/api';
 import type { ApplicationStatus } from '../types';
-
 export const ApplicationForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isEdit = !!id;
-
   const [formData, setFormData] = useState({
     companyName: '',
     position: '',
@@ -21,12 +19,10 @@ export const ApplicationForm = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     if (isEdit) {
       loadApplication();
     } else if (location.state?.fromShare || location.state?.fromLink) {
-      // Pre-fill from share/link data
       const { jobUrl, jobTitle } = location.state;
       setFormData(prev => ({
         ...prev,
@@ -35,7 +31,6 @@ export const ApplicationForm = () => {
       }));
     }
   }, [id, location.state]);
-
   const loadApplication = async () => {
     try {
       const response = await applicationsApi.getById(id!);
@@ -54,22 +49,17 @@ export const ApplicationForm = () => {
       console.error('Failed to load application:', error);
     }
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
-      // Prepare data - remove empty optional fields
       const submitData: any = {
         companyName: formData.companyName,
         position: formData.position,
         status: formData.status,
         applicationDate: formData.applicationDate,
       };
-
-      // Only add optional fields if they have values
       if (formData.location?.trim()) {
         submitData.location = formData.location.trim();
       }
@@ -82,7 +72,6 @@ export const ApplicationForm = () => {
       if (formData.reminderDate) {
         submitData.reminderDate = formData.reminderDate;
       }
-
       if (isEdit) {
         await applicationsApi.update(id!, submitData);
       } else {
@@ -97,21 +86,18 @@ export const ApplicationForm = () => {
       setLoading(false);
     }
   };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const statusOptions = [
     { value: 'Applied', label: 'Başvuruldu', icon: '📝', color: 'blue' },
     { value: 'Interview', label: 'Mülakat', icon: '💼', color: 'yellow' },
     { value: 'Offer', label: 'Teklif', icon: '🎉', color: 'green' },
     { value: 'Rejected', label: 'Reddedildi', icon: '❌', color: 'red' },
   ];
-
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Header */}
+      {}
       <div className="mb-8">
         <button
           onClick={() => navigate('/applications')}
@@ -127,17 +113,15 @@ export const ApplicationForm = () => {
           {isEdit ? 'Başvuru bilgilerini güncelleyin' : 'Yeni iş başvurunuzu kaydedin'}
         </p>
       </div>
-
-      {/* Form Card */}
+      {}
       <div className="card p-8">
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
             <p className="text-sm text-red-600">{error}</p>
           </div>
         )}
-
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Company & Position - Grid */}
+          {}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-2">
@@ -154,7 +138,6 @@ export const ApplicationForm = () => {
                 placeholder="Örn: Google, Microsoft"
               />
             </div>
-
             <div>
               <label htmlFor="position" className="block text-sm font-medium text-gray-700 mb-2">
                 Pozisyon <span className="text-red-500">*</span>
@@ -171,8 +154,7 @@ export const ApplicationForm = () => {
               />
             </div>
           </div>
-
-          {/* Status - Visual Selection */}
+          {}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">
               Durum <span className="text-red-500">*</span>
@@ -199,8 +181,7 @@ export const ApplicationForm = () => {
               ))}
             </div>
           </div>
-
-          {/* Dates & Location - Grid */}
+          {}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label htmlFor="applicationDate" className="block text-sm font-medium text-gray-700 mb-2">
@@ -216,7 +197,6 @@ export const ApplicationForm = () => {
                 className="input-field"
               />
             </div>
-
             <div>
               <label htmlFor="reminderDate" className="block text-sm font-medium text-gray-700 mb-2">
                 Hatırlatma Tarihi
@@ -230,7 +210,6 @@ export const ApplicationForm = () => {
                 className="input-field"
               />
             </div>
-
             <div>
               <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
                 Lokasyon
@@ -246,8 +225,7 @@ export const ApplicationForm = () => {
               />
             </div>
           </div>
-
-          {/* Job Description */}
+          {}
           <div>
             <label htmlFor="jobDescription" className="block text-sm font-medium text-gray-700 mb-2">
               İş Açıklaması
@@ -262,8 +240,7 @@ export const ApplicationForm = () => {
               placeholder="İş tanımı, gereksinimler, sorumluluklar..."
             />
           </div>
-
-          {/* Notes */}
+          {}
           <div>
             <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-2">
               Notlar
@@ -278,8 +255,7 @@ export const ApplicationForm = () => {
               placeholder="Mülakat notları, iletişim bilgileri, özel notlar..."
             />
           </div>
-
-          {/* Action Buttons */}
+          {}
           <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
             <button
               type="button"
@@ -311,8 +287,7 @@ export const ApplicationForm = () => {
           </div>
         </form>
       </div>
-
-      {/* Help Text */}
+      {}
       <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
         <div className="flex items-start space-x-3">
           <span className="text-2xl">💡</span>

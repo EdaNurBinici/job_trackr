@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-
 interface CoverLetter {
   id: string;
   companyName: string;
@@ -11,7 +10,6 @@ interface CoverLetter {
   language: string;
   createdAt: string;
 }
-
 export default function CoverLetterList() {
   const { user: _user } = useAuth();
   const navigate = useNavigate();
@@ -22,11 +20,9 @@ export default function CoverLetterList() {
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState('');
-
   useEffect(() => {
     loadCoverLetters();
   }, []);
-
   const loadCoverLetters = async () => {
     try {
       setLoading(true);
@@ -38,7 +34,6 @@ export default function CoverLetterList() {
       setLoading(false);
     }
   };
-
   const handleView = async (id: string) => {
     try {
       const response = await api.get(`/cover-letter/${id}`);
@@ -50,36 +45,27 @@ export default function CoverLetterList() {
       setError('Ön yazı yüklenemedi');
     }
   };
-
   const handleSaveEdit = async () => {
     if (!selectedLetter) return;
-
     try {
       await api.put(`/cover-letter/${selectedLetter.id}`, {
         content: editedContent
       });
-      
-      // Update local state
       setSelectedLetter({ ...selectedLetter, content: editedContent });
       setIsEditing(false);
-      
-      // Show success message
       alert('✅ Ön yazı güncellendi!');
     } catch (err: any) {
       setError('Güncelleme başarısız oldu');
     }
   };
-
   const handleCancelEdit = () => {
     setEditedContent(selectedLetter.content);
     setIsEditing(false);
   };
-
   const handleDelete = async (id: string) => {
     if (!confirm('Bu ön yazıyı silmek istediğinizden emin misiniz?')) {
       return;
     }
-
     try {
       await api.delete(`/cover-letter/${id}`);
       setCoverLetters(coverLetters.filter(cl => cl.id !== id));
@@ -87,14 +73,12 @@ export default function CoverLetterList() {
       setError('Silme başarısız oldu');
     }
   };
-
   const handleCopy = () => {
     if (selectedLetter) {
       navigator.clipboard.writeText(selectedLetter.content);
       alert('📋 Panoya kopyalandı!');
     }
   };
-
   const handleDownload = () => {
     if (selectedLetter) {
       const blob = new Blob([selectedLetter.content], { type: 'text/plain' });
@@ -108,7 +92,6 @@ export default function CoverLetterList() {
       URL.revokeObjectURL(url);
     }
   };
-
   const getToneEmoji = (tone: string) => {
     switch (tone) {
       case 'formal': return '🎩';
@@ -117,11 +100,9 @@ export default function CoverLetterList() {
       default: return '📝';
     }
   };
-
   const getLanguageFlag = (lang: string) => {
     return lang === 'tr' ? '🇹🇷' : '🇬🇧';
   };
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -129,10 +110,9 @@ export default function CoverLetterList() {
       </div>
     );
   }
-
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">📚 Ön Yazılarım</h1>
         <button
@@ -143,14 +123,12 @@ export default function CoverLetterList() {
           <span>Yeni Ön Yazı Oluştur</span>
         </button>
       </div>
-
       {error && (
         <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded-lg border border-red-300 dark:border-red-800 flex items-start space-x-2">
           <span>❌</span>
           <span>{error}</span>
         </div>
       )}
-
       {coverLetters.length === 0 ? (
         <div className="card p-12 text-center border-2 border-dashed border-gray-300 dark:border-gray-600">
           <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -203,8 +181,7 @@ export default function CoverLetterList() {
           ))}
         </div>
       )}
-
-      {/* Modal */}
+      {}
       {showModal && selectedLetter && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4"
@@ -214,7 +191,7 @@ export default function CoverLetterList() {
             className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl max-h-[80vh] overflow-auto w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
+            {}
             <div className="sticky top-0 bg-white dark:bg-gray-800 border-b dark:border-gray-700 p-6 flex justify-between items-center">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {selectedLetter.companyName} - {selectedLetter.position}
@@ -226,8 +203,7 @@ export default function CoverLetterList() {
                 ✕
               </button>
             </div>
-
-            {/* Modal Actions */}
+            {}
             <div className="p-6 border-b dark:border-gray-700 flex gap-2 flex-wrap">
               {!isEditing ? (
                 <>
@@ -272,8 +248,7 @@ export default function CoverLetterList() {
                 </>
               )}
             </div>
-
-            {/* Modal Content */}
+            {}
             <div className="p-6">
               {!isEditing ? (
                 <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 whitespace-pre-wrap leading-relaxed text-gray-900 dark:text-gray-300">

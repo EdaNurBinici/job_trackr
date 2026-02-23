@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { applicationsApi, cvApi } from '../services/api';
 import type { Application } from '../types';
 import FitScoreAnalysis from '../components/FitScoreAnalysis';
-
 export const ApplicationDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -11,12 +10,10 @@ export const ApplicationDetail = () => {
   const [loading, setLoading] = useState(true);
   const [cvFiles, setCvFiles] = useState<any[]>([]);
   const [selectedCvId, setSelectedCvId] = useState<string>('');
-
   useEffect(() => {
     loadApplication();
     loadCVFiles();
   }, [id]);
-
   const loadApplication = async () => {
     try {
       const response = await applicationsApi.getById(id!);
@@ -27,7 +24,6 @@ export const ApplicationDetail = () => {
       setLoading(false);
     }
   };
-
   const loadCVFiles = async () => {
     try {
       const response = await cvApi.getUserCVs();
@@ -40,10 +36,8 @@ export const ApplicationDetail = () => {
       console.error('Failed to load CV files:', error);
     }
   };
-
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this application?')) return;
-    
     try {
       await applicationsApi.delete(id!);
       navigate('/applications');
@@ -51,22 +45,19 @@ export const ApplicationDetail = () => {
       console.error('Failed to delete application:', error);
     }
   };
-
   if (loading) return (
     <div className="flex items-center justify-center h-64">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
     </div>
   );
-  
   if (!application) return (
     <div className="card p-12 text-center">
       <p className="text-gray-600 dark:text-gray-400">Başvuru bulunamadı</p>
     </div>
   );
-
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {}
       <div className="card p-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
           <div className="flex-1">
@@ -89,8 +80,7 @@ export const ApplicationDetail = () => {
             </button>
           </div>
         </div>
-
-        {/* Status Badge */}
+        {}
         <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
           application.status === 'Offer' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' :
           application.status === 'Interview' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400' :
@@ -104,44 +94,37 @@ export const ApplicationDetail = () => {
           {' '}{application.status}
         </div>
       </div>
-
-      {/* Details Card */}
+      {}
       <div className="card p-6">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">📋 Detaylar</h2>
-        
         <div className="space-y-4">
           <div className="flex border-b border-gray-200 dark:border-gray-700 pb-3">
             <span className="font-medium text-gray-700 dark:text-gray-300 w-40">📅 Başvuru Tarihi:</span>
             <span className="text-gray-900 dark:text-white">{new Date(application.applicationDate).toLocaleDateString('tr-TR')}</span>
           </div>
-          
           {application.location && (
             <div className="flex border-b border-gray-200 dark:border-gray-700 pb-3">
               <span className="font-medium text-gray-700 dark:text-gray-300 w-40">📍 Lokasyon:</span>
               <span className="text-gray-900 dark:text-white">{application.location}</span>
             </div>
           )}
-          
           {application.reminderDate && (
             <div className="flex border-b border-gray-200 dark:border-gray-700 pb-3">
               <span className="font-medium text-gray-700 dark:text-gray-300 w-40">⏰ Hatırlatma:</span>
               <span className="text-gray-900 dark:text-white">{new Date(application.reminderDate).toLocaleDateString('tr-TR')}</span>
             </div>
           )}
-          
           <div className="flex border-b border-gray-200 dark:border-gray-700 pb-3">
             <span className="font-medium text-gray-700 dark:text-gray-300 w-40">🕐 Oluşturulma:</span>
             <span className="text-gray-600 dark:text-gray-400 text-sm">{new Date(application.createdAt).toLocaleString('tr-TR')}</span>
           </div>
-          
           <div className="flex">
             <span className="font-medium text-gray-700 dark:text-gray-300 w-40">🔄 Güncellenme:</span>
             <span className="text-gray-600 dark:text-gray-400 text-sm">{new Date(application.updatedAt).toLocaleString('tr-TR')}</span>
           </div>
         </div>
       </div>
-
-      {/* Job Description */}
+      {}
       {application.jobDescription && (
         <div className="card p-6">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">📄 İş İlanı Açıklaması</h2>
@@ -150,22 +133,19 @@ export const ApplicationDetail = () => {
           </div>
         </div>
       )}
-
-      {/* Notes */}
+      {}
       {application.notes && (
         <div className="card p-6">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">📝 Notlar</h2>
           <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{application.notes}</p>
         </div>
       )}
-
-      {/* Fit Score Analysis Section */}
+      {}
       {application.jobDescription && (
         <div className="card p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-200 dark:border-blue-800">
           <h2 className="text-2xl font-bold text-blue-900 dark:text-blue-300 mb-4 flex items-center gap-2">
             🎯 AI Fit Score Analizi
           </h2>
-          
           {cvFiles.length > 0 ? (
             <div className="space-y-4">
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
@@ -184,7 +164,6 @@ export const ApplicationDetail = () => {
                   ))}
                 </select>
               </div>
-              
               <FitScoreAnalysis 
                 applicationId={id!} 
                 cvFileId={selectedCvId}
@@ -205,7 +184,6 @@ export const ApplicationDetail = () => {
           )}
         </div>
       )}
-
       {!application.jobDescription && (
         <div className="bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-300 dark:border-orange-800 rounded-lg p-6 text-center">
           <p className="text-lg text-orange-800 dark:text-orange-400 mb-3">
@@ -219,8 +197,7 @@ export const ApplicationDetail = () => {
           </Link>
         </div>
       )}
-
-      {/* Back Button */}
+      {}
       <div className="text-center">
         <Link to="/applications">
           <button className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors font-medium">

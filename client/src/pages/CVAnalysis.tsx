@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-
 interface CVFile {
   id: string;
   fileName: string;
 }
-
 interface AnalysisResult {
   id: string;
   matchScore: number;
@@ -14,7 +12,6 @@ interface AnalysisResult {
   recommendations: string[];
   createdAt: string;
 }
-
 export default function CVAnalysis() {
   const { user: _user } = useAuth();
   const [cvFiles, setCvFiles] = useState<CVFile[]>([]);
@@ -27,11 +24,9 @@ export default function CVAnalysis() {
   const [jobId, setJobId] = useState<string | null>(null);
   const [jobStatus, setJobStatus] = useState<string>('idle');
   const [progress, setProgress] = useState(0);
-
   useEffect(() => {
     loadCVs();
   }, []);
-
   const loadCVs = async () => {
     try {
       const response = await api.get('/cv/user/list');
@@ -43,20 +38,16 @@ export default function CVAnalysis() {
       setError('CV listesi yüklenemedi');
     }
   };
-
   const handleAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!selectedCVId) {
       setError('Lütfen bir CV seçin');
       return;
     }
-
     if (jobDescription.trim().length < 50) {
       setError('İş ilanı açıklaması en az 50 karakter olmalıdır');
       return;
     }
-
     try {
       setAnalyzing(true);
       setError('');
@@ -64,22 +55,17 @@ export default function CVAnalysis() {
       setJobId(null);
       setJobStatus('idle');
       setProgress(0);
-
       const response = await api.post('/cv-analysis', {
         cvFileId: selectedCVId,
         jobDescription: jobDescription.trim(),
         jobUrl: jobUrl.trim() || undefined,
       });
-
-      // Check if response is queued (background processing) or completed (synchronous)
       if (response.status === 202 && response.data.data.jobId) {
-        // Background processing - start polling
         const newJobId = response.data.data.jobId;
         setJobId(newJobId);
         setJobStatus('queued');
         startPolling(newJobId);
       } else {
-        // Synchronous processing - show result immediately
         setResult(response.data.data);
         setAnalyzing(false);
       }
@@ -91,16 +77,13 @@ export default function CVAnalysis() {
       setAnalyzing(false);
     }
   };
-
   const startPolling = (jobId: string) => {
     const pollInterval = setInterval(async () => {
       try {
         const statusRes = await api.get(`/cv-analysis/job/${jobId}`);
         const { state, progress: jobProgress, result: jobResult, failedReason } = statusRes.data.data;
-
         setJobStatus(state);
         setProgress(jobProgress || 0);
-
         if (state === 'completed') {
           clearInterval(pollInterval);
           setResult(jobResult);
@@ -118,8 +101,6 @@ export default function CVAnalysis() {
         setAnalyzing(false);
       }
     }, 2000); // Poll every 2 seconds
-
-    // Cleanup after 5 minutes
     setTimeout(() => {
       clearInterval(pollInterval);
       if (analyzing) {
@@ -128,25 +109,22 @@ export default function CVAnalysis() {
       }
     }, 300000);
   };
-
   const getScoreColor = (score: number) => {
     if (score >= 80) return '#28a745';
     if (score >= 60) return '#ffc107';
     return '#dc3545';
   };
-
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {}
       <div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">🧠 AI CV Analizi</h1>
         <p className="mt-1 text-gray-600 dark:text-gray-400">CV'nizi iş ilanıyla karşılaştırın ve eşleşme puanınızı öğrenin!</p>
       </div>
-
-      {/* Analysis Form */}
+      {}
       <div className="card p-6">
         <form onSubmit={handleAnalyze} className="space-y-5">
-          {/* CV Selection */}
+          {}
           <div>
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
               CV Seçin (Sadece PDF)
@@ -171,8 +149,7 @@ export default function CVAnalysis() {
               </p>
             )}
           </div>
-
-          {/* Job Description */}
+          {}
           <div>
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
               İş İlanı Açıklaması (Min 50 karakter)
@@ -191,8 +168,7 @@ export default function CVAnalysis() {
               {jobDescription.length} / 50 karakter
             </p>
           </div>
-
-          {/* Job URL (Optional) */}
+          {}
           <div>
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
               İlan URL (Opsiyonel)
@@ -206,8 +182,7 @@ export default function CVAnalysis() {
               className="w-full px-4 py-2.5 text-base rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 disabled:opacity-50"
             />
           </div>
-
-          {/* Submit Button */}
+          {}
           <button
             type="submit"
             disabled={analyzing || cvFiles.length === 0}
@@ -224,8 +199,7 @@ export default function CVAnalysis() {
             ) : '🚀 Analiz Et'}
           </button>
         </form>
-
-        {/* Progress Bar */}
+        {}
         {analyzing && jobId && (
           <div className="mt-5">
             <div className="w-full h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
@@ -242,21 +216,18 @@ export default function CVAnalysis() {
           </div>
         )}
       </div>
-
-      {/* Error Message */}
+      {}
       {error && (
         <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded-lg border border-red-300 dark:border-red-800 flex items-start space-x-2">
           <span>❌</span>
           <span>{error}</span>
         </div>
       )}
-
-      {/* Analysis Result */}
+      {}
       {result && (
         <div className="space-y-6">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">📊 Analiz Sonuçları</h2>
-          
-          {/* Match Score */}
+          {}
           <div
             className="card p-8 text-center"
             style={{ borderColor: getScoreColor(result.matchScore), borderWidth: '2px' }}
@@ -278,8 +249,7 @@ export default function CVAnalysis() {
               {result.matchScore < 60 && '💪 Geliştirme alanları var'}
             </div>
           </div>
-
-          {/* Missing Skills */}
+          {}
           {result.missingSkills.length > 0 && (
             <div className="card p-6">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">❌ Eksik Beceriler</h3>
@@ -295,8 +265,7 @@ export default function CVAnalysis() {
               </div>
             </div>
           )}
-
-          {/* Recommendations */}
+          {}
           {result.recommendations.length > 0 && (
             <div className="card p-6">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">💡 İyileştirme Önerileri</h3>
@@ -310,7 +279,6 @@ export default function CVAnalysis() {
               </ul>
             </div>
           )}
-
           <p className="text-gray-600 dark:text-gray-400 text-sm">
             Analiz tarihi: {new Date(result.createdAt).toLocaleString('tr-TR')}
           </p>

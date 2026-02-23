@@ -1,9 +1,5 @@
-/* eslint-disable camelcase */
-
-exports.shorthands = undefined;
-
+﻿exports.shorthands = undefined;
 exports.up = (pgm) => {
-  // Add location and job_description columns to applications table
   pgm.addColumns('applications', {
     location: {
       type: 'varchar(255)',
@@ -15,8 +11,6 @@ exports.up = (pgm) => {
     }
   });
 };
-
 exports.down = (pgm) => {
-  // Remove location and job_description columns
   pgm.dropColumns('applications', ['location', 'job_description']);
 };

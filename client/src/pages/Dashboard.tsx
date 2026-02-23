@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { dashboardApi, applicationsApi } from '../services/api';
 import type { DashboardStats, Application } from '../types';
 import AddJobByLink from '../components/AddJobByLink';
-
 export const Dashboard = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [recentActivity, setRecentActivity] = useState<Application[]>([]);
@@ -13,19 +12,14 @@ export const Dashboard = () => {
   const [modalStatus, setModalStatus] = useState<string>('');
   const [modalApplications, setModalApplications] = useState<Application[]>([]);
   const [modalLoading, setModalLoading] = useState(false);
-
   useEffect(() => {
     loadDashboard();
-
-    // Auto-refresh when window regains focus
     const handleFocus = () => {
       loadDashboard();
     };
-
     window.addEventListener('focus', handleFocus);
     return () => window.removeEventListener('focus', handleFocus);
   }, []);
-
   const loadDashboard = async () => {
     try {
       setLoading(true);
@@ -35,8 +29,6 @@ export const Dashboard = () => {
       ]);
       setStats(statsRes.data.data);
       setRecentActivity(activityRes.data.data);
-      
-      // Filter upcoming reminders (next 7 days)
       const today = new Date();
       const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
       const reminders = activityRes.data.data.filter((app: Application) => {
@@ -53,12 +45,10 @@ export const Dashboard = () => {
       setLoading(false);
     }
   };
-
   const openModal = async (status: string) => {
     setModalStatus(status);
     setModalOpen(true);
     setModalLoading(true);
-    
     try {
       const response = await applicationsApi.getAll({ status: status as any });
       setModalApplications(response.data.data);
@@ -68,15 +58,12 @@ export const Dashboard = () => {
       setModalLoading(false);
     }
   };
-
   const closeModal = () => {
     setModalOpen(false);
     setModalApplications([]);
   };
-
   const handleDelete = async (id: string) => {
     if (!confirm('Bu başvuruyu silmek istediğinizden emin misiniz?')) return;
-    
     try {
       await applicationsApi.delete(id);
       setModalApplications(modalApplications.filter(app => app.id !== id));
@@ -86,7 +73,6 @@ export const Dashboard = () => {
       alert('Silme işlemi başarısız oldu');
     }
   };
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -94,7 +80,6 @@ export const Dashboard = () => {
       </div>
     );
   }
-
   const statCards = [
     {
       title: 'Toplam Başvuru',
@@ -133,7 +118,6 @@ export const Dashboard = () => {
       filterStatus: 'Rejected',
     },
   ];
-
   const getStatusLabel = (status: string) => {
     const labels: Record<string, string> = {
       'Applied': 'Başvuruldu',
@@ -143,7 +127,6 @@ export const Dashboard = () => {
     };
     return labels[status] || status;
   };
-
   const getStatusBadge = (status: string) => {
     const badges: Record<string, string> = {
       Applied: 'bg-blue-100 text-blue-700',
@@ -153,10 +136,9 @@ export const Dashboard = () => {
     };
     return badges[status] || 'bg-gray-100 text-gray-700';
   };
-
   return (
     <div className="space-y-8">
-      {/* Header */}
+      {}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
@@ -181,8 +163,7 @@ export const Dashboard = () => {
           </Link>
         </div>
       </div>
-
-      {/* Stats Grid */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((card, index) => (
           <button
@@ -203,8 +184,7 @@ export const Dashboard = () => {
           </button>
         ))}
       </div>
-
-      {/* Recent Activity */}
+      {}
       <div className="card p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">Son Aktiviteler</h2>
@@ -215,7 +195,6 @@ export const Dashboard = () => {
             Tümünü Gör →
           </Link>
         </div>
-
         {recentActivity.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -259,8 +238,7 @@ export const Dashboard = () => {
           </div>
         )}
       </div>
-
-      {/* Quick Actions */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Link
           to="/cv-analysis"
@@ -272,7 +250,6 @@ export const Dashboard = () => {
           <h3 className="font-bold text-gray-900 dark:text-white mb-2">AI CV Analizi</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">CV'nizi yapay zeka ile analiz edin</p>
         </Link>
-
         <Link
           to="/cover-letter-generator"
           className="card p-6 hover:scale-105 transition-transform duration-200 group"
@@ -283,7 +260,6 @@ export const Dashboard = () => {
           <h3 className="font-bold text-gray-900 dark:text-white mb-2">Ön Yazı Oluştur</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">AI ile özel ön yazı hazırlayın</p>
         </Link>
-
         <Link
           to="/cv"
           className="card p-6 hover:scale-105 transition-transform duration-200 group"
@@ -295,8 +271,7 @@ export const Dashboard = () => {
           <p className="text-sm text-gray-600 dark:text-gray-400">CV'lerinizi yükleyin ve yönetin</p>
         </Link>
       </div>
-
-      {/* Upcoming Reminders */}
+      {}
       {upcomingReminders.length > 0 && (
         <div className="card p-6">
           <div className="flex items-center justify-between mb-6">
@@ -313,7 +288,6 @@ export const Dashboard = () => {
               {upcomingReminders.length} hatırlatma
             </span>
           </div>
-
           <div className="space-y-3">
             {upcomingReminders.map((app) => {
               const reminderDate = new Date(app.reminderDate!);
@@ -321,7 +295,6 @@ export const Dashboard = () => {
               const daysUntil = Math.ceil((reminderDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
               const isToday = daysUntil === 0;
               const isTomorrow = daysUntil === 1;
-
               return (
                 <Link
                   key={app.id}
@@ -358,12 +331,11 @@ export const Dashboard = () => {
           </div>
         </div>
       )}
-
-      {/* Modal */}
+      {}
       {modalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={closeModal}>
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
-            {/* Modal Header */}
+            {}
             <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {getStatusLabel(modalStatus)} Başvurular
@@ -377,8 +349,7 @@ export const Dashboard = () => {
                 </svg>
               </button>
             </div>
-
-            {/* Modal Body */}
+            {}
             <div className="flex-1 overflow-y-auto p-6">
               {modalLoading ? (
                 <div className="flex items-center justify-center h-32">
@@ -419,8 +390,7 @@ export const Dashboard = () => {
           </div>
         </div>
       )}
-
-      {/* Add Job By Link - Mobile Only */}
+      {}
       <AddJobByLink />
     </div>
   );

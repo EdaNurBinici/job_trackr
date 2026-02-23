@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import CVUpload from '../components/CVUpload';
-
 interface UploadedFile {
   id: string;
   fileName: string;
@@ -10,25 +9,20 @@ interface UploadedFile {
   mimeType: string;
   signedUrl?: string;
 }
-
 const CVUploadDemo: React.FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
-
   const handleUploadSuccess = (fileData: UploadedFile) => {
     console.log('File uploaded successfully:', fileData);
     setUploadedFiles((prev) => [...prev, fileData]);
   };
-
   const handleUploadError = (error: string) => {
     console.error('Upload error:', error);
   };
-
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return bytes + ' B';
     if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
     return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
   };
-
   return (
     <div style={{ padding: '40px 20px', maxWidth: '800px', margin: '0 auto' }}>
       <h1 style={{ textAlign: 'center', marginBottom: '10px', color: '#2d3748' }}>
@@ -37,12 +31,10 @@ const CVUploadDemo: React.FC = () => {
       <p style={{ textAlign: 'center', color: '#718096', marginBottom: '40px' }}>
         Upload your CV or resume to get started
       </p>
-
       <CVUpload
         onUploadSuccess={handleUploadSuccess}
         onUploadError={handleUploadError}
       />
-
       {uploadedFiles.length > 0 && (
         <div style={{ marginTop: '40px' }}>
           <h2 style={{ fontSize: '20px', marginBottom: '20px', color: '#2d3748' }}>
@@ -94,5 +86,4 @@ const CVUploadDemo: React.FC = () => {
     </div>
   );
 };
-
 export default CVUploadDemo;

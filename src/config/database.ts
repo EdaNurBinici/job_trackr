@@ -1,12 +1,7 @@
-import { Pool, PoolConfig, types } from 'pg';
+﻿import { Pool, PoolConfig, types } from 'pg';
 import dotenv from 'dotenv';
-
 dotenv.config();
-
-// Configure pg to return DATE columns as strings instead of Date objects
-// This prevents timezone conversion issues
 types.setTypeParser(types.builtins.DATE, (val: string) => val);
-
 const poolConfig: PoolConfig = process.env.DATABASE_URL
   ? {
       connectionString: process.env.DATABASE_URL,
@@ -25,16 +20,11 @@ const poolConfig: PoolConfig = process.env.DATABASE_URL
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 2000,
     };
-
 export const pool = new Pool(poolConfig);
-
-// Handle pool errors
 pool.on('error', (err) => {
   console.error('Unexpected error on idle client', err);
   process.exit(-1);
 });
-
-// Test connection
 export async function testConnection(): Promise<void> {
   try {
     const client = await pool.connect();
@@ -45,14 +35,10 @@ export async function testConnection(): Promise<void> {
     throw err;
   }
 }
-
-// Graceful shutdown
 export async function closePool(): Promise<void> {
   await pool.end();
   console.log('Database pool closed');
 }
-
-// Transaction helper
 export async function withTransaction<T>(
   callback: (client: any) => Promise<T>
 ): Promise<T> {

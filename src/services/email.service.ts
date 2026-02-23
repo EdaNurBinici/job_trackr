@@ -1,15 +1,11 @@
-import { Resend } from 'resend';
-
+﻿import { Resend } from 'resend';
 export class EmailService {
   private resend: Resend | null = null;
-
   constructor() {
     this.initializeResend();
   }
-
   private initializeResend() {
     const apiKey = process.env.RESEND_API_KEY;
-
     if (apiKey) {
       try {
         this.resend = new Resend(apiKey);
@@ -21,10 +17,8 @@ export class EmailService {
       console.log('⚠ Email not configured (RESEND_API_KEY missing)');
     }
   }
-
   async sendReminderEmail(email: string, companyName: string, position: string, reminderDate: Date): Promise<boolean> {
     if (!this.resend) return false;
-
     try {
       await this.resend.emails.send({
         from: 'JobTrackr <onboarding@resend.dev>',
@@ -39,16 +33,13 @@ export class EmailService {
               </div>
               <h1 style="color: #1f2937; margin: 0;">Başvuru Hatırlatması</h1>
             </div>
-            
             <p style="color: #4b5563; font-size: 16px; line-height: 1.5;">
               Merhaba,
             </p>
-            
             <p style="color: #4b5563; font-size: 16px; line-height: 1.5;">
               <strong>${companyName}</strong> şirketine yaptığınız <strong>${position}</strong> 
               başvurunuz için hatırlatma zamanı geldi!
             </p>
-            
             <div style="background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 30px 0;">
               <p style="margin: 0 0 10px 0; color: #92400e; font-size: 18px; font-weight: bold;">
                 ⏰ Yarın takip etmeyi unutmayın!
@@ -62,12 +53,10 @@ export class EmailService {
                 })}
               </p>
             </div>
-            
             <p style="color: #4b5563; font-size: 16px; line-height: 1.5;">
               Başvurunuzu takip etmek için şirketle iletişime geçebilir veya başvuru durumunuzu kontrol edebilirsiniz. 
               İyi şanslar! 🍀
             </p>
-            
             <div style="text-align: center; margin: 30px 0;">
               <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/applications" 
                  style="display: inline-block; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); 
@@ -76,9 +65,7 @@ export class EmailService {
                 Başvurularımı Görüntüle
               </a>
             </div>
-            
             <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
-            
             <p style="color: #9ca3af; font-size: 12px; text-align: center;">
               Bu email JobTrackr tarafından otomatik olarak gönderilmiştir.<br>
               Hatırlatmalar her gün saat 18:00'da kontrol edilir.<br>
@@ -94,10 +81,8 @@ export class EmailService {
       return false;
     }
   }
-
   async sendPasswordResetEmail(email: string, resetToken: string): Promise<boolean> {
     if (!this.resend) return false;
-
     try {
       await this.resend.emails.send({
         from: 'JobTrackr <onboarding@resend.dev>',
@@ -112,29 +97,23 @@ export class EmailService {
               </div>
               <h1 style="color: #1f2937; margin: 0;">Şifre Sıfırlama</h1>
             </div>
-            
             <p style="color: #4b5563; font-size: 16px; line-height: 1.5;">
               Merhaba,
             </p>
-            
             <p style="color: #4b5563; font-size: 16px; line-height: 1.5;">
               JobTrackr hesabınız için şifre sıfırlama talebinde bulundunuz. 
               Aşağıdaki kodu kullanarak şifrenizi sıfırlayabilirsiniz:
             </p>
-            
             <div style="background: #f3f4f6; border-radius: 8px; padding: 20px; text-align: center; margin: 30px 0;">
               <div style="font-size: 32px; font-weight: bold; color: #2563eb; letter-spacing: 8px;">
                 ${resetToken}
               </div>
             </div>
-            
             <p style="color: #4b5563; font-size: 14px; line-height: 1.5;">
               Bu kod 1 saat geçerlidir. Eğer şifre sıfırlama talebinde bulunmadıysanız, 
               bu email'i görmezden gelebilirsiniz.
             </p>
-            
             <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
-            
             <p style="color: #9ca3af; font-size: 12px; text-align: center;">
               Bu email JobTrackr tarafından otomatik olarak gönderilmiştir.
             </p>
@@ -148,10 +127,8 @@ export class EmailService {
       return false;
     }
   }
-
   async sendVerificationEmail(email: string, verificationToken: string): Promise<boolean> {
     if (!this.resend) return false;
-
     try {
       await this.resend.emails.send({
         from: 'JobTrackr <onboarding@resend.dev>',
@@ -166,27 +143,21 @@ export class EmailService {
               </div>
               <h1 style="color: #1f2937; margin: 0;">Email Doğrulama</h1>
             </div>
-            
             <p style="color: #4b5563; font-size: 16px; line-height: 1.5;">
               Merhaba,
             </p>
-            
             <p style="color: #4b5563; font-size: 16px; line-height: 1.5;">
               JobTrackr'a hoş geldiniz! Email adresinizi doğrulamak için aşağıdaki kodu kullanın:
             </p>
-            
             <div style="background: #f3f4f6; border-radius: 8px; padding: 20px; text-align: center; margin: 30px 0;">
               <div style="font-size: 32px; font-weight: bold; color: #2563eb; letter-spacing: 8px;">
                 ${verificationToken}
               </div>
             </div>
-            
             <p style="color: #4b5563; font-size: 14px; line-height: 1.5;">
               Bu kod 24 saat geçerlidir.
             </p>
-            
             <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
-            
             <p style="color: #9ca3af; font-size: 12px; text-align: center;">
               Bu email JobTrackr tarafından otomatik olarak gönderilmiştir.
             </p>
@@ -201,5 +172,4 @@ export class EmailService {
     }
   }
 }
-
 export const emailService = new EmailService();

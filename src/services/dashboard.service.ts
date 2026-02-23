@@ -1,29 +1,14 @@
-import { pool } from '../config/database';
+﻿import { pool } from '../config/database';
 import { UserModel } from '../models';
-
 export class DashboardService {
-  /**
-   * Get system-wide user count (admin only)
-   * Requirements: 10.1
-   */
   static async getTotalUserCount(): Promise<number> {
     return UserModel.count();
   }
-
-  /**
-   * Get system-wide application count (admin only)
-   * Requirements: 10.2
-   */
   static async getTotalApplicationCount(): Promise<number> {
     const query = 'SELECT COUNT(*) as count FROM applications';
     const result = await pool.query(query);
     return parseInt(result.rows[0].count, 10);
   }
-
-  /**
-   * Get top companies by application count (admin only)
-   * Requirements: 10.3
-   */
   static async getTopCompanies(limit: number = 10): Promise<Array<{ companyName: string; count: number }>> {
     const query = `
       SELECT company_name AS "companyName", COUNT(*) as count
@@ -38,14 +23,6 @@ export class DashboardService {
       count: parseInt(row.count, 10)
     }));
   }
-
-  /**
-   * Calculate average response time from application creation to first status change (admin only)
-   * Requirements: 10.4
-   * 
-   * This calculates the average time between when an application is created and when
-   * its status is first changed (as recorded in the audit log).
-   */
   static async getAverageResponseTime(): Promise<number | null> {
     const query = `
       SELECT AVG(
@@ -61,18 +38,10 @@ export class DashboardService {
         GROUP BY entity_id
       ) audit_log ON applications.id = audit_log.entity_id::uuid
     `;
-    
     const result = await pool.query(query);
     const avgSeconds = result.rows[0]?.avg_seconds;
-    
-    // Return null if no data, otherwise return average in seconds
     return avgSeconds ? parseFloat(avgSeconds) : null;
   }
-
-  /**
-   * Get all system statistics (admin only)
-   * Requirements: 10.1, 10.2, 10.3, 10.4
-   */
   static async getSystemStats() {
     const [totalUsers, totalApplications, topCompanies, avgResponseTime] = await Promise.all([
       this.getTotalUserCount(),
@@ -80,7 +49,6 @@ export class DashboardService {
       this.getTopCompanies(10),
       this.getAverageResponseTime()
     ]);
-
     return {
       totalUsers,
       totalApplications,

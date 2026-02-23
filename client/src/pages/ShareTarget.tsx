@@ -1,53 +1,41 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-
 export const ShareTarget = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
   useEffect(() => {
     const handleShare = async () => {
-      // Check if user is logged in
       if (!user) {
-        // Redirect to login with return URL
         const url = searchParams.get('url') || '';
         const title = searchParams.get('title') || '';
         localStorage.setItem('pendingShare', JSON.stringify({ url, title }));
         navigate('/login');
         return;
       }
-
       const sharedUrl = searchParams.get('url');
       const sharedTitle = searchParams.get('title');
       const sharedText = searchParams.get('text');
-
       if (!sharedUrl) {
         setError('İlan linki bulunamadı');
         setLoading(false);
         return;
       }
-
-      // Check if it's a supported job site
       const supportedSites = [
         'linkedin.com',
         'kariyer.net',
         'indeed.com',
         'secretcv.com'
       ];
-
       const isSupportedSite = supportedSites.some(site => sharedUrl.includes(site));
-
       if (!isSupportedSite) {
         setError('Bu site desteklenmiyor. Sadece LinkedIn, Kariyer.net, Indeed ve Secretcv desteklenir.');
         setLoading(false);
         return;
       }
-
-      // Navigate to application form with pre-filled data
       navigate('/applications/new', {
         state: {
           jobUrl: sharedUrl,
@@ -56,10 +44,8 @@ export const ShareTarget = () => {
         }
       });
     };
-
     handleShare();
   }, [searchParams, navigate, user]);
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
@@ -70,7 +56,6 @@ export const ShareTarget = () => {
       </div>
     );
   }
-
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
@@ -90,6 +75,5 @@ export const ShareTarget = () => {
       </div>
     );
   }
-
   return null;
 };

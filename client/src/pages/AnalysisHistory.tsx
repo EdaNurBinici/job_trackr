@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import api from '../services/api';
-
 interface Analysis {
   id: string;
   cvFileId: string;
@@ -8,7 +7,6 @@ interface Analysis {
   jobUrl?: string;
   createdAt: string;
 }
-
 interface AnalysisDetail {
   id: string;
   cvFileId: string;
@@ -19,17 +17,14 @@ interface AnalysisDetail {
   recommendations: string[];
   createdAt: string;
 }
-
 export default function AnalysisHistory() {
   const [analyses, setAnalyses] = useState<Analysis[]>([]);
   const [selectedAnalysis, setSelectedAnalysis] = useState<AnalysisDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
   useEffect(() => {
     loadAnalyses();
   }, []);
-
   const loadAnalyses = async () => {
     try {
       setLoading(true);
@@ -42,14 +37,11 @@ export default function AnalysisHistory() {
       setLoading(false);
     }
   };
-
   const handleView = async (analysisId: string) => {
-    // Aynı analize tekrar tıklanırsa kapat
     if (selectedAnalysis?.id === analysisId) {
       setSelectedAnalysis(null);
       return;
     }
-
     try {
       const response = await api.get(`/cv-analysis/${analysisId}`);
       setSelectedAnalysis(response.data.data);
@@ -57,12 +49,10 @@ export default function AnalysisHistory() {
       setError('Analiz detayı yüklenemedi');
     }
   };
-
   const handleDelete = async (analysisId: string) => {
     if (!confirm('Bu analizi silmek istediğinize emin misiniz?')) {
       return;
     }
-
     try {
       await api.delete(`/cv-analysis/${analysisId}`);
       loadAnalyses();
@@ -73,32 +63,27 @@ export default function AnalysisHistory() {
       setError('Analiz silinemedi');
     }
   };
-
   const getScoreColor = (score: number) => {
     if (score >= 80) return '#28a745';
     if (score >= 60) return '#ffc107';
     return '#dc3545';
   };
-
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {}
       <div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">📚 Analiz Geçmişi</h1>
         <p className="mt-1 text-gray-600 dark:text-gray-400">Geçmiş CV analizlerinizi görüntüleyin</p>
       </div>
-
       {error && (
         <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded-lg border border-red-300 dark:border-red-800">
           ❌ {error}
         </div>
       )}
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* List */}
+        {}
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">Analizler ({analyses.length})</h2>
-          
           {loading ? (
             <div className="flex items-center justify-center h-32">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -154,11 +139,9 @@ export default function AnalysisHistory() {
             </div>
           )}
         </div>
-
-        {/* Detail */}
+        {}
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">Detaylar</h2>
-          
           {!selectedAnalysis ? (
             <div className="card p-12 text-center">
               <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -168,7 +151,7 @@ export default function AnalysisHistory() {
             </div>
           ) : (
             <div className="space-y-4">
-              {/* Score */}
+              {}
               <div
                 className="card p-6 text-center"
                 style={{ borderColor: getScoreColor(selectedAnalysis.matchScore), borderWidth: '2px' }}
@@ -181,8 +164,7 @@ export default function AnalysisHistory() {
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">Uyum Skoru</p>
               </div>
-
-              {/* Job Description */}
+              {}
               <div className="card p-5">
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">📋 İş İlanı</h3>
                 <p className="max-h-40 overflow-auto text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap mb-3">
@@ -199,8 +181,7 @@ export default function AnalysisHistory() {
                   </a>
                 )}
               </div>
-
-              {/* Missing Skills */}
+              {}
               {selectedAnalysis.missingSkills.length > 0 && (
                 <div className="card p-5">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">❌ Eksik Beceriler</h3>
@@ -216,8 +197,7 @@ export default function AnalysisHistory() {
                   </div>
                 </div>
               )}
-
-              {/* Recommendations */}
+              {}
               {selectedAnalysis.recommendations.length > 0 && (
                 <div className="card p-5">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">💡 Öneriler</h3>

@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { adminApi } from '../services/api';
 import type { AuditEntry } from '../types';
-
 export const AuditLog = () => {
   const [auditLog, setAuditLog] = useState<AuditEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -10,11 +9,9 @@ export const AuditLog = () => {
     entityType: '',
     search: '',
   });
-
   useEffect(() => {
     loadAuditLog();
   }, []);
-
   const loadAuditLog = async () => {
     try {
       const response = await adminApi.getAuditLog();
@@ -25,7 +22,6 @@ export const AuditLog = () => {
       setLoading(false);
     }
   };
-
   const filteredLog = auditLog.filter((entry) => {
     if (filter.action && entry.action !== filter.action) return false;
     if (filter.entityType && entry.entityType !== filter.entityType) return false;
@@ -39,21 +35,17 @@ export const AuditLog = () => {
     }
     return true;
   });
-
   const uniqueActions = [...new Set(auditLog.map((e) => e.action))];
   const uniqueEntityTypes = [...new Set(auditLog.map((e) => e.entityType))];
-
   if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div></div>;
-
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Denetim Günlüğü</h1>
         <p className="mt-1 text-gray-600">Sistemdeki tüm değişikliklerin kaydı</p>
       </div>
-
-      {/* Filters */}
+      {}
       <div className="card p-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <input
@@ -93,8 +85,7 @@ export const AuditLog = () => {
           )}
         </div>
       </div>
-
-      {/* Stats */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="card p-6">
           <p className="text-sm font-medium text-gray-600 mb-1">Toplam Kayıt</p>
@@ -113,8 +104,7 @@ export const AuditLog = () => {
           <p className="text-3xl font-bold text-gray-900">{uniqueEntityTypes.length}</p>
         </div>
       </div>
-
-      {/* Audit Log Table */}
+      {}
       <div className="card p-6">
         <div className="overflow-x-auto">
           <table className="w-full">

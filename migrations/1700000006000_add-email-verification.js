@@ -1,5 +1,4 @@
-exports.up = async (pgm) => {
-  // Add email verification columns
+﻿exports.up = async (pgm) => {
   pgm.addColumns('users', {
     email_verified: {
       type: 'boolean',
@@ -28,13 +27,10 @@ exports.up = async (pgm) => {
       unique: true,
     },
   });
-
-  // Add index for tokens
   pgm.createIndex('users', 'verification_token');
   pgm.createIndex('users', 'reset_password_token');
   pgm.createIndex('users', 'google_id');
 };
-
 exports.down = async (pgm) => {
   pgm.dropColumns('users', [
     'email_verified',

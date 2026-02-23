@@ -1,38 +1,26 @@
-/**
- * Fit Score Analysis Component
- * Sprint 1: Display AI-powered fit score analysis
- */
-
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { applicationAnalysisApi } from '../services/api';
 import type { ApplicationAnalysis } from '../types';
-
 interface FitScoreAnalysisProps {
   applicationId: string;
   cvFileId?: string;
 }
-
 export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAnalysisProps) {
   const [analysis, setAnalysis] = useState<ApplicationAnalysis | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   const handleAnalyze = async () => {
     if (!cvFileId) {
       setError('Lütfen bir CV seçin');
       return;
     }
-
     setLoading(true);
     setError(null);
-
     try {
       const response = await applicationAnalysisApi.analyzeApplication(applicationId, cvFileId, 'tr');
       const analysisData = response.data.data || response.data;
       setAnalysis(analysisData);
-      
-      // Skor 85'in üzerindeyse konfeti patlat! 🎉
       if (analysisData.fitScore >= 85) {
         triggerConfetti();
       }
@@ -42,33 +30,24 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
       setLoading(false);
     }
   };
-
   const triggerConfetti = () => {
     const duration = 3000;
     const animationEnd = Date.now() + duration;
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
-
     function randomInRange(min: number, max: number) {
       return Math.random() * (max - min) + min;
     }
-
     const interval: any = setInterval(function() {
       const timeLeft = animationEnd - Date.now();
-
       if (timeLeft <= 0) {
         return clearInterval(interval);
       }
-
       const particleCount = 50 * (timeLeft / duration);
-      
-      // Sol taraftan konfeti
       confetti({
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
       });
-      
-      // Sağ taraftan konfeti
       confetti({
         ...defaults,
         particleCount,
@@ -76,13 +55,11 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
       });
     }, 250);
   };
-
   const getFitScoreColor = (score: number) => {
     if (score >= 75) return 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800';
     if (score >= 60) return 'text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-800';
     return 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800';
   };
-
   const getFitScoreLabel = (score: number) => {
     if (score >= 90) return 'Mükemmel Eşleşme';
     if (score >= 75) return 'Güçlü Eşleşme';
@@ -90,10 +67,9 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
     if (score >= 40) return 'Orta Eşleşme';
     return 'Zayıf Eşleşme';
   };
-
   return (
     <div className="space-y-4">
-      {/* Analyze Button */}
+      {}
       {!analysis && (
         <button
           onClick={handleAnalyze}
@@ -113,18 +89,16 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
           )}
         </button>
       )}
-
-      {/* Error Message */}
+      {}
       {error && (
         <div className="p-4 bg-red-50 dark:bg-red-900/30 border-2 border-red-200 dark:border-red-800 rounded-lg">
           <p className="text-red-700 dark:text-red-400 font-medium">❌ {error}</p>
         </div>
       )}
-
-      {/* Analysis Results */}
+      {}
       {analysis && (
         <div className="space-y-4 animate-fadeIn">
-          {/* Fit Score Card */}
+          {}
           <div className={`p-6 rounded-xl border-4 shadow-lg ${getFitScoreColor(analysis.fitScore)} relative overflow-hidden`}>
             {analysis.fitScore >= 85 && (
               <div className="absolute top-2 right-2 animate-bounce">
@@ -144,8 +118,7 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
               <div className="text-7xl font-black">{analysis.fitScore}</div>
             </div>
           </div>
-
-          {/* Strengths */}
+          {}
           {analysis.strengths.length > 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-green-200 dark:border-green-800 p-6 shadow-md">
               <h4 className="text-xl font-bold text-green-800 dark:text-green-400 mb-4 flex items-center gap-2">
@@ -163,8 +136,7 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
               </div>
             </div>
           )}
-
-          {/* Gaps */}
+          {}
           {analysis.gaps.length > 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-orange-200 dark:border-orange-800 p-6 shadow-md">
               <h4 className="text-xl font-bold text-orange-800 dark:text-orange-400 mb-4 flex items-center gap-2">
@@ -182,8 +154,7 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
               </div>
             </div>
           )}
-
-          {/* Suggestions */}
+          {}
           {analysis.suggestions.length > 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-blue-200 dark:border-blue-800 p-6 shadow-md">
               <h4 className="text-xl font-bold text-blue-800 dark:text-blue-400 mb-4 flex items-center gap-2">
@@ -199,8 +170,7 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
               </ul>
             </div>
           )}
-
-          {/* Re-analyze Button */}
+          {}
           <button
             onClick={handleAnalyze}
             disabled={loading}
