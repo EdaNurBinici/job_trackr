@@ -112,22 +112,9 @@ Extension'ı kaldırmak için:
 
 ---
 
-## Destek
-
-Sorun mu yaşıyorsunuz?
-- GitHub Issues: https://github.com/yourusername/jobtrackr/issues
-- Email: support@jobtrackr.com
-- Website: https://jobtrackr.com/support
-
----
-
-## Gizlilik
-
 JobTrackr Assistant:
 - ✅ Sadece iş ilanı sayfalarında çalışır
 - ✅ Token'ları güvenli şekilde saklar
 - ✅ Verilerinizi sadece JobTrackr'a gönderir
 - ✅ Üçüncü taraflarla veri paylaşmaz
 - ✅ Açık kaynak kodludur
-
-Daha fazla bilgi: https://jobtrackr.com/privacy
