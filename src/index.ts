@@ -1,7 +1,6 @@
 ﻿import express, { Application } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import session from 'express-session';
 import passport from 'passport';
 import { testConnection, closePool } from './config/database';
 import { authRoutes, applicationRoutes, adminRoutes, fileRoutes, dashboardRoutes, cvRoutes, cvAnalysisRoutes, coverLetterRoutes } from './routes';
@@ -46,19 +45,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || 'jobtrackr-secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 24 * 60 * 60 * 1000, // 24 saat
-    },
-  })
-);
 app.use(passport.initialize());
-app.use(passport.session());
 app.use('/uploads', express.static('uploads'));
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
