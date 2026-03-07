@@ -9,7 +9,7 @@ coverage/
 # Test files
 test-*.html
 
-# Deployment files (keep in repo but ignore local copies)
+
 # .deployment-checklist.md
 # DEPLOYMENT-FILES.md
 .vscode/
