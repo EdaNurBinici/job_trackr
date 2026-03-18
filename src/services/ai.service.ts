@@ -27,7 +27,7 @@ export class AIService {
         messages: [
           {
             role: 'system',
-            content: 'You are an expert HR recruiter and career advisor. Analyze CVs and job descriptions to provide accurate matching scores and actionable recommendations.',
+            content: 'Sen uzman bir İK danışmanı ve kariyer koçusun. CV\'leri ve iş ilanlarını analiz ederek doğru eşleşme skorları ve uygulanabilir öneriler sunuyorsun. HER ZAMAN TÜRKÇE cevap ver.',
           },
           {
             role: 'user',
@@ -60,22 +60,22 @@ export class AIService {
     }
   }
   private static buildAnalysisPrompt(cvText: string, jobDescription: string): string {
-    return `Analyze the following CV against the job description and provide a detailed matching analysis.
+    return `Aşağıdaki CV'yi iş ilanıyla karşılaştır ve detaylı bir eşleşme analizi yap. TÜRKÇE cevap ver.
 CV:
 ${cvText}
-Job Description:
+İş İlanı:
 ${jobDescription}
-Provide a JSON response with the following structure:
+Aşağıdaki yapıda JSON cevabı ver:
 {
-  "match_score": <integer 0-100>,
-  "missing_skills": [<array of skills mentioned in job but not clearly present in CV>],
-  "recommendations": [<array of specific, actionable improvement suggestions>]
+  "match_score": <0-100 arası tam sayı>,
+  "missing_skills": [<iş ilanında geçen ama CV'de bulunmayan önemli beceriler - TÜRKÇE>],
+  "recommendations": [<CV'yi bu pozisyon için geliştirmeye yönelik 3-5 spesifik öneri - TÜRKÇE>]
 }
-Guidelines:
-- match_score: Calculate based on skills match, experience relevance, and overall fit (0-100)
-- missing_skills: List only significant skills/technologies from job description that are clearly absent in CV
-- recommendations: Provide 3-5 specific, actionable suggestions to improve the CV for this role
-Be objective and constructive. Focus on technical skills, experience, and qualifications.`;
+Kurallar:
+- match_score: Beceri eşleşmesi, deneyim uyumu ve genel uygunluğa göre hesapla (0-100)
+- missing_skills: Sadece iş ilanında açıkça belirtilen ama CV'de olmayan önemli beceri/teknolojileri listele
+- recommendations: CV'yi bu rol için geliştirmeye yönelik 3-5 spesifik, uygulanabilir öneri ver
+Nesnel ve yapıcı ol. Teknik beceriler, deneyim ve niteliklere odaklan. TÜM CEVAPLAR TÜRKÇE OLMALI.`;
   }
   private static validateAnalysisResult(result: any): void {
     if (typeof result.match_score !== 'number') {
