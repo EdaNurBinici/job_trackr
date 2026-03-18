@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'jobtrackr-v1';
+﻿const CACHE_NAME = 'jobtrackr-v2';
 const urlsToCache = [
   '/',
   '/index.html',
