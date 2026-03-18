@@ -15,7 +15,10 @@ const s3Client = isS3Configured ? new S3Client({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
   },
-  ...(process.env.AWS_ENDPOINT_URL ? { endpoint: process.env.AWS_ENDPOINT_URL } : {}),
+  ...(process.env.AWS_ENDPOINT_URL ? {
+    endpoint: process.env.AWS_ENDPOINT_URL,
+    forcePathStyle: true,
+  } : {}),
 }) : null;
 const BUCKET_NAME = process.env.AWS_S3_BUCKET || 'jobtrackr-files';
 const LOCAL_STORAGE_PATH = './uploads/cvs';
