@@ -28,7 +28,8 @@ export const ResetPassword = () => {
     }
     setLoading(true);
     try {
-      const response = await fetch('https://jobtrackr-production-029f.up.railway.app/api/auth/reset-password', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://jobtrackr-backend-fsn2.onrender.com/api';
+      const response = await fetch(`${apiUrl}/auth/reset-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

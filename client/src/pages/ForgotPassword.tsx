@@ -12,7 +12,7 @@ export const ForgotPassword = () => {
     setError('');
     setLoading(true);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://jobtrackr-production-029f.up.railway.app/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://jobtrackr-backend-fsn2.onrender.com/api';
       const response = await fetch(`${apiUrl.replace(/\/$/, '')}/auth/forgot-password`, {
         method: 'POST',
         headers: {

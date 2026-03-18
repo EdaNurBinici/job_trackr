@@ -1,6 +1,6 @@
 ﻿import axios from 'axios';
 import type { Application, AuthResponse, DashboardStats, User } from '../types';
-const API_URL = import.meta.env.VITE_API_URL || 'https://jobtrackr-production-029f.up.railway.app/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://jobtrackr-backend.onrender.com/api';
 const api = axios.create({
   baseURL: API_URL,
   headers: {
