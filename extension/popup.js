@@ -1,4 +1,4 @@
-ï»¿let capturedJob = null;
+let capturedJob = null;
 const captureBtn = document.getElementById('captureBtn');
 const saveBtn = document.getElementById('saveBtn');
 const jobInfo = document.getElementById('jobInfo');
@@ -35,7 +35,7 @@ async function getTokenFromJobTrackr() {
   if (autoToken) {
     await chrome.storage.sync.set({
       authToken: autoToken,
-      apiUrl: 'https://jobtrackr-production-029f.up.railway.app'
+      apiUrl: 'https://jobtrackr-backend-fsn2.onrender.com'
     });
     tokenSetup.classList.add('hidden');
     actionsDiv.classList.remove('hidden');
@@ -57,14 +57,14 @@ const clearTokenLink = document.getElementById('clearTokenLink');
 saveTokenBtn.addEventListener('click', () => {
   const token = tokenInput.value.trim();
   if (!token) {
-    showStatus('âŒ LÃ¼tfen token girin', 'error');
+    showStatus('? Lütfen token girin', 'error');
     return;
   }
   chrome.storage.sync.set({
     authToken: token,
-    apiUrl: 'https://jobtrackr-production-029f.up.railway.app'
+    apiUrl: 'https://jobtrackr-backend-fsn2.onrender.com'
   }, () => {
-    showStatus('âœ… Token kaydedildi!', 'success');
+    showStatus('? Token kaydedildi!', 'success');
     tokenSetup.classList.add('hidden');
     actionsDiv.classList.remove('hidden');
     tokenInput.value = '';
@@ -72,7 +72,7 @@ saveTokenBtn.addEventListener('click', () => {
 });
 clearTokenLink.addEventListener('click', (e) => {
   e.preventDefault();
-  if (confirm('Token\'Ä± silmek istediÄŸinizden emin misiniz?')) {
+  if (confirm('Token\'ı silmek istediğinizden emin misiniz?')) {
     chrome.storage.sync.remove(['authToken'], () => {
       showStatus('Token silindi', 'info');
       tokenSetup.classList.remove('hidden');
@@ -101,8 +101,8 @@ function updateJobInfo(job) {
 captureBtn.addEventListener('click', async () => {
   try {
     captureBtn.disabled = true;
-    captureBtn.textContent = 'â³ YakalÄ±yor...';
-    showStatus('Ä°lan bilgileri Ã§ekiliyor...', 'info');
+    captureBtn.textContent = '? Yakalıyor...';
+    showStatus('İlan bilgileri çekiliyor...', 'info');
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     const url = tab.url;
     const isLinkedIn = url.includes('linkedin.com/jobs');
@@ -110,7 +110,7 @@ captureBtn.addEventListener('click', async () => {
     const isIndeed = url.includes('indeed.com/viewjob') || url.includes('indeed.com/jobs');
     const isSecretcv = url.includes('secretcv.com/') && url.split('/').length >= 5;
     if (!isLinkedIn && !isKariyer && !isIndeed && !isSecretcv) {
-      throw new Error('Bu sayfa desteklenmiyor. LÃ¼tfen LinkedIn, Kariyer.net, Indeed veya Secretcv iÅŸ ilanÄ± sayfasÄ±nda olduÄŸunuzdan emin olun.');
+      throw new Error('Bu sayfa desteklenmiyor. Lütfen LinkedIn, Kariyer.net, Indeed veya Secretcv iş ilanı sayfasında olduğunuzdan emin olun.');
     }
     const results = await chrome.scripting.executeScript({
       target: { tabId: tab.id },
@@ -153,7 +153,7 @@ captureBtn.addEventListener('click', async () => {
         } else if (url.includes('secretcv.com')) {
           const pathParts = url.split('/').filter(p => p);
           const lastPart = pathParts[pathParts.length - 1];
-          let companyName = 'Gizli Åirket';
+          let companyName = 'Gizli Şirket';
           if (lastPart) {
             const words = lastPart.split('-');
             if (words.length > 0) {
@@ -178,26 +178,26 @@ captureBtn.addEventListener('click', async () => {
     });
     const job = results[0].result;
     if (!job || !job.companyName || !job.position) {
-      throw new Error('Ä°lan bilgileri Ã§ekilemedi. Sayfa tam yÃ¼klendi mi?');
+      throw new Error('İlan bilgileri çekilemedi. Sayfa tam yüklendi mi?');
     }
     capturedJob = {
       ...job,
       jobUrl: tab.url
     };
     updateJobInfo(capturedJob);
-    showStatus('âœ… Ä°lan baÅŸarÄ±yla yakalandÄ±!', 'success');
+    showStatus('? İlan başarıyla yakalandı!', 'success');
   } catch (error) {
     console.error('Capture error:', error);
-    showStatus('âŒ ' + error.message, 'error');
+    showStatus('? ' + error.message, 'error');
   } finally {
     captureBtn.disabled = false;
-    captureBtn.textContent = 'ğŸ¯ Ä°lanÄ± Yakala';
+    captureBtn.textContent = '?? İlanı Yakala';
   }
 });
 saveBtn.addEventListener('click', async () => {
   try {
     saveBtn.disabled = true;
-    saveBtn.textContent = 'â³ Kaydediliyor...';
+    saveBtn.textContent = '? Kaydediliyor...';
     showStatus('JobTrackr\'a kaydediliyor...', 'info');
     let authToken = await getTokenFromJobTrackr();
     if (!authToken) {
@@ -207,9 +207,9 @@ saveBtn.addEventListener('click', async () => {
       await chrome.storage.sync.set({ authToken });
     }
     if (!authToken) {
-      throw new Error('Token bulunamadÄ±! LÃ¼tfen JobTrackr\'da giriÅŸ yapÄ±n.');
+      throw new Error('Token bulunamadı! Lütfen JobTrackr\'da giriş yapın.');
     }
-    const apiUrl = 'https://jobtrackr-production-029f.up.railway.app';
+    const apiUrl = 'https://jobtrackr-backend-fsn2.onrender.com';
     const response = await fetch(`${apiUrl}/api/applications/quick-add`, {
       method: 'POST',
       headers: {
@@ -227,9 +227,9 @@ saveBtn.addEventListener('click', async () => {
     if (!response.ok) {
       const error = await response.json();
       console.error('API Error Response:', error);
-      throw new Error(error.error?.message || 'Kaydetme baÅŸarÄ±sÄ±z');
+      throw new Error(error.error?.message || 'Kaydetme başarısız');
     }
-    showStatus('âœ… JobTrackr\'a baÅŸarÄ±yla kaydedildi!', 'success');
+    showStatus('? JobTrackr\'a başarıyla kaydedildi!', 'success');
     setTimeout(() => {
       capturedJob = null;
       jobInfo.classList.add('hidden');
@@ -237,9 +237,9 @@ saveBtn.addEventListener('click', async () => {
     }, 2000);
   } catch (error) {
     console.error('Save error:', error);
-    showStatus('âŒ ' + error.message, 'error');
+    showStatus('? ' + error.message, 'error');
   } finally {
     saveBtn.disabled = false;
-    saveBtn.textContent = 'ğŸ’¾ JobTrackr\'a Kaydet';
+    saveBtn.textContent = '?? JobTrackr\'a Kaydet';
   }
 });
