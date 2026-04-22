@@ -116,7 +116,8 @@ export const Login = () => {
           <button
             type="button"
             onClick={() => {
-              window.location.href = `${import.meta.env.VITE_API_URL || 'https://jobtrackr-backend-fsn2.onrender.com/api'}/auth/google`;
+              const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+              window.location.href = `${apiUrl}/auth/google`;
             }}
             className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-200"
           >
