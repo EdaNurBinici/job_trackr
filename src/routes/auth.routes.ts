@@ -1,11 +1,14 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { AuthService } from '../services';
 import { RegisterDTO, LoginDTO } from '../types';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { pool } from '../config/database';
 import * as jwt from 'jsonwebtoken';
+
 const router = Router();
+const getFrontendUrl = () => process.env.FRONTEND_URL || 'http://localhost:5173';
+
 router.post('/register', async (req: Request, res: Response) => {
   try {
     const data: RegisterDTO = req.body;
@@ -67,6 +70,7 @@ router.post('/register', async (req: Request, res: Response) => {
     });
   }
 });
+
 router.post('/login', async (req: Request, res: Response) => {
   try {
     const data: LoginDTO = req.body;
@@ -106,6 +110,7 @@ router.post('/login', async (req: Request, res: Response) => {
     });
   }
 });
+
 router.post('/forgot-password', async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
@@ -127,7 +132,7 @@ router.post('/forgot-password', async (req: Request, res: Response) => {
     }
     const user = result.rows[0];
     const resetToken = Math.floor(100000 + Math.random() * 900000).toString();
-    const resetExpires = new Date(Date.now() + 3600000); // 1 saat
+    const resetExpires = new Date(Date.now() + 3600000);
     await pool.query(
       'UPDATE users SET reset_password_token = $1, reset_password_expires = $2 WHERE id = $3',
       [resetToken, resetExpires, user.id]
@@ -149,6 +154,7 @@ router.post('/forgot-password', async (req: Request, res: Response) => {
     });
   }
 });
+
 router.post('/reset-password', async (req: Request, res: Response) => {
   try {
     const { email, token, newPassword } = req.body;
@@ -194,6 +200,7 @@ router.post('/reset-password', async (req: Request, res: Response) => {
     });
   }
 });
+
 passport.use(
   new GoogleStrategy(
     {
@@ -201,29 +208,32 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       callbackURL: process.env.GOOGLE_CALLBACK_URL!,
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (_accessToken, _refreshToken, profile, done) => {
       try {
         const googleId = profile.id;
         const email = profile.emails?.[0]?.value;
         if (!email) {
           return done(new Error('No email from Google'), undefined);
         }
+
         let result = await pool.query(
           'SELECT * FROM users WHERE google_id = $1',
           [googleId]
         );
+
         let user;
         if (result.rows.length === 0) {
           result = await pool.query(
             'SELECT * FROM users WHERE email = $1',
             [email]
           );
+
           if (result.rows.length > 0) {
             console.log('Adding Google ID to existing user:', email);
             result = await pool.query(
-              `UPDATE users 
-               SET google_id = $1, email_verified = true 
-               WHERE email = $2 
+              `UPDATE users
+               SET google_id = $1, email_verified = true
+               WHERE email = $2
                RETURNING id, email, role, created_at AS "createdAt"`,
               [googleId, email]
             );
@@ -231,8 +241,8 @@ passport.use(
           } else {
             console.log('Creating new user from Google:', email);
             result = await pool.query(
-              `INSERT INTO users (email, google_id, email_verified, role, password_hash) 
-               VALUES ($1, $2, true, 'user', 'google-oauth') 
+              `INSERT INTO users (email, google_id, email_verified, role, password_hash)
+               VALUES ($1, $2, true, 'user', 'google-oauth')
                RETURNING id, email, role, created_at AS "createdAt"`,
               [email, googleId]
             );
@@ -241,6 +251,7 @@ passport.use(
         } else {
           user = result.rows[0];
         }
+
         return done(null, user);
       } catch (error) {
         console.error('Google OAuth error:', error);
@@ -249,6 +260,7 @@ passport.use(
     }
   )
 );
+
 router.get(
   '/google',
   passport.authenticate('google', {
@@ -256,27 +268,32 @@ router.get(
     session: false,
   })
 );
+
 router.get(
   '/google/callback',
-  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
+  passport.authenticate('google', {
+    session: false,
+    failureRedirect: `${getFrontendUrl()}/login?error=auth_failed`,
+  }),
   (req: any, res: Response) => {
     try {
       const user = req.user;
       const jwtSecret = process.env.JWT_SECRET || 'secret';
       const jwtOptions: jwt.SignOptions = {
-        expiresIn: (process.env.JWT_EXPIRES_IN || '24h') as any
+        expiresIn: (process.env.JWT_EXPIRES_IN || '24h') as any,
       };
       const token = jwt.sign(
         { userId: user.id, email: user.email, role: user.role },
         jwtSecret,
         jwtOptions
       );
-      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+      const frontendUrl = getFrontendUrl();
       res.redirect(`${frontendUrl}/auth/callback?token=${token}`);
     } catch (error) {
       console.error('Callback error:', error);
-      res.redirect(`${process.env.FRONTEND_URL}/login?error=auth_failed`);
+      res.redirect(`${getFrontendUrl()}/login?error=auth_failed`);
     }
   }
 );
+
 export default router;

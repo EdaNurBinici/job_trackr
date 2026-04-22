@@ -1,12 +1,16 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 import type { Application, AuthResponse, DashboardStats, User } from '../types';
-const API_URL = import.meta.env.VITE_API_URL || 'https://jobtrackr-backend.onrender.com/api';
+
+export const API_URL = import.meta.env.VITE_API_URL || 'https://jobtrackr-backend.onrender.com/api';
+export const getAuthProviderUrl = (provider: 'google') => `${API_URL}/auth/${provider}`;
+
 const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -14,12 +18,14 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
 export const authApi = {
   register: (email: string, password: string) =>
     api.post<{ data: AuthResponse }>('/auth/register', { email, password }),
   login: (email: string, password: string) =>
     api.post<{ data: AuthResponse }>('/auth/login', { email, password }),
 };
+
 export const applicationsApi = {
   getAll: (params?: Record<string, any>) =>
     api.get<{ data: Application[] }>('/applications', { params }),
@@ -34,12 +40,14 @@ export const applicationsApi = {
   updateStatus: (id: string, status: string) =>
     api.patch<{ data: Application }>(`/applications/${id}/status`, { status }),
 };
+
 export const dashboardApi = {
   getStats: () =>
     api.get<{ data: DashboardStats }>('/dashboard/stats'),
   getActivity: () =>
     api.get<{ data: Application[] }>('/dashboard/activity'),
 };
+
 export const adminApi = {
   getUsers: () =>
     api.get<{ data: User[] }>('/admin/users'),
@@ -48,6 +56,7 @@ export const adminApi = {
   getAuditLog: () =>
     api.get<{ data: any[] }>('/admin/audit'),
 };
+
 export const cvApi = {
   upload: (file: File, onUploadProgress?: (progressEvent: any) => void) => {
     const formData = new FormData();
@@ -66,6 +75,7 @@ export const cvApi = {
   delete: (id: string) =>
     api.delete(`/cv/${id}`),
 };
+
 export const cvAnalysisApi = {
   analyze: (data: { cvFileId: string; jobDescription: string; jobUrl?: string }) =>
     api.post<{ data: any }>('/cv-analysis', data),
@@ -80,6 +90,7 @@ export const cvAnalysisApi = {
   getUserStats: () =>
     api.get<{ data: any }>('/cv-analysis/user/stats'),
 };
+
 export const applicationAnalysisApi = {
   analyzeApplication: (applicationId: string, cvFileId: string, language: string = 'tr') =>
     api.post<{ data: any }>(`/ai/analyze-application/${applicationId}`, { cvFileId, language }),
@@ -90,4 +101,5 @@ export const applicationAnalysisApi = {
   getStats: () =>
     api.get<{ data: any }>('/ai/analysis-stats'),
 };
+
 export default api;

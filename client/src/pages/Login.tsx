@@ -1,7 +1,9 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { getAuthProviderUrl } from '../services/api';
+
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,11 +12,13 @@ export const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { theme, toggleTheme } = useTheme();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
     setError('');
     setLoading(true);
+
     try {
       await login(email, password);
       navigate('/dashboard');
@@ -24,9 +28,9 @@ export const Login = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 relative">
-      {}
       <button
         onClick={toggleTheme}
         className="absolute top-4 right-4 sm:top-6 sm:right-6 p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-gray-700"
@@ -34,6 +38,7 @@ export const Login = () => {
       >
         <span className="text-2xl">{theme === 'light' ? '🌙' : '☀️'}</span>
       </button>
+
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl shadow-xl mb-4">
@@ -44,13 +49,16 @@ export const Login = () => {
           </h2>
           <p className="mt-2 text-sm sm:text-base text-gray-600 dark:text-gray-400">İş başvurularınızı profesyonelce yönetin</p>
         </div>
+
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft border border-gray-100 dark:border-gray-700 p-6 sm:p-8">
           <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6">Giriş Yap</h3>
+
           {error && (
             <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg">
               <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
             </div>
           )}
+
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -66,6 +74,7 @@ export const Login = () => {
                 placeholder="ornek@email.com"
               />
             </div>
+
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -85,6 +94,7 @@ export const Login = () => {
                 placeholder="••••••••"
               />
             </div>
+
             <button
               type="submit"
               disabled={loading}
@@ -103,6 +113,7 @@ export const Login = () => {
               )}
             </button>
           </form>
+
           <div className="mt-6 mb-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -113,11 +124,11 @@ export const Login = () => {
               </div>
             </div>
           </div>
+
           <button
             type="button"
             onClick={() => {
-              const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
-              window.location.href = `${apiUrl}/auth/google`;
+              window.location.href = getAuthProviderUrl('google');
             }}
             className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-200"
           >
@@ -129,6 +140,7 @@ export const Login = () => {
             </svg>
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Google ile Giriş Yap</span>
           </button>
+
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Hesabınız yok mu?{' '}
