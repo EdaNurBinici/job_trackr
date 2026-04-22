@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Application, AuthResponse, DashboardStats, User } from '../types';
 
-export const API_URL = import.meta.env.VITE_API_URL || 'https://jobtrackr-backend.onrender.com/api';
+export const API_URL = import.meta.env.VITE_API_URL || 'https://jobtrackr-production-4f00.up.railway.app/api';
 export const getAuthProviderUrl = (provider: 'google') => `${API_URL}/auth/${provider}`;
 
 const api = axios.create({
