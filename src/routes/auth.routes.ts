@@ -269,15 +269,23 @@ router.get(
   })
 );
 
-router.get(
-  '/google/callback',
-  passport.authenticate('google', {
-    session: false,
-    failureRedirect: `${getFrontendUrl()}/login?error=auth_failed`,
-  }),
-  (req: any, res: Response) => {
+router.get('/google/callback', (req: Request, res: Response, next) => {
+  passport.authenticate('google', { session: false }, (err: Error | null, user: any, info: any) => {
+    if (err) {
+      console.error('Google callback authenticate error:', {
+        message: err.message,
+        stack: err.stack,
+        info,
+      });
+      return res.redirect(`${getFrontendUrl()}/login?error=google_callback_error`);
+    }
+
+    if (!user) {
+      console.error('Google callback returned no user:', info);
+      return res.redirect(`${getFrontendUrl()}/login?error=auth_failed`);
+    }
+
     try {
-      const user = req.user;
       const jwtSecret = process.env.JWT_SECRET || 'secret';
       const jwtOptions: jwt.SignOptions = {
         expiresIn: (process.env.JWT_EXPIRES_IN || '24h') as any,
@@ -287,13 +295,12 @@ router.get(
         jwtSecret,
         jwtOptions
       );
-      const frontendUrl = getFrontendUrl();
-      res.redirect(`${frontendUrl}/auth/callback?token=${token}`);
+      return res.redirect(`${getFrontendUrl()}/auth/callback?token=${token}`);
     } catch (error) {
-      console.error('Callback error:', error);
-      res.redirect(`${getFrontendUrl()}/login?error=auth_failed`);
+      console.error('Callback token generation error:', error);
+      return res.redirect(`${getFrontendUrl()}/login?error=token_generation_failed`);
     }
-  }
-);
+  })(req, res, next);
+});
 
 export default router;
