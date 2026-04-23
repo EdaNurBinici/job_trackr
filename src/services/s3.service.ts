@@ -64,10 +64,13 @@ export class S3Service {
         const localFileName = `${timestamp}-${sanitizedFileName}`;
         const localPath = join(userFolder, localFileName);
         await writeFile(localPath, buffer);
+        const baseUrl = process.env.NODE_ENV === 'production' 
+          ? (process.env.BACKEND_URL || 'http://localhost:8080')
+          : `http://localhost:${process.env.PORT || 8080}`;
         return {
           key: localPath,
           bucket: 'local',
-          url: `http://localhost:${process.env.PORT || 3000}/uploads/cvs/${userId}/${localFileName}`,
+          url: `${baseUrl}/uploads/cvs/${userId}/${localFileName}`,
         };
       }
     } catch (error) {
@@ -88,7 +91,10 @@ export class S3Service {
         const pathParts = key.split(/[/\\]/);
         const userId = pathParts[pathParts.length - 2];
         const fileName = pathParts[pathParts.length - 1];
-        return `http://localhost:${process.env.PORT || 3000}/uploads/cvs/${userId}/${fileName}`;
+        const baseUrl = process.env.NODE_ENV === 'production' 
+          ? (process.env.BACKEND_URL || 'http://localhost:8080')
+          : `http://localhost:${process.env.PORT || 8080}`;
+        return `${baseUrl}/uploads/cvs/${userId}/${fileName}`;
       }
     } catch (error) {
       console.error('Signed URL error:', error);
