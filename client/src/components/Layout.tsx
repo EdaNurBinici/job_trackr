@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useState } from 'react';
 import InstallButton from './InstallButton';
+import Icon from './Icon';
 export const Layout = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -15,13 +16,13 @@ export const Layout = () => {
   };
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
   const navLinks = [
-    { to: '/dashboard', label: 'Dashboard', icon: '📊' },
-    { to: '/applications', label: 'Başvurular', icon: '📝' },
-    { to: '/cv', label: 'CV Yönetimi', icon: '📄' },
-    { to: '/cv-analysis', label: 'AI Analiz', icon: '🤖' },
-    { to: '/analysis-history', label: 'Geçmiş', icon: '📜' },
-    { to: '/cover-letter-generator', label: 'Ön Yazı', icon: '✍️' },
-    { to: '/cover-letters', label: 'Ön Yazılarım', icon: '📋' },
+    { to: '/dashboard', label: 'Dashboard', icon: 'chart' },
+    { to: '/applications', label: 'Başvurular', icon: 'note' },
+    { to: '/cv', label: 'CV Yönetimi', icon: 'doc' },
+    { to: '/cv-analysis', label: 'AI Analiz', icon: 'bot' },
+    { to: '/analysis-history', label: 'Geçmiş', icon: 'history' },
+    { to: '/cover-letter-generator', label: 'Ön Yazı', icon: 'pen' },
+    { to: '/cover-letters', label: 'Ön Yazılarım', icon: 'clipboard' },
   ];
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col">
@@ -53,7 +54,7 @@ export const Layout = () => {
                       : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
-                  <span>{link.icon}</span>
+                  <span><Icon name={link.icon} /></span>
                   <span>{link.label}</span>
                 </Link>
               ))}
@@ -66,7 +67,7 @@ export const Layout = () => {
                       : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
-                  <span>⚙️</span>
+                  <span><Icon name="settings" /></span>
                   <span>Admin</span>
                 </Link>
               )}
@@ -79,7 +80,7 @@ export const Layout = () => {
                 className="p-2 rounded-lg text-gray-500 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-200"
                 aria-label="Toggle Dark Mode"
               >
-                {theme === 'light' ? '🌙' : '☀️'}
+                {theme === 'light' ? <Icon name="moon" /> : <Icon name="sun" />}
               </button>
               <div className="flex items-center space-x-3 px-4 py-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
@@ -103,7 +104,7 @@ export const Layout = () => {
                 className="p-2 rounded-lg text-gray-500 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-200"
                 aria-label="Toggle Dark Mode"
               >
-                {theme === 'light' ? '🌙' : '☀️'}
+                {theme === 'light' ? <Icon name="moon" /> : <Icon name="sun" />}
               </button>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -134,7 +135,7 @@ export const Layout = () => {
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                     }`}
                   >
-                    <span className="mr-3">{link.icon}</span>
+                    <span className="mr-3"><Icon name={link.icon} /></span>
                     {link.label}
                   </Link>
                 ))}
@@ -148,7 +149,7 @@ export const Layout = () => {
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                     }`}
                   >
-                    <span className="mr-3">⚙️</span>
+                    <span className="mr-3"><Icon name="settings" /></span>
                     Admin
                   </Link>
                 )}

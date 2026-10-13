@@ -2,6 +2,7 @@
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { applicationsApi } from '../services/api';
 import type { ApplicationStatus } from '../types';
+import Icon from '../components/Icon';
 export const ApplicationForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -90,10 +91,10 @@ export const ApplicationForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const statusOptions = [
-    { value: 'Applied', label: 'Başvuruldu', icon: '📝', color: 'blue' },
-    { value: 'Interview', label: 'Mülakat', icon: '💼', color: 'yellow' },
-    { value: 'Offer', label: 'Teklif', icon: '🎉', color: 'green' },
-    { value: 'Rejected', label: 'Reddedildi', icon: '❌', color: 'red' },
+    { value: 'Applied', label: 'Başvuruldu', icon: 'note', color: 'blue' },
+    { value: 'Interview', label: 'Mülakat', icon: 'briefcase', color: 'yellow' },
+    { value: 'Offer', label: 'Teklif', icon: 'party', color: 'green' },
+    { value: 'Rejected', label: 'Reddedildi', icon: 'x', color: 'red' },
   ];
   return (
     <div className="max-w-4xl mx-auto">
@@ -107,7 +108,7 @@ export const ApplicationForm = () => {
           <span>Geri Dön</span>
         </button>
         <h1 className="text-3xl font-bold text-gray-900">
-          {isEdit ? '✏️ Başvuruyu Düzenle' : '➕ Yeni Başvuru'}
+          {isEdit ? 'Başvuruyu Düzenle' : 'Yeni Başvuru'}
         </h1>
         <p className="mt-2 text-gray-600">
           {isEdit ? 'Başvuru bilgilerini güncelleyin' : 'Yeni iş başvurunuzu kaydedin'}
@@ -171,7 +172,7 @@ export const ApplicationForm = () => {
                       : 'border-gray-200 hover:border-gray-300 bg-white'
                   }`}
                 >
-                  <div className="text-2xl mb-1">{option.icon}</div>
+                  <div className="text-2xl mb-1"><Icon name={option.icon} /></div>
                   <div className={`text-sm font-medium ${
                     formData.status === option.value ? `text-${option.color}-700` : 'text-gray-700'
                   }`}>
@@ -279,7 +280,7 @@ export const ApplicationForm = () => {
                 </span>
               ) : (
                 <span className="flex items-center">
-                  <span className="mr-2">💾</span>
+                  <span className="mr-2"><Icon name="save" /></span>
                   {isEdit ? 'Güncelle' : 'Kaydet'}
                 </span>
               )}
@@ -290,7 +291,7 @@ export const ApplicationForm = () => {
       {}
       <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
         <div className="flex items-start space-x-3">
-          <span className="text-2xl">💡</span>
+          <span className="text-2xl"><Icon name="lightbulb" /></span>
           <div className="text-sm text-blue-800">
             <p className="font-medium mb-1">İpucu:</p>
             <p>Başvuru sonrası mülakat tarihi geldiğinde hatırlatma alabilmek için hatırlatma tarihi ekleyebilirsiniz.</p>

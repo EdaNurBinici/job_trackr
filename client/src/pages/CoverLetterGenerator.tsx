@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
+import Icon from '../components/Icon';
 interface CVFile {
   id: string;
   fileName: string;
@@ -59,7 +60,7 @@ export default function CoverLetterGenerator() {
       });
       setCoverLetter(response.data.data.content);
       setCoverLetterId(response.data.data.id);
-      setSuccess('✅ Ön yazı başarıyla oluşturuldu!');
+      setSuccess('Ön yazı başarıyla oluşturuldu!');
     } catch (err: any) {
       setError(
         err.response?.data?.error?.message ||
@@ -71,7 +72,7 @@ export default function CoverLetterGenerator() {
   };
   const handleCopy = () => {
     navigator.clipboard.writeText(coverLetter);
-    setSuccess('📋 Panoya kopyalandı!');
+    setSuccess('Panoya kopyalandı!');
     setTimeout(() => setSuccess(''), 3000);
   };
   const handleDownload = () => {
@@ -84,7 +85,7 @@ export default function CoverLetterGenerator() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    setSuccess('💾 İndirildi!');
+    setSuccess('İndirildi!');
     setTimeout(() => setSuccess(''), 3000);
   };
   const handleSaveEdit = async () => {
@@ -93,7 +94,7 @@ export default function CoverLetterGenerator() {
       await api.put(`/cover-letter/${coverLetterId}`, {
         content: coverLetter,
       });
-      setSuccess('✅ Değişiklikler kaydedildi!');
+      setSuccess('Değişiklikler kaydedildi!');
       setIsEditing(false);
       setTimeout(() => setSuccess(''), 3000);
     } catch (err: any) {
@@ -102,7 +103,7 @@ export default function CoverLetterGenerator() {
   };
   return (
     <div className="p-5 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white">✍️ Ön Yazı Oluştur</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white"><Icon name="pen" className="w-[1.1em] h-[1.1em] mr-1.5" />Ön Yazı Oluştur</h1>
       <p className="mt-2 text-gray-600 dark:text-gray-400">AI ile kişiselleştirilmiş ön yazı (cover letter) oluşturun!</p>
       {}
       <div className="mt-8 p-8 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
@@ -191,7 +192,7 @@ export default function CoverLetterGenerator() {
                   disabled={generating}
                   className="mr-2"
                 />
-                🎩 Resmi
+                <Icon name="briefcase" className="w-[1.1em] h-[1.1em] mr-1.5" />Resmi
               </label>
               <label className="flex items-center cursor-pointer text-gray-900 dark:text-gray-300">
                 <input
@@ -202,7 +203,7 @@ export default function CoverLetterGenerator() {
                   disabled={generating}
                   className="mr-2"
                 />
-                😊 Samimi
+                <Icon name="smile" className="w-[1.1em] h-[1.1em] mr-1.5" />Samimi
               </label>
               <label className="flex items-center cursor-pointer text-gray-900 dark:text-gray-300">
                 <input
@@ -213,7 +214,7 @@ export default function CoverLetterGenerator() {
                   disabled={generating}
                   className="mr-2"
                 />
-                🎨 Yaratıcı
+                <Icon name="palette" className="w-[1.1em] h-[1.1em] mr-1.5" />Yaratıcı
               </label>
             </div>
           </div>
@@ -257,7 +258,7 @@ export default function CoverLetterGenerator() {
                 : 'bg-green-600 hover:bg-green-700 cursor-pointer'
             } text-white border-none`}
           >
-            {generating ? '🔄 Oluşturuluyor...' : '✨ Ön Yazı Oluştur'}
+            {generating ? 'Oluşturuluyor...' : 'Ön Yazı Oluştur'}
           </button>
         </form>
       </div>
@@ -270,32 +271,32 @@ export default function CoverLetterGenerator() {
       {}
       {error && (
         <div className="mt-5 p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded border border-red-300 dark:border-red-800">
-          ❌ {error}
+          <Icon name="x" className="w-[1.1em] h-[1.1em] mr-1.5" />{error}
         </div>
       )}
       {}
       {coverLetter && (
         <div className="mt-8">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">📄 Ön Yazınız</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white"><Icon name="doc" className="w-[1.1em] h-[1.1em] mr-1.5" />Ön Yazınız</h2>
             <div className="flex gap-2">
               <button
                 onClick={() => setIsEditing(!isEditing)}
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded cursor-pointer"
               >
-                {isEditing ? '👁️ Önizle' : '✏️ Düzenle'}
+                {isEditing ? 'Önizle' : 'Düzenle'}
               </button>
               <button
                 onClick={handleCopy}
                 className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded cursor-pointer"
               >
-                📋 Kopyala
+                <Icon name="clipboard" className="w-[1.1em] h-[1.1em] mr-1.5" />Kopyala
               </button>
               <button
                 onClick={handleDownload}
                 className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded cursor-pointer"
               >
-                💾 İndir
+                <Icon name="save" className="w-[1.1em] h-[1.1em] mr-1.5" />İndir
               </button>
             </div>
           </div>
@@ -311,7 +312,7 @@ export default function CoverLetterGenerator() {
                 onClick={handleSaveEdit}
                 className="mt-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded cursor-pointer"
               >
-                💾 Değişiklikleri Kaydet
+                <Icon name="save" className="w-[1.1em] h-[1.1em] mr-1.5" />Değişiklikleri Kaydet
               </button>
             </div>
           ) : (

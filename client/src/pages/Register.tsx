@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { validatePassword, getPasswordStrengthText } from '../utils/passwordValidation';
 import { getAuthProviderUrl } from '../services/api';
+import Icon from '../components/Icon';
 
 export const Register = () => {
   const [email, setEmail] = useState('');
@@ -50,7 +51,7 @@ export const Register = () => {
         className="absolute top-4 right-4 sm:top-6 sm:right-6 p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-gray-700"
         aria-label="Toggle Dark Mode"
       >
-        <span className="text-2xl">{theme === 'light' ? '🌙' : '☀️'}</span>
+        <span className="text-2xl">{theme === 'light' ? <Icon name="moon" /> : <Icon name="sun" />}</span>
       </button>
 
       <div className="max-w-md w-full">
@@ -108,7 +109,7 @@ export const Register = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                  {showPassword ? <Icon name="eye" /> : <Icon name="eyeOff" />}
                 </button>
               </div>
 
@@ -225,15 +226,15 @@ export const Register = () => {
         </div>
         <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4 text-center">
           <div className="p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl shadow-card border border-gray-100 dark:border-gray-700">
-            <div className="text-2xl sm:text-3xl mb-1">🎯</div>
+            <div className="text-2xl sm:text-3xl mb-1"><Icon name="target" /></div>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">Kolay Takip</p>
           </div>
           <div className="p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl shadow-card border border-gray-100 dark:border-gray-700">
-            <div className="text-2xl sm:text-3xl mb-1">🤖</div>
+            <div className="text-2xl sm:text-3xl mb-1"><Icon name="bot" /></div>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">AI Analiz</p>
           </div>
           <div className="p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl shadow-card border border-gray-100 dark:border-gray-700">
-            <div className="text-2xl sm:text-3xl mb-1">✨</div>
+            <div className="text-2xl sm:text-3xl mb-1"><Icon name="sparkles" /></div>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">Profesyonel</p>
           </div>
         </div>

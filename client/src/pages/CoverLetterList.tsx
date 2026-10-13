@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
+import Icon from '../components/Icon';
 interface CoverLetter {
   id: string;
   companyName: string;
@@ -53,7 +54,7 @@ export default function CoverLetterList() {
       });
       setSelectedLetter({ ...selectedLetter, content: editedContent });
       setIsEditing(false);
-      alert('✅ Ön yazı güncellendi!');
+      alert('Ön yazı güncellendi!');
     } catch (err: any) {
       setError('Güncelleme başarısız oldu');
     }
@@ -76,7 +77,7 @@ export default function CoverLetterList() {
   const handleCopy = () => {
     if (selectedLetter) {
       navigator.clipboard.writeText(selectedLetter.content);
-      alert('📋 Panoya kopyalandı!');
+      alert('Panoya kopyalandı!');
     }
   };
   const handleDownload = () => {
@@ -94,10 +95,10 @@ export default function CoverLetterList() {
   };
   const getToneEmoji = (tone: string) => {
     switch (tone) {
-      case 'formal': return '🎩';
-      case 'casual': return '😊';
-      case 'creative': return '🎨';
-      default: return '📝';
+      case 'formal': return 'briefcase';
+      case 'casual': return 'smile';
+      case 'creative': return 'palette';
+      default: return 'note';
     }
   };
   const getLanguageFlag = (lang: string) => {
@@ -114,25 +115,25 @@ export default function CoverLetterList() {
     <div className="space-y-6">
       {}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">📚 Ön Yazılarım</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white"><Icon name="library" className="w-[1.1em] h-[1.1em] mr-1.5" />Ön Yazılarım</h1>
         <button
           onClick={() => navigate('/cover-letter-generator')}
           className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium flex items-center space-x-2 justify-center"
         >
-          <span>➕</span>
+          <span><Icon name="plus" /></span>
           <span>Yeni Ön Yazı Oluştur</span>
         </button>
       </div>
       {error && (
         <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded-lg border border-red-300 dark:border-red-800 flex items-start space-x-2">
-          <span>❌</span>
+          <span><Icon name="x" /></span>
           <span>{error}</span>
         </div>
       )}
       {coverLetters.length === 0 ? (
         <div className="card p-12 text-center border-2 border-dashed border-gray-300 dark:border-gray-600">
           <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-5xl">📝</span>
+            <span className="text-5xl"><Icon name="note" /></span>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">
             Henüz ön yazı oluşturmadınız.
@@ -158,7 +159,7 @@ export default function CoverLetterList() {
                 <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
                   <span>{getToneEmoji(cl.tone)} {cl.tone}</span>
                   <span>{getLanguageFlag(cl.language)} {cl.language.toUpperCase()}</span>
-                  <span>📅 {new Date(cl.createdAt).toLocaleDateString('tr-TR')}</span>
+                  <span><Icon name="calendar" className="w-[1.1em] h-[1.1em] mr-1.5" />{new Date(cl.createdAt).toLocaleDateString('tr-TR')}</span>
                 </div>
               </div>
               <div className="flex gap-2">
@@ -166,14 +167,14 @@ export default function CoverLetterList() {
                   onClick={() => handleView(cl.id)}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center space-x-1"
                 >
-                  <span>👁️</span>
+                  <span><Icon name="eye" /></span>
                   <span>Görüntüle</span>
                 </button>
                 <button
                   onClick={() => handleDelete(cl.id)}
                   className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors flex items-center space-x-1"
                 >
-                  <span>🗑️</span>
+                  <span><Icon name="trash" /></span>
                   <span>Sil</span>
                 </button>
               </div>
@@ -211,21 +212,21 @@ export default function CoverLetterList() {
                     onClick={() => setIsEditing(true)}
                     className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center space-x-1"
                   >
-                    <span>✏️</span>
+                    <span><Icon name="edit" /></span>
                     <span>Düzenle</span>
                   </button>
                   <button
                     onClick={handleCopy}
                     className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center space-x-1"
                   >
-                    <span>📋</span>
+                    <span><Icon name="clipboard" /></span>
                     <span>Kopyala</span>
                   </button>
                   <button
                     onClick={handleDownload}
                     className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors flex items-center space-x-1"
                   >
-                    <span>💾</span>
+                    <span><Icon name="save" /></span>
                     <span>İndir</span>
                   </button>
                 </>
@@ -235,14 +236,14 @@ export default function CoverLetterList() {
                     onClick={handleSaveEdit}
                     className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center space-x-1"
                   >
-                    <span>✅</span>
+                    <span><Icon name="check" /></span>
                     <span>Kaydet</span>
                   </button>
                   <button
                     onClick={handleCancelEdit}
                     className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center space-x-1"
                   >
-                    <span>❌</span>
+                    <span><Icon name="x" /></span>
                     <span>İptal</span>
                   </button>
                 </>

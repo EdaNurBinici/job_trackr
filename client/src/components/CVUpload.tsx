@@ -1,5 +1,6 @@
 ﻿import React, { useState, useRef, type DragEvent, type ChangeEvent } from 'react';
 import axios from 'axios';
+import Icon from './Icon';
 interface CVUploadProps {
   onUploadSuccess?: (fileData: UploadedFile) => void;
   onUploadError?: (error: string) => void;
@@ -141,7 +142,7 @@ const CVUpload: React.FC<CVUploadProps> = ({ onUploadSuccess, onUploadError }) =
         <div className="cv-upload-content">
           {isUploading ? (
             <>
-              <div className="upload-icon">📤</div>
+              <div className="upload-icon"><Icon name="upload" /></div>
               <p className="upload-text">Uploading...</p>
               <div className="progress-bar-container">
                 <div className="progress-bar" style={{ width: `${uploadProgress}%` }}>
@@ -151,7 +152,7 @@ const CVUpload: React.FC<CVUploadProps> = ({ onUploadSuccess, onUploadError }) =
             </>
           ) : (
             <>
-              <div className="upload-icon">📁</div>
+              <div className="upload-icon"><Icon name="folder" /></div>
               <p className="upload-text">
                 <strong>Click to upload</strong> or drag and drop
               </p>
@@ -164,13 +165,13 @@ const CVUpload: React.FC<CVUploadProps> = ({ onUploadSuccess, onUploadError }) =
       </div>
       {error && (
         <div className="cv-upload-message error">
-          <span className="message-icon">❌</span>
+          <span className="message-icon"><Icon name="x" /></span>
           <span>{error}</span>
         </div>
       )}
       {success && (
         <div className="cv-upload-message success">
-          <span className="message-icon">✅</span>
+          <span className="message-icon"><Icon name="check" /></span>
           <span>{success}</span>
         </div>
       )}

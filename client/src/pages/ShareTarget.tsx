@@ -1,6 +1,7 @@
 ﻿import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Icon from '../components/Icon';
 export const ShareTarget = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ export const ShareTarget = () => {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 max-w-md w-full">
           <div className="text-center">
-            <div className="text-5xl mb-4">❌</div>
+            <div className="text-5xl mb-4"><Icon name="x" /></div>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Hata</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
             <button

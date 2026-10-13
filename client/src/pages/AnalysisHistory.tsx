@@ -1,5 +1,6 @@
 ﻿import { useState, useEffect } from 'react';
 import api from '../services/api';
+import Icon from '../components/Icon';
 interface Analysis {
   id: string;
   cvFileId: string;
@@ -72,12 +73,12 @@ export default function AnalysisHistory() {
     <div className="space-y-6">
       {}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">📚 Analiz Geçmişi</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white"><Icon name="library" className="w-[1.1em] h-[1.1em] mr-1.5" />Analiz Geçmişi</h1>
         <p className="mt-1 text-gray-600 dark:text-gray-400">Geçmiş CV analizlerinizi görüntüleyin</p>
       </div>
       {error && (
         <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded-lg border border-red-300 dark:border-red-800">
-          ❌ {error}
+          <Icon name="x" className="w-[1.1em] h-[1.1em] mr-1.5" />{error}
         </div>
       )}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -91,7 +92,7 @@ export default function AnalysisHistory() {
           ) : analyses.length === 0 ? (
             <div className="card p-12 text-center">
               <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">📊</span>
+                <span className="text-3xl"><Icon name="chart" /></span>
               </div>
               <p className="text-gray-600 dark:text-gray-400">Henüz analiz yapmadınız.</p>
             </div>
@@ -116,11 +117,11 @@ export default function AnalysisHistory() {
                         {analysis.matchScore}
                       </div>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                        📅 {new Date(analysis.createdAt).toLocaleDateString('tr-TR')}
+                        <Icon name="calendar" className="w-[1.1em] h-[1.1em] mr-1.5" />{new Date(analysis.createdAt).toLocaleDateString('tr-TR')}
                       </p>
                       {analysis.jobUrl && (
                         <p className="text-xs text-gray-500 dark:text-gray-500 break-all">
-                          🔗 {analysis.jobUrl.substring(0, 40)}...
+                          <Icon name="link" className="w-[1.1em] h-[1.1em] mr-1.5" />{analysis.jobUrl.substring(0, 40)}...
                         </p>
                       )}
                     </div>
@@ -145,7 +146,7 @@ export default function AnalysisHistory() {
           {!selectedAnalysis ? (
             <div className="card p-12 text-center">
               <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">👁️</span>
+                <span className="text-3xl"><Icon name="eye" /></span>
               </div>
               <p className="text-gray-600 dark:text-gray-400">Detayları görmek için bir analiz seçin</p>
             </div>
@@ -166,7 +167,7 @@ export default function AnalysisHistory() {
               </div>
               {}
               <div className="card p-5">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">📋 İş İlanı</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3"><Icon name="clipboard" className="w-[1.1em] h-[1.1em] mr-1.5" />İş İlanı</h3>
                 <p className="max-h-40 overflow-auto text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap mb-3">
                   {selectedAnalysis.jobDescription}
                 </p>
@@ -177,14 +178,14 @@ export default function AnalysisHistory() {
                     rel="noopener noreferrer"
                     className="text-blue-600 dark:text-blue-400 hover:underline text-sm inline-flex items-center"
                   >
-                    🔗 İlanı Görüntüle
+                    <Icon name="link" className="w-[1.1em] h-[1.1em] mr-1.5" />İlanı Görüntüle
                   </a>
                 )}
               </div>
               {}
               {selectedAnalysis.missingSkills.length > 0 && (
                 <div className="card p-5">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">❌ Eksik Beceriler</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3"><Icon name="x" className="w-[1.1em] h-[1.1em] mr-1.5" />Eksik Beceriler</h3>
                   <div className="flex flex-wrap gap-2">
                     {selectedAnalysis.missingSkills.map((skill, index) => (
                       <span
@@ -200,7 +201,7 @@ export default function AnalysisHistory() {
               {}
               {selectedAnalysis.recommendations.length > 0 && (
                 <div className="card p-5">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">💡 Öneriler</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3"><Icon name="lightbulb" className="w-[1.1em] h-[1.1em] mr-1.5" />Öneriler</h3>
                   <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                     {selectedAnalysis.recommendations.map((rec, index) => (
                       <li key={index} className="flex items-start">

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { dashboardApi, applicationsApi } from '../services/api';
 import type { DashboardStats, Application } from '../types';
 import AddJobByLink from '../components/AddJobByLink';
+import Icon from '../components/Icon';
 export const Dashboard = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [recentActivity, setRecentActivity] = useState<Application[]>([]);
@@ -84,7 +85,7 @@ export const Dashboard = () => {
     {
       title: 'Toplam Başvuru',
       value: stats?.total || 0,
-      icon: '📊',
+      icon: 'chart',
       color: 'from-blue-500 to-blue-600',
       bgColor: 'bg-blue-50',
       textColor: 'text-blue-600',
@@ -93,7 +94,7 @@ export const Dashboard = () => {
     {
       title: 'Mülakat',
       value: stats?.interview || 0,
-      icon: '💼',
+      icon: 'briefcase',
       color: 'from-yellow-500 to-yellow-600',
       bgColor: 'bg-yellow-50',
       textColor: 'text-yellow-600',
@@ -102,7 +103,7 @@ export const Dashboard = () => {
     {
       title: 'Teklif',
       value: stats?.offer || 0,
-      icon: '🎉',
+      icon: 'party',
       color: 'from-green-500 to-green-600',
       bgColor: 'bg-green-50',
       textColor: 'text-green-600',
@@ -111,7 +112,7 @@ export const Dashboard = () => {
     {
       title: 'Reddedildi',
       value: stats?.rejected || 0,
-      icon: '❌',
+      icon: 'x',
       color: 'from-red-500 to-red-600',
       bgColor: 'bg-red-50',
       textColor: 'text-red-600',
@@ -151,14 +152,14 @@ export const Dashboard = () => {
             className="btn-secondary flex items-center justify-center space-x-2"
             title="Yenile"
           >
-            <span className={loading ? 'animate-spin' : ''}>🔄</span>
+            <span className={loading ? 'animate-spin' : ''}><Icon name="refresh" /></span>
             <span>Yenile</span>
           </button>
           <Link
             to="/applications/new"
             className="btn-primary flex items-center justify-center space-x-2"
           >
-            <span>➕</span>
+            <span><Icon name="plus" /></span>
             <span>Yeni Başvuru</span>
           </Link>
         </div>
@@ -177,7 +178,7 @@ export const Dashboard = () => {
                 <p className="text-3xl font-bold text-gray-900 dark:text-white">{card.value}</p>
               </div>
               <div className={`w-14 h-14 ${card.bgColor} dark:bg-opacity-10 rounded-xl flex items-center justify-center`}>
-                <span className="text-3xl">{card.icon}</span>
+                <Icon name={card.icon} className={`w-7 h-7 ${card.textColor}`} />
               </div>
             </div>
             <div className={`mt-4 h-2 bg-gradient-to-r ${card.color} rounded-full`}></div>
@@ -198,11 +199,11 @@ export const Dashboard = () => {
         {recentActivity.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-3xl">📝</span>
+              <span className="text-3xl"><Icon name="note" /></span>
             </div>
             <p className="text-gray-600 dark:text-gray-400 mb-4">Henüz başvuru yok</p>
             <Link to="/applications/new" className="btn-primary inline-flex items-center space-x-2">
-              <span>➕</span>
+              <span><Icon name="plus" /></span>
               <span>İlk Başvurunuzu Ekleyin</span>
             </Link>
           </div>
@@ -245,7 +246,7 @@ export const Dashboard = () => {
           className="card p-6 hover:scale-105 transition-transform duration-200 group"
         >
           <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <span className="text-2xl">🤖</span>
+            <span className="text-2xl"><Icon name="bot" /></span>
           </div>
           <h3 className="font-bold text-gray-900 dark:text-white mb-2">AI CV Analizi</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">CV'nizi yapay zeka ile analiz edin</p>
@@ -255,7 +256,7 @@ export const Dashboard = () => {
           className="card p-6 hover:scale-105 transition-transform duration-200 group"
         >
           <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <span className="text-2xl">✍️</span>
+            <span className="text-2xl"><Icon name="pen" /></span>
           </div>
           <h3 className="font-bold text-gray-900 dark:text-white mb-2">Ön Yazı Oluştur</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">AI ile özel ön yazı hazırlayın</p>
@@ -265,7 +266,7 @@ export const Dashboard = () => {
           className="card p-6 hover:scale-105 transition-transform duration-200 group"
         >
           <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <span className="text-2xl">📄</span>
+            <span className="text-2xl"><Icon name="doc" /></span>
           </div>
           <h3 className="font-bold text-gray-900 dark:text-white mb-2">CV Yönetimi</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">CV'lerinizi yükleyin ve yönetin</p>
@@ -277,7 +278,7 @@ export const Dashboard = () => {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
-                <span className="text-2xl">🔔</span>
+                <span className="text-2xl"><Icon name="bell" /></span>
               </div>
               <div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">Yaklaşan Hatırlatmalar</h2>
@@ -312,7 +313,7 @@ export const Dashboard = () => {
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{app.position}</p>
                       <div className="flex items-center space-x-2 mt-2">
                         <span className="text-xs text-orange-700 dark:text-orange-400 font-medium">
-                          {isToday ? '🔥 Bugün!' : isTomorrow ? '⏰ Yarın' : `📅 ${daysUntil} gün sonra`}
+                          {isToday ? 'Bugün!' : isTomorrow ? 'Yarın' : `${daysUntil} gün sonra`}
                         </span>
                         <span className="text-xs text-gray-500 dark:text-gray-500">
                           ({reminderDate.toLocaleDateString('tr-TR')})

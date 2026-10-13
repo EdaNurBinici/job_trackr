@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { adminApi } from '../services/api';
 import type { User } from '../types';
+import Icon from '../components/Icon';
 export const Admin = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>([]);
@@ -35,21 +36,21 @@ export const Admin = () => {
     {
       title: 'Toplam Kullanıcı',
       value: stats?.totalUsers || 0,
-      icon: '👥',
+      icon: 'users',
       color: 'from-blue-500 to-blue-600',
       bgColor: 'bg-blue-50',
     },
     {
       title: 'Toplam Başvuru',
       value: stats?.totalApplications || 0,
-      icon: '📊',
+      icon: 'chart',
       color: 'from-green-500 to-green-600',
       bgColor: 'bg-green-50',
     },
     {
       title: 'Ort. Yanıt Süresi',
       value: stats?.averageResponseTime ? `${stats.averageResponseTime.toFixed(1)} gün` : 'N/A',
-      icon: '⏱️',
+      icon: 'timer',
       color: 'from-purple-500 to-purple-600',
       bgColor: 'bg-purple-50',
     },
@@ -66,7 +67,7 @@ export const Admin = () => {
           onClick={() => navigate('/admin/audit')}
           className="btn-primary flex items-center space-x-2"
         >
-          <span>📋</span>
+          <span><Icon name="clipboard" /></span>
           <span>Denetim Günlüğü</span>
         </button>
       </div>
@@ -83,7 +84,7 @@ export const Admin = () => {
                 <p className="text-3xl font-bold text-gray-900">{card.value}</p>
               </div>
               <div className={`w-14 h-14 ${card.bgColor} rounded-xl flex items-center justify-center`}>
-                <span className="text-3xl">{card.icon}</span>
+                <Icon name={card.icon} className="w-7 h-7 text-gray-700" />
               </div>
             </div>
             <div className={`mt-4 h-2 bg-gradient-to-r ${card.color} rounded-full`}></div>

@@ -2,6 +2,7 @@
 import confetti from 'canvas-confetti';
 import { applicationAnalysisApi } from '../services/api';
 import type { ApplicationAnalysis } from '../types';
+import Icon from './Icon';
 interface FitScoreAnalysisProps {
   applicationId: string;
   cvFileId?: string;
@@ -85,14 +86,14 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
               Analiz Ediliyor...
             </span>
           ) : (
-            '🚀 Analiz Et'
+            'Analiz Et'
           )}
         </button>
       )}
       {}
       {error && (
         <div className="p-4 bg-red-50 dark:bg-red-900/30 border-2 border-red-200 dark:border-red-800 rounded-lg">
-          <p className="text-red-700 dark:text-red-400 font-medium">❌ {error}</p>
+          <p className="text-red-700 dark:text-red-400 font-medium"><Icon name="x" className="w-[1.1em] h-[1.1em] mr-1.5" />{error}</p>
         </div>
       )}
       {}
@@ -102,7 +103,7 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
           <div className={`p-6 rounded-xl border-4 shadow-lg ${getFitScoreColor(analysis.fitScore)} relative overflow-hidden`}>
             {analysis.fitScore >= 85 && (
               <div className="absolute top-2 right-2 animate-bounce">
-                <span className="text-4xl">🎉</span>
+                <span className="text-4xl"><Icon name="party" /></span>
               </div>
             )}
             <div className="flex items-center justify-between">
@@ -111,7 +112,7 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
                 <p className="text-lg opacity-90">{getFitScoreLabel(analysis.fitScore)}</p>
                 {analysis.fitScore >= 85 && (
                   <p className="text-sm font-semibold mt-2 animate-pulse">
-                    🌟 Harika! Mükemmel bir eşleşme!
+                    <Icon name="star" className="w-[1.1em] h-[1.1em] mr-1.5" />Harika! Mükemmel bir eşleşme!
                   </p>
                 )}
               </div>
@@ -122,14 +123,14 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
           {analysis.strengths.length > 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-green-200 dark:border-green-800 p-6 shadow-md">
               <h4 className="text-xl font-bold text-green-800 dark:text-green-400 mb-4 flex items-center gap-2">
-                ✅ Güçlü Yönler ({analysis.strengths.length})
+                <Icon name="check" className="w-[1.1em] h-[1.1em] mr-1.5" />Güçlü Yönler ({analysis.strengths.length})
               </h4>
               <div className="space-y-3">
                 {analysis.strengths.map((strength, index) => (
                   <div key={index} className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border-l-4 border-green-500 dark:border-green-600">
                     <p className="font-semibold text-green-900 dark:text-green-300 mb-2">{strength.point}</p>
                     <p className="text-sm text-gray-700 dark:text-gray-300 italic bg-white dark:bg-gray-700 p-3 rounded border border-green-200 dark:border-green-800">
-                      💬 "{strength.cv_evidence}"
+                      <Icon name="message" className="w-[1.1em] h-[1.1em] mr-1.5" />"{strength.cv_evidence}"
                     </p>
                   </div>
                 ))}
@@ -140,14 +141,14 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
           {analysis.gaps.length > 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-orange-200 dark:border-orange-800 p-6 shadow-md">
               <h4 className="text-xl font-bold text-orange-800 dark:text-orange-400 mb-4 flex items-center gap-2">
-                ⚠️ Gelişim Alanları ({analysis.gaps.length})
+                <Icon name="alert" className="w-[1.1em] h-[1.1em] mr-1.5" />Gelişim Alanları ({analysis.gaps.length})
               </h4>
               <div className="space-y-3">
                 {analysis.gaps.map((gap, index) => (
                   <div key={index} className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border-l-4 border-orange-500 dark:border-orange-600">
                     <p className="font-semibold text-orange-900 dark:text-orange-300 mb-2">{gap.point}</p>
                     <p className="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 p-3 rounded border border-orange-200 dark:border-orange-800">
-                      📌 {gap.impact}
+                      <Icon name="pin" className="w-[1.1em] h-[1.1em] mr-1.5" />{gap.impact}
                     </p>
                   </div>
                 ))}
@@ -158,7 +159,7 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
           {analysis.suggestions.length > 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-blue-200 dark:border-blue-800 p-6 shadow-md">
               <h4 className="text-xl font-bold text-blue-800 dark:text-blue-400 mb-4 flex items-center gap-2">
-                💡 AI Önerileri ({analysis.suggestions.length})
+                <Icon name="lightbulb" className="w-[1.1em] h-[1.1em] mr-1.5" />AI Önerileri ({analysis.suggestions.length})
               </h4>
               <ul className="space-y-3">
                 {analysis.suggestions.map((suggestion, index) => (
@@ -176,7 +177,7 @@ export default function FitScoreAnalysis({ applicationId, cvFileId }: FitScoreAn
             disabled={loading}
             className="w-full px-6 py-3 bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 text-white rounded-lg transition font-medium"
           >
-            {loading ? 'Analiz Ediliyor...' : '🔄 Yeniden Analiz Et'}
+            {loading ? 'Analiz Ediliyor...' : 'Yeniden Analiz Et'}
           </button>
         </div>
       )}

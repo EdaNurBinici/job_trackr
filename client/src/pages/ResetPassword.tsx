@@ -2,6 +2,7 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { validatePassword } from '../utils/passwordValidation';
+import Icon from '../components/Icon';
 export const ResetPassword = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -59,12 +60,12 @@ export const ResetPassword = () => {
         className="absolute top-4 right-4 sm:top-6 sm:right-6 p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-gray-700"
         aria-label="Toggle Dark Mode"
       >
-        <span className="text-2xl">{theme === 'light' ? '🌙' : '☀️'}</span>
+        <span className="text-2xl">{theme === 'light' ? <Icon name="moon" /> : <Icon name="sun" />}</span>
       </button>
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl shadow-xl mb-4">
-            <span className="text-white text-3xl font-bold">🔑</span>
+            <span className="text-white text-3xl font-bold"><Icon name="key" /></span>
           </div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
             Yeni Şifre Oluştur
@@ -127,47 +128,47 @@ export const ResetPassword = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                  {showPassword ? <Icon name="eye" /> : <Icon name="eyeOff" />}
                 </button>
               </div>
               {}
               {newPassword && (
                 <div className="mt-3 space-y-2">
                   <div className="flex items-center gap-2 text-xs">
-                    <span className={passwordValidation.requirements.minLength ? '✅' : '❌'}>
-                      {passwordValidation.requirements.minLength ? '✅' : '❌'}
+                    <span>
+                      {passwordValidation.requirements.minLength ? <Icon name="check" /> : <Icon name="x" />}
                     </span>
                     <span className={passwordValidation.requirements.minLength ? 'text-green-600' : 'text-gray-500'}>
                       En az 8 karakter
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <span className={passwordValidation.requirements.hasUpperCase ? '✅' : '❌'}>
-                      {passwordValidation.requirements.hasUpperCase ? '✅' : '❌'}
+                    <span>
+                      {passwordValidation.requirements.hasUpperCase ? <Icon name="check" /> : <Icon name="x" />}
                     </span>
                     <span className={passwordValidation.requirements.hasUpperCase ? 'text-green-600' : 'text-gray-500'}>
                       En az 1 büyük harf
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <span className={passwordValidation.requirements.hasLowerCase ? '✅' : '❌'}>
-                      {passwordValidation.requirements.hasLowerCase ? '✅' : '❌'}
+                    <span>
+                      {passwordValidation.requirements.hasLowerCase ? <Icon name="check" /> : <Icon name="x" />}
                     </span>
                     <span className={passwordValidation.requirements.hasLowerCase ? 'text-green-600' : 'text-gray-500'}>
                       En az 1 küçük harf
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <span className={passwordValidation.requirements.hasNumber ? '✅' : '❌'}>
-                      {passwordValidation.requirements.hasNumber ? '✅' : '❌'}
+                    <span>
+                      {passwordValidation.requirements.hasNumber ? <Icon name="check" /> : <Icon name="x" />}
                     </span>
                     <span className={passwordValidation.requirements.hasNumber ? 'text-green-600' : 'text-gray-500'}>
                       En az 1 rakam
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <span className={passwordValidation.requirements.hasSpecialChar ? '✅' : '❌'}>
-                      {passwordValidation.requirements.hasSpecialChar ? '✅' : '❌'}
+                    <span>
+                      {passwordValidation.requirements.hasSpecialChar ? <Icon name="check" /> : <Icon name="x" />}
                     </span>
                     <span className={passwordValidation.requirements.hasSpecialChar ? 'text-green-600' : 'text-gray-500'}>
                       En az 1 özel karakter (!@#$%^&*)

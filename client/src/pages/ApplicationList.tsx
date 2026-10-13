@@ -2,6 +2,7 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { applicationsApi } from '../services/api';
 import type { Application, ApplicationStatus } from '../types';
+import Icon from '../components/Icon';
 export const ApplicationList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [applications, setApplications] = useState<Application[]>([]);
@@ -65,7 +66,7 @@ export const ApplicationList = () => {
           <p className="mt-1 text-gray-600 dark:text-gray-400">Tüm iş başvurularınız</p>
         </div>
         <Link to="/applications/new" className="btn-primary flex items-center space-x-2">
-          <span>➕</span>
+          <span><Icon name="plus" /></span>
           <span>Yeni Başvuru</span>
         </Link>
       </div>
@@ -74,7 +75,7 @@ export const ApplicationList = () => {
         <div className="flex flex-col md:flex-row gap-4">
           <input
             type="text"
-            placeholder="🔍 Şirket veya pozisyon ara..."
+            placeholder="Şirket veya pozisyon ara..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="flex-1 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
@@ -104,13 +105,13 @@ export const ApplicationList = () => {
       {applications.length === 0 ? (
         <div className="card p-12 text-center">
           <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-3xl">📝</span>
+            <span className="text-3xl"><Icon name="note" /></span>
           </div>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
             {statusFilter ? `${statusFilter} durumunda başvuru bulunamadı` : 'Henüz başvuru yok'}
           </p>
           <Link to="/applications/new" className="btn-primary inline-flex items-center space-x-2">
-            <span>➕</span>
+            <span><Icon name="plus" /></span>
             <span>İlk Başvurunuzu Ekleyin</span>
           </Link>
         </div>

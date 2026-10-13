@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { applicationsApi, cvApi } from '../services/api';
 import type { Application } from '../types';
 import FitScoreAnalysis from '../components/FitScoreAnalysis';
+import Icon from '../components/Icon';
 export const ApplicationDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -67,7 +68,7 @@ export const ApplicationDetail = () => {
           <div className="flex gap-2">
             <Link to={`/applications/${id}/edit`}>
               <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center space-x-1">
-                <span>✏️</span>
+                <span><Icon name="edit" /></span>
                 <span>Düzenle</span>
               </button>
             </Link>
@@ -75,7 +76,7 @@ export const ApplicationDetail = () => {
               onClick={handleDelete} 
               className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors flex items-center space-x-1"
             >
-              <span>🗑️</span>
+              <span><Icon name="trash" /></span>
               <span>Sil</span>
             </button>
           </div>
@@ -87,39 +88,39 @@ export const ApplicationDetail = () => {
           application.status === 'Rejected' ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400' : 
           'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400'
         }`}>
-          {application.status === 'Applied' && '📝'}
-          {application.status === 'Interview' && '💼'}
-          {application.status === 'Offer' && '🎉'}
-          {application.status === 'Rejected' && '❌'}
+          {application.status === 'Applied' && <Icon name="note" />}
+          {application.status === 'Interview' && <Icon name="briefcase" />}
+          {application.status === 'Offer' && <Icon name="party" />}
+          {application.status === 'Rejected' && <Icon name="x" />}
           {' '}{application.status}
         </div>
       </div>
       {}
       <div className="card p-6">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">📋 Detaylar</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4"><Icon name="clipboard" className="w-[1.1em] h-[1.1em] mr-1.5" />Detaylar</h2>
         <div className="space-y-4">
           <div className="flex border-b border-gray-200 dark:border-gray-700 pb-3">
-            <span className="font-medium text-gray-700 dark:text-gray-300 w-40">📅 Başvuru Tarihi:</span>
+            <span className="font-medium text-gray-700 dark:text-gray-300 w-40"><Icon name="calendar" className="w-[1.1em] h-[1.1em] mr-1.5" />Başvuru Tarihi:</span>
             <span className="text-gray-900 dark:text-white">{new Date(application.applicationDate).toLocaleDateString('tr-TR')}</span>
           </div>
           {application.location && (
             <div className="flex border-b border-gray-200 dark:border-gray-700 pb-3">
-              <span className="font-medium text-gray-700 dark:text-gray-300 w-40">📍 Lokasyon:</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300 w-40"><Icon name="pin2" className="w-[1.1em] h-[1.1em] mr-1.5" />Lokasyon:</span>
               <span className="text-gray-900 dark:text-white">{application.location}</span>
             </div>
           )}
           {application.reminderDate && (
             <div className="flex border-b border-gray-200 dark:border-gray-700 pb-3">
-              <span className="font-medium text-gray-700 dark:text-gray-300 w-40">⏰ Hatırlatma:</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300 w-40"><Icon name="clock" className="w-[1.1em] h-[1.1em] mr-1.5" />Hatırlatma:</span>
               <span className="text-gray-900 dark:text-white">{new Date(application.reminderDate).toLocaleDateString('tr-TR')}</span>
             </div>
           )}
           <div className="flex border-b border-gray-200 dark:border-gray-700 pb-3">
-            <span className="font-medium text-gray-700 dark:text-gray-300 w-40">🕐 Oluşturulma:</span>
+            <span className="font-medium text-gray-700 dark:text-gray-300 w-40"><Icon name="clock" className="w-[1.1em] h-[1.1em] mr-1.5" />Oluşturulma:</span>
             <span className="text-gray-600 dark:text-gray-400 text-sm">{new Date(application.createdAt).toLocaleString('tr-TR')}</span>
           </div>
           <div className="flex">
-            <span className="font-medium text-gray-700 dark:text-gray-300 w-40">🔄 Güncellenme:</span>
+            <span className="font-medium text-gray-700 dark:text-gray-300 w-40"><Icon name="refresh" className="w-[1.1em] h-[1.1em] mr-1.5" />Güncellenme:</span>
             <span className="text-gray-600 dark:text-gray-400 text-sm">{new Date(application.updatedAt).toLocaleString('tr-TR')}</span>
           </div>
         </div>
@@ -127,7 +128,7 @@ export const ApplicationDetail = () => {
       {}
       {application.jobDescription && (
         <div className="card p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">📄 İş İlanı Açıklaması</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4"><Icon name="doc" className="w-[1.1em] h-[1.1em] mr-1.5" />İş İlanı Açıklaması</h2>
           <div className="prose max-w-none">
             <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{application.jobDescription}</p>
           </div>
@@ -136,7 +137,7 @@ export const ApplicationDetail = () => {
       {}
       {application.notes && (
         <div className="card p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">📝 Notlar</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4"><Icon name="note" className="w-[1.1em] h-[1.1em] mr-1.5" />Notlar</h2>
           <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{application.notes}</p>
         </div>
       )}
@@ -144,13 +145,13 @@ export const ApplicationDetail = () => {
       {application.jobDescription && (
         <div className="card p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-200 dark:border-blue-800">
           <h2 className="text-2xl font-bold text-blue-900 dark:text-blue-300 mb-4 flex items-center gap-2">
-            🎯 AI Fit Score Analizi
+            <Icon name="target" className="w-[1.1em] h-[1.1em] mr-1.5" />AI Fit Score Analizi
           </h2>
           {cvFiles.length > 0 ? (
             <div className="space-y-4">
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                  📄 CV'nizi Seçin:
+                  <Icon name="doc" className="w-[1.1em] h-[1.1em] mr-1.5" />CV'nizi Seçin:
                 </label>
                 <select 
                   value={selectedCvId}
@@ -178,7 +179,7 @@ export const ApplicationDetail = () => {
                 to="/cv" 
                 className="inline-block px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg transition-colors"
               >
-                ⬆️ CV Yükle
+                <Icon name="arrowUp" className="w-[1.1em] h-[1.1em] mr-1.5" />CV Yükle
               </Link>
             </div>
           )}
@@ -187,13 +188,13 @@ export const ApplicationDetail = () => {
       {!application.jobDescription && (
         <div className="bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-300 dark:border-orange-800 rounded-lg p-6 text-center">
           <p className="text-lg text-orange-800 dark:text-orange-400 mb-3">
-            ⚠️ İş ilanı açıklaması bulunamadı. AI analizi için iş ilanı açıklaması gereklidir.
+            <Icon name="alert" className="w-[1.1em] h-[1.1em] mr-1.5" />İş ilanı açıklaması bulunamadı. AI analizi için iş ilanı açıklaması gereklidir.
           </p>
           <Link 
             to={`/applications/${id}/edit`}
             className="inline-block px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
           >
-            ✏️ İş İlanı Ekle
+            <Icon name="edit" className="w-[1.1em] h-[1.1em] mr-1.5" />İş İlanı Ekle
           </Link>
         </div>
       )}

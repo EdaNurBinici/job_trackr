@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
+import Icon from '../components/Icon';
 interface CVFile {
   id: string;
   fileName: string;
@@ -118,7 +119,7 @@ export default function CVAnalysis() {
     <div className="space-y-6">
       {}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">🧠 AI CV Analizi</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white"><Icon name="brain" className="w-[1.1em] h-[1.1em] mr-1.5" />AI CV Analizi</h1>
         <p className="mt-1 text-gray-600 dark:text-gray-400">CV'nizi iş ilanıyla karşılaştırın ve eşleşme puanınızı öğrenin!</p>
       </div>
       {}
@@ -193,10 +194,10 @@ export default function CVAnalysis() {
             } text-white`}
           >
             {analyzing ? (
-              jobStatus === 'queued' ? '⏳ Sırada Bekliyor...' :
-              jobStatus === 'active' ? `🔄 Analiz Ediliyor... ${progress}%` :
-              '🔄 Analiz Ediliyor...'
-            ) : '🚀 Analiz Et'}
+              jobStatus === 'queued' ? 'Sırada Bekliyor...' :
+              jobStatus === 'active' ? `Analiz Ediliyor... ${progress}%` :
+              'Analiz Ediliyor...'
+            ) : 'Analiz Et'}
           </button>
         </form>
         {}
@@ -219,14 +220,14 @@ export default function CVAnalysis() {
       {}
       {error && (
         <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded-lg border border-red-300 dark:border-red-800 flex items-start space-x-2">
-          <span>❌</span>
+          <span><Icon name="x" /></span>
           <span>{error}</span>
         </div>
       )}
       {}
       {result && (
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">📊 Analiz Sonuçları</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white"><Icon name="chart" className="w-[1.1em] h-[1.1em] mr-1.5" />Analiz Sonuçları</h2>
           {}
           <div
             className="card p-8 text-center"
@@ -244,15 +245,15 @@ export default function CVAnalysis() {
               className="inline-block px-6 py-3 rounded-lg font-bold text-gray-900 dark:text-white"
               style={{ backgroundColor: getScoreColor(result.matchScore) + '30' }}
             >
-              {result.matchScore >= 80 && '🎉 Mükemmel eşleşme!'}
-              {result.matchScore >= 60 && result.matchScore < 80 && '👍 İyi eşleşme'}
-              {result.matchScore < 60 && '💪 Geliştirme alanları var'}
+              {result.matchScore >= 80 && 'Mükemmel eşleşme!'}
+              {result.matchScore >= 60 && result.matchScore < 80 && 'İyi eşleşme'}
+              {result.matchScore < 60 && 'Geliştirme alanları var'}
             </div>
           </div>
           {}
           {result.missingSkills.length > 0 && (
             <div className="card p-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">❌ Eksik Beceriler</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4"><Icon name="x" className="w-[1.1em] h-[1.1em] mr-1.5" />Eksik Beceriler</h3>
               <div className="flex flex-wrap gap-2">
                 {result.missingSkills.map((skill, index) => (
                   <span
@@ -268,7 +269,7 @@ export default function CVAnalysis() {
           {}
           {result.recommendations.length > 0 && (
             <div className="card p-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">💡 İyileştirme Önerileri</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4"><Icon name="lightbulb" className="w-[1.1em] h-[1.1em] mr-1.5" />İyileştirme Önerileri</h3>
               <ul className="space-y-3 text-gray-700 dark:text-gray-300">
                 {result.recommendations.map((rec, index) => (
                   <li key={index} className="flex items-start">

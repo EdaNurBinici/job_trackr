@@ -1,35 +1,36 @@
 ﻿import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import Icon from '../components/Icon';
 export const LandingPage = () => {
   const { theme, toggleTheme } = useTheme();
   const features = [
     {
-      icon: '🎯',
+      icon: 'target',
       title: 'Akıllı Başvuru Takibi',
       description: 'Tüm iş başvurularınızı tek bir yerden yönetin. Durum güncellemeleri, notlar ve hatırlatmalar ile hiçbir fırsatı kaçırmayın.',
     },
     {
-      icon: '🤖',
+      icon: 'bot',
       title: 'AI CV Analizi',
       description: 'Yapay zeka ile CV\'nizi iş ilanlarına göre analiz edin. Uygunluk skorunuzu öğrenin ve eksiklerinizi görün.',
     },
     {
-      icon: '✍️',
+      icon: 'pen',
       title: 'Otomatik Ön Yazı',
       description: 'AI ile her iş ilanı için özelleştirilmiş ön yazı oluşturun. Dakikalar içinde profesyonel başvuru hazırlayın.',
     },
     {
-      icon: '🔔',
+      icon: 'bell',
       title: 'Akıllı Hatırlatmalar',
       description: 'Başvuru takibi için otomatik email hatırlatmaları alın. Hiçbir başvurunuzu unutmayın.',
     },
     {
-      icon: '📊',
+      icon: 'chart',
       title: 'Detaylı İstatistikler',
       description: 'Başvuru sürecinizi görselleştirin. Hangi aşamada olduğunuzu ve ilerlemenizi takip edin.',
     },
     {
-      icon: '🌐',
+      icon: 'globe',
       title: 'Chrome Extension',
       description: 'LinkedIn, Kariyer.net, Indeed ve Secretcv\'den tek tıkla iş ilanlarını kaydedin. Manuel veri girişine son!',
     },
@@ -54,7 +55,7 @@ export const LandingPage = () => {
                 className="p-2 rounded-lg text-gray-500 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-200"
                 aria-label="Toggle Dark Mode"
               >
-                {theme === 'light' ? '🌙' : '☀️'}
+                {theme === 'light' ? <Icon name="moon" /> : <Icon name="sun" />}
               </button>
               <Link
                 to="/login"
@@ -89,17 +90,17 @@ export const LandingPage = () => {
               to="/register"
               className="btn-primary text-lg px-8 py-4 w-full sm:w-auto"
             >
-              🚀 Ücretsiz Başla
+              <Icon name="rocket" className="w-[1.1em] h-[1.1em] mr-1.5" />Ücretsiz Başla
             </Link>
             <a
               href="#features"
               className="btn-secondary text-lg px-8 py-4 w-full sm:w-auto"
             >
-              📖 Özellikleri Keşfet
+              <Icon name="book" className="w-[1.1em] h-[1.1em] mr-1.5" />Özellikleri Keşfet
             </a>
           </div>
           <p className="mt-4 text-sm text-gray-500 dark:text-gray-500">
-            ✨ Kredi kartı gerektirmez • 🔒 Verileriniz güvende
+            <Icon name="sparkles" className="w-[1.1em] h-[1.1em] mr-1.5" />Kredi kartı gerektirmez • <Icon name="lock" className="w-[1.1em] h-[1.1em] mr-1.5" />Verileriniz güvende
           </p>
         </div>
       </section>
@@ -120,7 +121,7 @@ export const LandingPage = () => {
               className="card p-6 hover:scale-105 transition-transform duration-200"
             >
               <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4">
-                <span className="text-3xl">{feature.icon}</span>
+                <span className="text-3xl"><Icon name={feature.icon} /></span>
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                 {feature.title}
@@ -164,7 +165,7 @@ export const LandingPage = () => {
             to="/register"
             className="btn-primary text-lg px-8 py-4 inline-flex items-center space-x-2"
           >
-            <span>🚀</span>
+            <span><Icon name="rocket" /></span>
             <span>Hemen Ücretsiz Başla</span>
           </Link>
         </div>

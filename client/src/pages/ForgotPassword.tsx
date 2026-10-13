@@ -1,6 +1,7 @@
 ﻿import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import Icon from '../components/Icon';
 export const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [success, setSuccess] = useState(false);
@@ -39,7 +40,7 @@ export const ForgotPassword = () => {
           className="absolute top-4 right-4 sm:top-6 sm:right-6 p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-gray-700"
           aria-label="Toggle Dark Mode"
         >
-          <span className="text-2xl">{theme === 'light' ? '🌙' : '☀️'}</span>
+          <span className="text-2xl">{theme === 'light' ? <Icon name="moon" /> : <Icon name="sun" />}</span>
         </button>
         <div className="max-w-md w-full">
           <div className="text-center mb-8">
@@ -53,9 +54,9 @@ export const ForgotPassword = () => {
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft border border-gray-100 dark:border-gray-700 p-8">
             <div className="space-y-4 text-sm text-gray-600 dark:text-gray-400">
-              <p>📧 E-postanızı kontrol edin</p>
-              <p>🔢 6 haneli kodu kullanarak şifrenizi sıfırlayın</p>
-              <p>⏰ Kod 1 saat geçerlidir</p>
+              <p><Icon name="mail" className="w-[1.1em] h-[1.1em] mr-1.5" />E-postanızı kontrol edin</p>
+              <p><Icon name="hash" className="w-[1.1em] h-[1.1em] mr-1.5" />6 haneli kodu kullanarak şifrenizi sıfırlayın</p>
+              <p><Icon name="clock" className="w-[1.1em] h-[1.1em] mr-1.5" />Kod 1 saat geçerlidir</p>
             </div>
             <div className="mt-6">
               <Link 
@@ -83,12 +84,12 @@ export const ForgotPassword = () => {
         className="absolute top-4 right-4 sm:top-6 sm:right-6 p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-gray-700"
         aria-label="Toggle Dark Mode"
       >
-        <span className="text-2xl">{theme === 'light' ? '🌙' : '☀️'}</span>
+        <span className="text-2xl">{theme === 'light' ? <Icon name="moon" /> : <Icon name="sun" />}</span>
       </button>
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl shadow-xl mb-4">
-            <span className="text-white text-3xl font-bold">🔒</span>
+            <span className="text-white text-3xl font-bold"><Icon name="lock" /></span>
           </div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
             Şifremi Unuttum

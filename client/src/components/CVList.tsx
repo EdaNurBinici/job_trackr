@@ -1,5 +1,6 @@
 ﻿import { useState, useEffect } from 'react';
 import api from '../services/api';
+import Icon from './Icon';
 interface CVFile {
   id: string;
   fileName: string;
@@ -82,13 +83,13 @@ export default function CVList({ onRefresh, refreshTrigger }: CVListProps) {
       {}
       {error && (
         <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded-lg border border-red-300 dark:border-red-800 flex items-start space-x-2">
-          <span>❌</span>
+          <span><Icon name="x" /></span>
           <span>{error}</span>
         </div>
       )}
       {success && (
         <div className="p-4 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 rounded-lg border border-green-300 dark:border-green-800 flex items-start space-x-2">
-          <span>✅</span>
+          <span><Icon name="check" /></span>
           <span>{success}</span>
         </div>
       )}
@@ -101,7 +102,7 @@ export default function CVList({ onRefresh, refreshTrigger }: CVListProps) {
           onClick={loadCVs}
           className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
         >
-          <span>🔄</span>
+          <span><Icon name="refresh" /></span>
           <span>Yenile</span>
         </button>
       </div>
@@ -109,7 +110,7 @@ export default function CVList({ onRefresh, refreshTrigger }: CVListProps) {
       {cvFiles.length === 0 ? (
         <div className="card p-12 text-center">
           <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-5xl">📄</span>
+            <span className="text-5xl"><Icon name="doc" /></span>
           </div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
             Henüz CV yüklemediniz
@@ -127,7 +128,7 @@ export default function CVList({ onRefresh, refreshTrigger }: CVListProps) {
             >
               <div className="flex-1 min-w-0">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center space-x-2">
-                  <span>📎</span>
+                  <span><Icon name="paperclip" /></span>
                   <span className="truncate">{cv.fileName}</span>
                 </h3>
                 <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
@@ -150,14 +151,14 @@ export default function CVList({ onRefresh, refreshTrigger }: CVListProps) {
                   onClick={() => handleDownload(cv.id)}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center space-x-1"
                 >
-                  <span>⬇️</span>
+                  <span><Icon name="download" /></span>
                   <span>İndir</span>
                 </button>
                 <button
                   onClick={() => handleDelete(cv.id, cv.fileName)}
                   className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center space-x-1"
                 >
-                  <span>🗑️</span>
+                  <span><Icon name="trash" /></span>
                   <span>Sil</span>
                 </button>
               </div>
