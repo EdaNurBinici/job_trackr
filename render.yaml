@@ -11,10 +11,6 @@ services:
         value: production
       - key: NODE_VERSION
         value: 20
-      - key: DATABASE_URL
-        fromDatabase:
-          name: jobtrackr-db
-          property: connectionString
       - key: JWT_SECRET
         generateValue: true
       - key: SESSION_SECRET
@@ -22,6 +18,8 @@ services:
       - key: JWT_EXPIRES_IN
         value: 24h
       # Set these in the Render dashboard (sync: false = not stored in this file)
+      - key: DATABASE_URL # Neon (free Postgres) connection string
+        sync: false
       - key: GROQ_API_KEY
         sync: false
       - key: RESEND_API_KEY
@@ -34,11 +32,5 @@ services:
         sync: false
       - key: BACKEND_URL # https://<backend>.onrender.com
         sync: false
-      - key: FRONTEND_URL # https://<your-app>.vercel.app
+      - key: FRONTEND_URL # https://jobtrackr-jjfi.vercel.app
         sync: false
-
-databases:
-  - name: jobtrackr-db
-    plan: free
-    databaseName: job_trackr
-    user: jobtrackr
