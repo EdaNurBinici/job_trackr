@@ -44,8 +44,8 @@ export const applicationsApi = {
 export const dashboardApi = {
   getStats: () =>
     api.get<{ data: DashboardStats }>('/dashboard/stats'),
-  getActivity: () =>
-    api.get<{ data: Application[] }>('/dashboard/activity'),
+  getActivity: (days = 365) =>
+    api.get<{ data: Application[] }>('/dashboard/activity', { params: { days } }),
 };
 
 export const adminApi = {
