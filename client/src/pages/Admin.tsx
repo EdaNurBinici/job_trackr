@@ -38,21 +38,21 @@ export const Admin = () => {
       value: stats?.totalUsers || 0,
       icon: 'users',
       color: 'from-blue-500 to-blue-600',
-      bgColor: 'bg-blue-50',
+      bgColor: 'bg-blue-50 dark:bg-indigo-500/10',
     },
     {
       title: 'Toplam Başvuru',
       value: stats?.totalApplications || 0,
       icon: 'chart',
       color: 'from-green-500 to-green-600',
-      bgColor: 'bg-green-50',
+      bgColor: 'bg-green-50 dark:bg-emerald-500/10',
     },
     {
       title: 'Ort. Yanıt Süresi',
       value: stats?.averageResponseTime ? `${stats.averageResponseTime.toFixed(1)} gün` : 'N/A',
       icon: 'timer',
       color: 'from-purple-500 to-purple-600',
-      bgColor: 'bg-purple-50',
+      bgColor: 'bg-purple-50 dark:bg-violet-500/10',
     },
   ];
   return (
@@ -60,8 +60,8 @@ export const Admin = () => {
       {}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="mt-1 text-gray-600">Sistem geneli istatistikler ve yönetim</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
+          <p className="mt-1 text-gray-600 dark:text-slate-400">Sistem geneli istatistikler ve yönetim</p>
         </div>
         <button
           onClick={() => navigate('/admin/audit')}
@@ -80,11 +80,11 @@ export const Admin = () => {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 mb-1">{card.title}</p>
-                <p className="text-3xl font-bold text-gray-900">{card.value}</p>
+                <p className="text-sm font-medium text-gray-600 mb-1 dark:text-slate-400">{card.title}</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{card.value}</p>
               </div>
               <div className={`w-14 h-14 ${card.bgColor} rounded-xl flex items-center justify-center`}>
-                <Icon name={card.icon} className="w-7 h-7 text-gray-700" />
+                <Icon name={card.icon} className="w-7 h-7 text-gray-700 dark:text-slate-300" />
               </div>
             </div>
             <div className={`mt-4 h-2 bg-gradient-to-r ${card.color} rounded-full`}></div>
@@ -94,20 +94,20 @@ export const Admin = () => {
       {}
       {stats?.topCompanies && stats.topCompanies.length > 0 && (
         <div className="card p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">En Popüler Şirketler</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6 dark:text-white">En Popüler Şirketler</h2>
           <div className="space-y-3">
             {stats.topCompanies.map((company: any, index: number) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors dark:bg-white/5 dark:hover:bg-white/10"
               >
                 <div className="flex items-center space-x-4">
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
                     <span className="text-white font-bold">{index + 1}</span>
                   </div>
-                  <span className="font-semibold text-gray-900">{company.companyName}</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">{company.companyName}</span>
                 </div>
-                <span className="badge bg-blue-100 text-blue-700">
+                <span className="badge bg-blue-100 text-blue-700 dark:text-indigo-300 dark:bg-indigo-500/20">
                   {company.count} başvuru
                 </span>
               </div>
@@ -117,19 +117,19 @@ export const Admin = () => {
       )}
       {}
       <div className="card p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Tüm Kullanıcılar</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-6 dark:text-white">Tüm Kullanıcılar</h2>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">E-posta</th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Rol</th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Kayıt Tarihi</th>
+              <tr className="border-b border-gray-200 dark:border-white/10">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-slate-300">E-posta</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-slate-300">Rol</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-slate-300">Kayıt Tarihi</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors dark:hover:bg-white/5 dark:border-white/5">
                   <td className="py-3 px-4">
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
@@ -137,19 +137,19 @@ export const Admin = () => {
                           {user.email.charAt(0).toUpperCase()}
                         </span>
                       </div>
-                      <span className="text-gray-900">{user.email}</span>
+                      <span className="text-gray-900 dark:text-white">{user.email}</span>
                     </div>
                   </td>
                   <td className="py-3 px-4">
                     <span className={`badge ${
                       user.role === 'admin' 
-                        ? 'bg-purple-100 text-purple-700' 
-                        : 'bg-gray-100 text-gray-700'
+                        ? 'bg-purple-100 text-purple-700 dark:text-violet-300 dark:bg-violet-500/20' 
+                        : 'bg-gray-100 text-gray-700 dark:text-slate-300 dark:bg-white/10'
                     }`}>
                       {user.role}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-gray-600">
+                  <td className="py-3 px-4 text-gray-600 dark:text-slate-400">
                     {new Date(user.createdAt).toLocaleDateString('tr-TR')}
                   </td>
                 </tr>

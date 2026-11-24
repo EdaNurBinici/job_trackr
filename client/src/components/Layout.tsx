@@ -25,9 +25,9 @@ export const Layout = () => {
     { to: '/cover-letters', label: 'Ön Yazılarım', icon: 'clipboard' },
   ];
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col">
+    <div className="min-h-screen flex flex-col">
       {}
-      <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 backdrop-blur-lg bg-white/95 dark:bg-gray-800/95">
+      <nav className="bg-white/80 dark:bg-slate-950/70 backdrop-blur-xl border-b border-slate-200/70 dark:border-white/10 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {}
@@ -35,10 +35,10 @@ export const Layout = () => {
               to="/dashboard" 
               className="flex items-center space-x-2 group -ml-2"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-200 group-hover:scale-105">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30 group-hover:shadow-xl transition-all duration-200 group-hover:scale-105">
                 <span className="text-white text-xl font-bold">JT</span>
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent hidden sm:block">
+              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 bg-clip-text text-transparent hidden sm:block">
                 JobTrackr
               </span>
             </Link>
@@ -48,27 +48,27 @@ export const Layout = () => {
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2 ${
+                  className={`px-2.5 xl:px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 ${
                     isActive(link.to)
-                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
+                      ? 'bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
-                  <span><Icon name={link.icon} /></span>
-                  <span>{link.label}</span>
+                  <Icon name={link.icon} />
+                  <span className="hidden xl:inline">{link.label}</span>
                 </Link>
               ))}
               {user?.role === 'admin' && (
                 <Link
                   to="/admin"
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2 ${
+                  className={`px-2.5 xl:px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 ${
                     isActive('/admin')
-                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
+                      ? 'bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
-                  <span><Icon name="settings" /></span>
-                  <span>Admin</span>
+                  <Icon name="settings" />
+                  <span className="hidden xl:inline">Admin</span>
                 </Link>
               )}
             </div>
@@ -77,22 +77,22 @@ export const Layout = () => {
               {}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg text-gray-500 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-200"
+                className="p-2 rounded-lg text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-white dark:bg-white/5 dark:hover:bg-white/10 transition-all duration-200"
                 aria-label="Toggle Dark Mode"
               >
                 {theme === 'light' ? <Icon name="moon" /> : <Icon name="sun" />}
               </button>
-              <div className="flex items-center space-x-3 px-4 py-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+              <div className="flex items-center space-x-3 pl-2 pr-4 py-1.5 bg-slate-100 dark:bg-white/5 rounded-full">
+                <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-full flex items-center justify-center">
                   <span className="text-white text-sm font-semibold">
                     {user?.email?.charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{user?.email}</span>
+                <span className="hidden 2xl:inline max-w-[220px] truncate text-sm font-medium text-slate-700 dark:text-slate-300">{user?.email}</span>
               </div>
               <button 
                 onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200"
+                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200"
               >
                 Çıkış
               </button>
@@ -101,14 +101,14 @@ export const Layout = () => {
             <div className="flex md:hidden items-center space-x-2">
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg text-gray-500 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-200"
+                className="p-2 rounded-lg text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-white dark:bg-white/5 dark:hover:bg-white/10 transition-all duration-200"
                 aria-label="Toggle Dark Mode"
               >
                 {theme === 'light' ? <Icon name="moon" /> : <Icon name="sun" />}
               </button>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {mobileMenuOpen ? (
@@ -122,7 +122,7 @@ export const Layout = () => {
           </div>
           {}
           {mobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="md:hidden py-4 border-t border-slate-200 dark:border-white/10">
               <div className="space-y-1">
                 {navLinks.map((link) => (
                   <Link
@@ -131,8 +131,8 @@ export const Layout = () => {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
                       isActive(link.to)
-                        ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
-                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                        ? 'bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300'
+                        : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5'
                     }`}
                   >
                     <span className="mr-3"><Icon name={link.icon} /></span>
@@ -145,8 +145,8 @@ export const Layout = () => {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
                       isActive('/admin')
-                        ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
-                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                        ? 'bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300'
+                        : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5'
                     }`}
                   >
                     <span className="mr-3"><Icon name="settings" /></span>
@@ -155,18 +155,18 @@ export const Layout = () => {
                 )}
               </div>
               {}
-              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="mt-4 pt-4 border-t border-slate-200 dark:border-white/10">
                 {}
                 <div className="px-4 mb-3">
                   <InstallButton />
                 </div>
                 <div className="flex items-center space-x-3 px-4 py-2 mb-2">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-full flex items-center justify-center">
                     <span className="text-white font-semibold">
                       {user?.email?.charAt(0).toUpperCase()}
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{user?.email}</span>
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{user?.email}</span>
                 </div>
                 <button 
                   onClick={handleLogout}
@@ -184,9 +184,9 @@ export const Layout = () => {
         <Outlet />
       </main>
       {}
-      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-8">
+      <footer className="border-t border-slate-200/70 dark:border-white/10 mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="text-center text-sm text-gray-500 dark:text-gray-400">
+          <div className="text-center text-sm text-slate-500 dark:text-slate-400">
             © 2026 JobTrackr. Tüm hakları saklıdır.
           </div>
         </div>

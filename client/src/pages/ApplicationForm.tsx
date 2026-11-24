@@ -90,6 +90,12 @@ export const ApplicationForm = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const statusStyles: Record<string, { active: string }> = {
+    blue: { active: 'border-indigo-500 bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-200' },
+    yellow: { active: 'border-amber-500 bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-200' },
+    green: { active: 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-200' },
+    red: { active: 'border-rose-500 bg-rose-50 dark:bg-rose-500/15 text-rose-700 dark:text-rose-200' },
+  };
   const statusOptions = [
     { value: 'Applied', label: 'Başvuruldu', icon: 'note', color: 'blue' },
     { value: 'Interview', label: 'Mülakat', icon: 'briefcase', color: 'yellow' },
@@ -102,30 +108,30 @@ export const ApplicationForm = () => {
       <div className="mb-8">
         <button
           onClick={() => navigate('/applications')}
-          className="text-gray-600 hover:text-gray-900 mb-4 flex items-center space-x-2 transition-colors"
+          className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white mb-4 flex items-center space-x-2 transition-colors"
         >
           <span>←</span>
           <span>Geri Dön</span>
         </button>
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className="page-title">
           {isEdit ? 'Başvuruyu Düzenle' : 'Yeni Başvuru'}
         </h1>
-        <p className="mt-2 text-gray-600">
+        <p className="page-subtitle">
           {isEdit ? 'Başvuru bilgilerini güncelleyin' : 'Yeni iş başvurunuzu kaydedin'}
         </p>
       </div>
       {}
       <div className="card p-8">
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-sm text-red-600">{error}</p>
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl">
+            <p className="text-sm text-red-600 dark:text-red-300">{error}</p>
           </div>
         )}
         <form onSubmit={handleSubmit} className="space-y-6">
           {}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="companyName" className="field-label">
                 Şirket Adı <span className="text-red-500">*</span>
               </label>
               <input
@@ -140,7 +146,7 @@ export const ApplicationForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="position" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="position" className="field-label">
                 Pozisyon <span className="text-red-500">*</span>
               </label>
               <input
@@ -157,7 +163,7 @@ export const ApplicationForm = () => {
           </div>
           {}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="field-label">
               Durum <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -166,16 +172,14 @@ export const ApplicationForm = () => {
                   key={option.value}
                   type="button"
                   onClick={() => setFormData({ ...formData, status: option.value as ApplicationStatus })}
-                  className={`p-4 rounded-lg border-2 transition-all duration-200 ${
+                  className={`p-4 rounded-xl border-2 transition-all duration-200 ${
                     formData.status === option.value
-                      ? `border-${option.color}-500 bg-${option.color}-50`
-                      : 'border-gray-200 hover:border-gray-300 bg-white'
+                      ? statusStyles[option.color].active
+                      : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950/40 hover:border-slate-300 dark:hover:border-slate-500 text-slate-600 dark:text-slate-300'
                   }`}
                 >
-                  <div className="text-2xl mb-1"><Icon name={option.icon} /></div>
-                  <div className={`text-sm font-medium ${
-                    formData.status === option.value ? `text-${option.color}-700` : 'text-gray-700'
-                  }`}>
+                  <div className="text-2xl mb-1 flex justify-center"><Icon name={option.icon} /></div>
+                  <div className="text-sm font-semibold">
                     {option.label}
                   </div>
                 </button>
@@ -185,7 +189,7 @@ export const ApplicationForm = () => {
           {}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <label htmlFor="applicationDate" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="applicationDate" className="field-label">
                 Başvuru Tarihi <span className="text-red-500">*</span>
               </label>
               <input
@@ -199,7 +203,7 @@ export const ApplicationForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="reminderDate" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="reminderDate" className="field-label">
                 Hatırlatma Tarihi
               </label>
               <input
@@ -212,7 +216,7 @@ export const ApplicationForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="location" className="field-label">
                 Lokasyon
               </label>
               <input
@@ -228,7 +232,7 @@ export const ApplicationForm = () => {
           </div>
           {}
           <div>
-            <label htmlFor="jobDescription" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="jobDescription" className="field-label">
               İş Açıklaması
             </label>
             <textarea
@@ -243,7 +247,7 @@ export const ApplicationForm = () => {
           </div>
           {}
           <div>
-            <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="notes" className="field-label">
               Notlar
             </label>
             <textarea
@@ -257,7 +261,7 @@ export const ApplicationForm = () => {
             />
           </div>
           {}
-          <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+          <div className="flex items-center justify-end space-x-4 pt-6 border-t border-slate-200 dark:border-white/10">
             <button
               type="button"
               onClick={() => navigate('/applications')}
@@ -289,10 +293,10 @@ export const ApplicationForm = () => {
         </form>
       </div>
       {}
-      <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+      <div className="mt-6 p-4 bg-indigo-50 dark:bg-indigo-500/10 rounded-xl border border-indigo-100 dark:border-indigo-500/20">
         <div className="flex items-start space-x-3">
           <span className="text-2xl"><Icon name="lightbulb" /></span>
-          <div className="text-sm text-blue-800">
+          <div className="text-sm text-indigo-800 dark:text-indigo-200">
             <p className="font-medium mb-1">İpucu:</p>
             <p>Başvuru sonrası mülakat tarihi geldiğinde hatırlatma alabilmek için hatırlatma tarihi ekleyebilirsiniz.</p>
           </div>

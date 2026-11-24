@@ -56,8 +56,8 @@ export const AuthCallback = () => {
         <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl shadow-xl mb-4 animate-pulse">
           <span className="text-white text-3xl font-bold">JT</span>
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Giriş yapılıyor...</h2>
-        <p className="text-gray-600">Lütfen bekleyin</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2 dark:text-white">Giriş yapılıyor...</h2>
+        <p className="text-gray-600 dark:text-slate-400">Lütfen bekleyin</p>
       </div>
     </div>
   );

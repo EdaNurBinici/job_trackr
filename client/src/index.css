@@ -1,44 +1,128 @@
-@import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *)); /* Tailwind v4 için dark mode class desteği */
 
+/*
+  Design tokens
+  - Neutral scale: slate (gray utilities are remapped so every page gets the same cool neutrals)
+  - Brand: indigo (blue utilities are remapped, so the whole app shares one accent)
+*/
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --color-gray-50: var(--color-slate-50);
+  --color-gray-100: var(--color-slate-100);
+  --color-gray-200: var(--color-slate-200);
+  --color-gray-300: var(--color-slate-300);
+  --color-gray-400: var(--color-slate-400);
+  --color-gray-500: var(--color-slate-500);
+  --color-gray-600: var(--color-slate-600);
+  /* Dark surfaces are layered: page 950 < surface 900 < field 800 (gray-900/800/700 are used as such across pages) */
+  --color-gray-700: var(--color-slate-800);
+  --color-gray-800: var(--color-slate-900);
+  --color-gray-900: var(--color-slate-950);
+  --color-gray-950: var(--color-slate-950);
+
+  --color-blue-50: var(--color-indigo-50);
+  --color-blue-100: var(--color-indigo-100);
+  --color-blue-200: var(--color-indigo-200);
+  --color-blue-300: var(--color-indigo-300);
+  --color-blue-400: var(--color-indigo-400);
+  --color-blue-500: var(--color-indigo-500);
+  --color-blue-600: var(--color-indigo-600);
+  --color-blue-700: var(--color-indigo-700);
+  --color-blue-800: var(--color-indigo-800);
+  --color-blue-900: var(--color-indigo-900);
+  --color-blue-950: var(--color-indigo-950);
+}
+
+:root {
+  color-scheme: light;
+}
+:root.dark {
+  color-scheme: dark; /* native controls (date picker, scrollbars) follow the theme */
+}
+
 @layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
-    font-family: 'Inter', system-ui, sans-serif;
-    /* Body için global dark mode renkleri */
-    @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200;
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200;
+    background-image:
+      radial-gradient(900px 480px at 50% -120px, rgb(99 102 241 / 0.10), transparent 70%),
+      radial-gradient(700px 400px at 100% 0%, rgb(139 92 246 / 0.06), transparent 70%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  .dark body {
+    background-image:
+      radial-gradient(900px 480px at 50% -120px, rgb(99 102 241 / 0.22), transparent 70%),
+      radial-gradient(700px 400px at 100% 0%, rgb(139 92 246 / 0.12), transparent 70%);
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: rgb(99 102 241 / 0.28);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-indigo-500);
+    outline-offset: 2px;
+  }
+
+  /* Date inputs: keep the picker icon legible on dark surfaces */
+  .dark input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(1) opacity(0.7);
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 shadow-sm shadow-indigo-600/25 hover:shadow-md hover:shadow-indigo-600/30 disabled:opacity-50 disabled:cursor-not-allowed;
   }
-  
+
   .btn-secondary {
-    /* Dark mode desteği eklendi */
-    @apply bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply inline-flex items-center justify-center bg-white dark:bg-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 transition-all duration-200 shadow-sm;
   }
-  
+
   .card {
-    /* Dark mode desteği eklendi */
-    @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-100 dark:border-gray-700;
+    @apply bg-white dark:bg-slate-900/80 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 border border-slate-200/80 dark:border-white/10;
   }
-  
+
   .input-field {
-    /* Dark mode desteği eklendi */
-    @apply w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500;
+    @apply w-full px-4 py-2.5 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all duration-200 outline-none text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500;
   }
-  
+
+  .field-label {
+    @apply block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2;
+  }
+
+  .page-title {
+    @apply text-3xl font-bold tracking-tight text-slate-900 dark:text-white;
+  }
+
+  .page-subtitle {
+    @apply mt-2 text-slate-600 dark:text-slate-400;
+  }
+
   .badge {
     @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
   }
-  
+
   /* PWA Install Prompt Animation */
   .animate-slide-up {
     animation: slideUp 0.3s ease-out;
   }
-  
+
   @keyframes slideUp {
     from {
       transform: translateY(100%);

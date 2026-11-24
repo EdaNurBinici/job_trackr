@@ -87,8 +87,8 @@ export const Dashboard = () => {
       value: stats?.total || 0,
       icon: 'chart',
       color: 'from-blue-500 to-blue-600',
-      bgColor: 'bg-blue-50',
-      textColor: 'text-blue-600',
+      bgColor: 'bg-blue-50 dark:bg-indigo-500/10',
+      textColor: 'text-blue-600 dark:text-indigo-300',
       filterStatus: '',
     },
     {
@@ -96,7 +96,7 @@ export const Dashboard = () => {
       value: stats?.interview || 0,
       icon: 'briefcase',
       color: 'from-yellow-500 to-yellow-600',
-      bgColor: 'bg-yellow-50',
+      bgColor: 'bg-yellow-50 dark:bg-amber-500/10',
       textColor: 'text-yellow-600',
       filterStatus: 'Interview',
     },
@@ -105,8 +105,8 @@ export const Dashboard = () => {
       value: stats?.offer || 0,
       icon: 'party',
       color: 'from-green-500 to-green-600',
-      bgColor: 'bg-green-50',
-      textColor: 'text-green-600',
+      bgColor: 'bg-green-50 dark:bg-emerald-500/10',
+      textColor: 'text-green-600 dark:text-emerald-300',
       filterStatus: 'Offer',
     },
     {
@@ -114,8 +114,8 @@ export const Dashboard = () => {
       value: stats?.rejected || 0,
       icon: 'x',
       color: 'from-red-500 to-red-600',
-      bgColor: 'bg-red-50',
-      textColor: 'text-red-600',
+      bgColor: 'bg-red-50 dark:bg-red-500/10',
+      textColor: 'text-red-600 dark:text-red-300',
       filterStatus: 'Rejected',
     },
   ];
@@ -130,12 +130,12 @@ export const Dashboard = () => {
   };
   const getStatusBadge = (status: string) => {
     const badges: Record<string, string> = {
-      Applied: 'bg-blue-100 text-blue-700',
-      Interview: 'bg-yellow-100 text-yellow-700',
-      Offer: 'bg-green-100 text-green-700',
-      Rejected: 'bg-red-100 text-red-700',
+      Applied: 'bg-blue-100 text-blue-700 dark:text-indigo-300 dark:bg-indigo-500/20',
+      Interview: 'bg-yellow-100 text-yellow-700 dark:text-amber-300 dark:bg-amber-500/20',
+      Offer: 'bg-green-100 text-green-700 dark:text-emerald-300 dark:bg-emerald-500/20',
+      Rejected: 'bg-red-100 text-red-700 dark:text-red-300 dark:bg-red-500/20',
     };
-    return badges[status] || 'bg-gray-100 text-gray-700';
+    return badges[status] || 'bg-gray-100 text-gray-700 dark:text-slate-300 dark:bg-white/10';
   };
   return (
     <div className="space-y-8">
@@ -177,7 +177,7 @@ export const Dashboard = () => {
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{card.title}</p>
                 <p className="text-3xl font-bold text-gray-900 dark:text-white">{card.value}</p>
               </div>
-              <div className={`w-14 h-14 ${card.bgColor} dark:bg-opacity-10 rounded-xl flex items-center justify-center`}>
+              <div className={`w-14 h-14 ${card.bgColor} rounded-xl flex items-center justify-center`}>
                 <Icon name={card.icon} className={`w-7 h-7 ${card.textColor}`} />
               </div>
             </div>
@@ -191,7 +191,7 @@ export const Dashboard = () => {
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">Son Aktiviteler</h2>
           <Link
             to="/applications"
-            className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+            className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors dark:text-indigo-300"
           >
             Tümünü Gör →
           </Link>
@@ -334,7 +334,7 @@ export const Dashboard = () => {
       )}
       {}
       {modalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={closeModal}>
+        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={closeModal}>
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
             {}
             <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">

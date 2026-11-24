@@ -91,7 +91,7 @@ export const ForgotPassword = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl shadow-xl mb-4">
             <span className="text-white text-3xl font-bold"><Icon name="lock" /></span>
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">
             Şifremi Unuttum
           </h2>
           <p className="mt-2 text-gray-600 dark:text-gray-400">E-posta adresinize şifre sıfırlama bağlantısı göndereceğiz</p>

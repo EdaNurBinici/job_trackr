@@ -149,10 +149,10 @@ export const ApplicationList = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`badge ${
-                        app.status === 'Offer' ? 'bg-green-100 text-green-700' :
-                        app.status === 'Interview' ? 'bg-yellow-100 text-yellow-700' :
-                        app.status === 'Rejected' ? 'bg-red-100 text-red-700' : 
-                        'bg-blue-100 text-blue-700'
+                        app.status === 'Offer' ? 'bg-green-100 text-green-700 dark:text-emerald-300 dark:bg-emerald-500/20' :
+                        app.status === 'Interview' ? 'bg-yellow-100 text-yellow-700 dark:text-amber-300 dark:bg-amber-500/20' :
+                        app.status === 'Rejected' ? 'bg-red-100 text-red-700 dark:text-red-300 dark:bg-red-500/20' : 
+                        'bg-blue-100 text-blue-700 dark:text-indigo-300 dark:bg-indigo-500/20'
                       }`}>
                         {app.status === 'Applied' ? 'Başvuruldu' :
                          app.status === 'Interview' ? 'Mülakat' :
