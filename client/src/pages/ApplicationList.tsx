@@ -121,19 +121,19 @@ export const ApplicationList = () => {
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Şirket
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Pozisyon
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Durum
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Tarih
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="w-px whitespace-nowrap px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     İşlemler
                   </th>
                 </tr>
@@ -141,13 +141,13 @@ export const ApplicationList = () => {
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {applications.map((app) => (
                   <tr key={app.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900 dark:text-white">{app.companyName}</div>
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <div className="max-w-[240px] truncate font-medium text-gray-900 dark:text-white" title={app.companyName}>{app.companyName}</div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-gray-900 dark:text-gray-300">{app.position}</div>
+                    <td className="px-4 py-4">
+                      <div className="max-w-[360px] line-clamp-2 text-sm text-gray-900 dark:text-gray-300" title={app.position}>{app.position}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 py-4 whitespace-nowrap">
                       <span className={`badge ${
                         app.status === 'Offer' ? 'bg-green-100 text-green-700 dark:text-emerald-300 dark:bg-emerald-500/20' :
                         app.status === 'Interview' ? 'bg-yellow-100 text-yellow-700 dark:text-amber-300 dark:bg-amber-500/20' :
@@ -160,11 +160,11 @@ export const ApplicationList = () => {
                          app.status === 'Rejected' ? 'Reddedildi' : app.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {new Date(app.applicationDate).toLocaleDateString('tr-TR')}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center space-x-2">
+                    <td className="w-px px-4 py-4 whitespace-nowrap text-sm font-medium">
+                      <div className="flex items-center gap-2">
                         <Link
                           to={`/applications/${app.id}`}
                           className="inline-flex items-center px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-400 rounded-lg transition-colors duration-200 text-xs font-medium"
