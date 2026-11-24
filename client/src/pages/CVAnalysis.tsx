@@ -16,6 +16,7 @@ interface AnalysisResult {
 export default function CVAnalysis() {
   const { user: _user } = useAuth();
   const [cvFiles, setCvFiles] = useState<CVFile[]>([]);
+  const [hiddenCvs, setHiddenCvs] = useState<string[]>([]);
   const [selectedCVId, setSelectedCVId] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [jobUrl, setJobUrl] = useState('');
@@ -35,6 +36,11 @@ export default function CVAnalysis() {
         (cv: any) => cv.mimeType === 'application/pdf'
       );
       setCvFiles(pdfFiles);
+      setHiddenCvs(
+        response.data.data
+          .filter((cv: any) => cv.mimeType !== 'application/pdf')
+          .map((cv: any) => cv.fileName)
+      );
     } catch (err: any) {
       setError('CV listesi yüklenemedi');
     }
@@ -144,6 +150,11 @@ export default function CVAnalysis() {
                 </option>
               ))}
             </select>
+            {hiddenCvs.length > 0 && (
+              <p className="mt-2 text-sm text-amber-700 dark:text-amber-300">
+                {hiddenCvs.length} CV PDF olmadığı için burada listelenmiyor: {hiddenCvs.join(', ')}. AI analizi yalnızca PDF destekler, bu dosyanın PDF halini CV Yönetimi sayfasından yükleyin.
+              </p>
+            )}
             {cvFiles.length === 0 && (
               <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                 Henüz PDF CV yüklemediniz. Önce CV Yönetimi sayfasından PDF formatında CV yükleyin.

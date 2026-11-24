@@ -9,6 +9,7 @@ interface CVFile {
 export default function CoverLetterGenerator() {
   const { user: _user } = useAuth();
   const [cvFiles, setCvFiles] = useState<CVFile[]>([]);
+  const [hiddenCvs, setHiddenCvs] = useState<string[]>([]);
   const [selectedCVId, setSelectedCVId] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [position, setPosition] = useState('');
@@ -31,6 +32,11 @@ export default function CoverLetterGenerator() {
         (cv: any) => cv.mimeType === 'application/pdf'
       );
       setCvFiles(pdfFiles);
+      setHiddenCvs(
+        response.data.data
+          .filter((cv: any) => cv.mimeType !== 'application/pdf')
+          .map((cv: any) => cv.fileName)
+      );
     } catch (err: any) {
       setError('CV listesi yüklenemedi');
     }
@@ -127,6 +133,11 @@ export default function CoverLetterGenerator() {
                 </option>
               ))}
             </select>
+            {hiddenCvs.length > 0 && (
+              <p className="mt-2 text-sm text-amber-700 dark:text-amber-300">
+                {hiddenCvs.length} CV PDF olmadığı için burada listelenmiyor: {hiddenCvs.join(', ')}. AI analizi yalnızca PDF destekler, bu dosyanın PDF halini CV Yönetimi sayfasından yükleyin.
+              </p>
+            )}
           </div>
           {}
           <div className="mb-5">
