@@ -98,7 +98,7 @@ export const Layout = () => {
                     {user?.email?.charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <span className="hidden 2xl:inline max-w-[220px] truncate text-sm font-medium text-slate-700 dark:text-slate-300">{user?.email}</span>
+                <span className="hidden min-[1750px]:inline max-w-[220px] truncate text-sm font-medium text-slate-700 dark:text-slate-300">{user?.email}</span>
               </div>
               <button 
                 onClick={handleLogout}
