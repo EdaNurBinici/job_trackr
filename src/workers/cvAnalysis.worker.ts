@@ -6,6 +6,7 @@ interface CVAnalysisJobData {
   jobDescription: string;
   userId: string;
   jobUrl?: string;
+  language?: 'tr' | 'en';
 }
 let worker: Worker | null = null;
 export function startCVAnalysisWorker(): Worker | null {
@@ -17,14 +18,15 @@ export function startCVAnalysisWorker(): Worker | null {
     'cv-analysis',
     async (job: Job<CVAnalysisJobData>) => {
       console.log(`[Worker] Processing CV analysis job ${job.id}`);
-      const { cvFileId, jobDescription, userId, jobUrl } = job.data;
+      const { cvFileId, jobDescription, userId, jobUrl, language } = job.data;
       try {
         await job.updateProgress(10);
         const result = await CVAnalysisService.analyzeCV(
           cvFileId,
           jobDescription,
           userId,
-          jobUrl
+          jobUrl,
+          language
         );
         await job.updateProgress(100);
         console.log(`[Worker] Job ${job.id} completed successfully`);

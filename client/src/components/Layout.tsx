@@ -1,12 +1,14 @@
 ﻿import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 import { useState } from 'react';
 import InstallButton from './InstallButton';
 import Icon from './Icon';
 export const Layout = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { language, toggleLanguage, tx } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,12 +19,12 @@ export const Layout = () => {
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
   const navLinks = [
     { to: '/dashboard', label: 'Dashboard', icon: 'chart' },
-    { to: '/applications', label: 'Başvurular', icon: 'note' },
-    { to: '/cv', label: 'CV Yönetimi', icon: 'doc' },
-    { to: '/cv-analysis', label: 'AI Analiz', icon: 'bot' },
-    { to: '/analysis-history', label: 'Geçmiş', icon: 'history' },
-    { to: '/cover-letter-generator', label: 'Ön Yazı', icon: 'pen' },
-    { to: '/cover-letters', label: 'Ön Yazılarım', icon: 'clipboard' },
+    { to: '/applications', label: tx('Başvurular', 'Applications'), icon: 'note' },
+    { to: '/cv', label: tx('CV Yönetimi', 'My CVs'), icon: 'doc' },
+    { to: '/cv-analysis', label: tx('AI Analiz', 'AI Analysis'), icon: 'bot' },
+    { to: '/analysis-history', label: tx('Geçmiş', 'History'), icon: 'history' },
+    { to: '/cover-letter-generator', label: tx('Ön Yazı', 'Cover Letter'), icon: 'pen' },
+    { to: '/cover-letters', label: tx('Ön Yazılarım', 'My Letters'), icon: 'clipboard' },
   ];
   return (
     <div className="min-h-screen flex flex-col">
@@ -76,6 +78,14 @@ export const Layout = () => {
             <div className="hidden md:flex items-center space-x-4">
               {}
               <button
+                onClick={toggleLanguage}
+                className="px-2.5 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 dark:text-slate-300 dark:hover:text-white dark:bg-white/5 dark:hover:bg-white/10 transition-all duration-200"
+                aria-label={language === 'tr' ? 'Switch to English' : 'Türkçeye geç'}
+                title={language === 'tr' ? 'Switch to English' : 'Türkçeye geç'}
+              >
+                {language === 'tr' ? 'EN' : 'TR'}
+              </button>
+              <button
                 onClick={toggleTheme}
                 className="p-2 rounded-lg text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-white dark:bg-white/5 dark:hover:bg-white/10 transition-all duration-200"
                 aria-label="Toggle Dark Mode"
@@ -92,13 +102,20 @@ export const Layout = () => {
               </div>
               <button 
                 onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200"
+                className="whitespace-nowrap px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200"
               >
-                Çıkış
+                {tx('Çıkış', 'Log out')}
               </button>
             </div>
             {}
             <div className="flex md:hidden items-center space-x-2">
+              <button
+                onClick={toggleLanguage}
+                className="px-2.5 py-2 rounded-lg text-xs font-bold text-slate-600 bg-slate-100 dark:text-slate-300 dark:bg-white/5"
+                aria-label={language === 'tr' ? 'Switch to English' : 'Türkçeye geç'}
+              >
+                {language === 'tr' ? 'EN' : 'TR'}
+              </button>
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-lg text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-white dark:bg-white/5 dark:hover:bg-white/10 transition-all duration-200"
@@ -172,7 +189,7 @@ export const Layout = () => {
                   onClick={handleLogout}
                   className="w-full text-left px-4 py-3 text-base font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200"
                 >
-                  Çıkış Yap
+                  {tx('Çıkış Yap', 'Log out')}
                 </button>
               </div>
             </div>
@@ -187,7 +204,7 @@ export const Layout = () => {
       <footer className="border-t border-slate-200/70 dark:border-white/10 mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="text-center text-sm text-slate-500 dark:text-slate-400">
-            © 2026 JobTrackr. Tüm hakları saklıdır.
+            © 2026 JobTrackr. {tx('Tüm hakları saklıdır.', 'All rights reserved.')}
           </div>
         </div>
       </footer>

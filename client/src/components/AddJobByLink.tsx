@@ -1,14 +1,16 @@
 ﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 export default function AddJobByLink() {
   const [showModal, setShowModal] = useState(false);
   const [jobUrl, setJobUrl] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { tx } = useLanguage();
   const handleSubmit = () => {
     setError('');
     if (!jobUrl.trim()) {
-      setError('Lütfen bir link girin');
+      setError(tx('Lütfen bir link girin', 'Please enter a link'));
       return;
     }
     const supportedSites = [
@@ -19,7 +21,7 @@ export default function AddJobByLink() {
     ];
     const isSupportedSite = supportedSites.some(site => jobUrl.includes(site));
     if (!isSupportedSite) {
-      setError('Bu site desteklenmiyor. Sadece LinkedIn, Kariyer.net, Indeed ve Secretcv desteklenir.');
+      setError(tx('Bu site desteklenmiyor. Sadece LinkedIn, Kariyer.net, Indeed ve Secretcv desteklenir.', 'This site is not supported. Only LinkedIn, Kariyer.net, Indeed and Secretcv are supported.'));
       return;
     }
     let extractedTitle = '';
@@ -60,7 +62,7 @@ export default function AddJobByLink() {
       <button
         onClick={() => setShowModal(true)}
         className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center z-40 transition-all duration-200 hover:scale-110"
-        aria-label="İlan Linki Ekle"
+        aria-label={tx('İlan Linki Ekle', 'Add job link')}
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -72,7 +74,7 @@ export default function AddJobByLink() {
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                İlan Linki Ekle
+                {tx('İlan Linki Ekle', 'Add Job Link')}
               </h3>
               <button
                 onClick={() => {
@@ -88,7 +90,7 @@ export default function AddJobByLink() {
               </button>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              LinkedIn, Kariyer.net, Indeed veya Secretcv'den iş ilanı linkini yapıştırın
+              {tx("LinkedIn, Kariyer.net, Indeed veya Secretcv'den iş ilanı linkini yapıştırın", 'Paste a job link from LinkedIn, Kariyer.net, Indeed or Secretcv')}
             </p>
             {error && (
               <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg">
@@ -111,13 +113,13 @@ export default function AddJobByLink() {
                 }}
                 className="flex-1 px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-sm font-medium transition-colors"
               >
-                İptal
+                {tx('İptal', 'Cancel')}
               </button>
               <button
                 onClick={handleSubmit}
                 className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
-                Devam Et
+                {tx('Devam Et', 'Continue')}
               </button>
             </div>
           </div>

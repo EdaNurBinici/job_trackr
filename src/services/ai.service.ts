@@ -16,18 +16,22 @@ export class AIService {
   }
   static async analyzeCVMatch(
     cvText: string,
-    jobDescription: string
+    jobDescription: string,
+    language: 'tr' | 'en' = 'tr'
   ): Promise<CVAnalysisResult> {
     if (!isGroqConfigured || !groq) {
       throw new Error('Groq API is not configured. Please set GROQ_API_KEY in .env');
     }
     try {
-      const prompt = this.buildAnalysisPrompt(cvText, jobDescription);
+      const prompt = this.buildAnalysisPrompt(cvText, jobDescription, language);
       const completion = await groq.chat.completions.create({
         messages: [
           {
             role: 'system',
-            content: 'Sen uzman bir İK danışmanı ve kariyer koçusun. CV\'leri ve iş ilanlarını analiz ederek doğru eşleşme skorları ve uygulanabilir öneriler sunuyorsun. HER ZAMAN TÜRKÇE cevap ver.',
+            content:
+              language === 'en'
+                ? 'You are an expert HR consultant and career coach. You analyze CVs and job postings and give accurate match scores and actionable recommendations. ALWAYS answer in English.'
+                : 'Sen uzman bir İK danışmanı ve kariyer koçusun. CV\'leri ve iş ilanlarını analiz ederek doğru eşleşme skorları ve uygulanabilir öneriler sunuyorsun. HER ZAMAN TÜRKÇE cevap ver.',
           },
           {
             role: 'user',
@@ -59,7 +63,25 @@ export class AIService {
       throw new Error('Failed to analyze CV. Please try again.');
     }
   }
-  private static buildAnalysisPrompt(cvText: string, jobDescription: string): string {
+  private static buildAnalysisPrompt(cvText: string, jobDescription: string, language: 'tr' | 'en'): string {
+    if (language === 'en') {
+      return `Compare the CV below with the job posting and produce a detailed match analysis. Answer in English, even if the CV or the posting is written in another language.
+CV:
+${cvText}
+Job posting:
+${jobDescription}
+Reply with JSON in exactly this structure:
+{
+  "match_score": <integer 0-100>,
+  "missing_skills": [<important skills named in the posting but absent from the CV - in English>],
+  "recommendations": [<3-5 specific, actionable suggestions to improve the CV for this role - in English>]
+}
+Rules:
+- match_score: base it on skill match, experience fit and overall suitability (0-100)
+- missing_skills: list only skills/technologies explicitly required by the posting and missing from the CV
+- recommendations: 3-5 specific, actionable suggestions
+Be objective and constructive. ALL TEXT MUST BE IN ENGLISH.`;
+    }
     return `Aşağıdaki CV'yi iş ilanıyla karşılaştır ve detaylı bir eşleşme analizi yap. TÜRKÇE cevap ver.
 CV:
 ${cvText}

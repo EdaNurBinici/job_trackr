@@ -2,6 +2,7 @@
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import Icon from '../components/Icon';
+import { useLanguage } from '../context/LanguageContext';
 interface CVFile {
   id: string;
   fileName: string;
@@ -15,6 +16,7 @@ interface AnalysisResult {
 }
 export default function CVAnalysis() {
   const { user: _user } = useAuth();
+  const { tx, locale, language } = useLanguage();
   const [cvFiles, setCvFiles] = useState<CVFile[]>([]);
   const [hiddenCvs, setHiddenCvs] = useState<string[]>([]);
   const [selectedCVId, setSelectedCVId] = useState('');
@@ -42,17 +44,17 @@ export default function CVAnalysis() {
           .map((cv: any) => cv.fileName)
       );
     } catch (err: any) {
-      setError('CV listesi yüklenemedi');
+      setError(tx('CV listesi yüklenemedi', 'Could not load your CV list'));
     }
   };
   const handleAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCVId) {
-      setError('Lütfen bir CV seçin');
+      setError(tx('Lütfen bir CV seçin', 'Please select a CV'));
       return;
     }
     if (jobDescription.trim().length < 50) {
-      setError('İş ilanı açıklaması en az 50 karakter olmalıdır');
+      setError(tx('İş ilanı açıklaması en az 50 karakter olmalıdır', 'The job description must be at least 50 characters'));
       return;
     }
     try {
@@ -66,6 +68,7 @@ export default function CVAnalysis() {
         cvFileId: selectedCVId,
         jobDescription: jobDescription.trim(),
         jobUrl: jobUrl.trim() || undefined,
+        language,
       });
       if (response.status === 202 && response.data.data.jobId) {
         const newJobId = response.data.data.jobId;
@@ -79,7 +82,7 @@ export default function CVAnalysis() {
     } catch (err: any) {
       setError(
         err.response?.data?.error?.message ||
-          'Analiz yapılamadı. Lütfen tekrar deneyin.'
+          tx('Analiz yapılamadı. Lütfen tekrar deneyin.', 'Analysis failed. Please try again.')
       );
       setAnalyzing(false);
     }
@@ -98,20 +101,20 @@ export default function CVAnalysis() {
           setJobStatus('completed');
         } else if (state === 'failed') {
           clearInterval(pollInterval);
-          setError(failedReason || 'Analiz başarısız oldu. Lütfen tekrar deneyin.');
+          setError(failedReason || tx('Analiz başarısız oldu. Lütfen tekrar deneyin.', 'Analysis failed. Please try again.'));
           setAnalyzing(false);
           setJobStatus('failed');
         }
       } catch (err: any) {
         clearInterval(pollInterval);
-        setError('Job durumu alınamadı. Lütfen sayfayı yenileyin.');
+        setError(tx('Job durumu alınamadı. Lütfen sayfayı yenileyin.', 'Could not read the job status. Please refresh the page.'));
         setAnalyzing(false);
       }
     }, 2000); // Poll every 2 seconds
     setTimeout(() => {
       clearInterval(pollInterval);
       if (analyzing) {
-        setError('Analiz çok uzun sürdü. Lütfen tekrar deneyin.');
+        setError(tx('Analiz çok uzun sürdü. Lütfen tekrar deneyin.', 'The analysis took too long. Please try again.'));
         setAnalyzing(false);
       }
     }, 300000);
@@ -125,8 +128,8 @@ export default function CVAnalysis() {
     <div className="space-y-6">
       {}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white"><Icon name="brain" className="w-[1.1em] h-[1.1em] mr-1.5" />AI CV Analizi</h1>
-        <p className="mt-1 text-gray-600 dark:text-gray-400">CV'nizi iş ilanıyla karşılaştırın ve eşleşme puanınızı öğrenin!</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white"><Icon name="brain" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('AI CV Analizi', 'AI CV Analysis')}</h1>
+        <p className="mt-1 text-gray-600 dark:text-gray-400">{tx("CV'nizi iş ilanıyla karşılaştırın ve eşleşme puanınızı öğrenin!", 'Compare your CV with a job posting and get your match score!')}</p>
       </div>
       {}
       <div className="card p-6">
@@ -134,7 +137,7 @@ export default function CVAnalysis() {
           {}
           <div>
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
-              CV Seçin (Sadece PDF)
+              {tx('CV Seçin (Sadece PDF)', 'Select a CV (PDF only)')}
             </label>
             <select
               value={selectedCVId}
@@ -143,7 +146,7 @@ export default function CVAnalysis() {
               disabled={analyzing}
               className="w-full px-4 py-2.5 text-base rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white disabled:opacity-50"
             >
-              <option value="">-- CV Seçin --</option>
+              <option value="">{tx('-- CV Seçin --', '-- Select a CV --')}</option>
               {cvFiles.map((cv) => (
                 <option key={cv.id} value={cv.id}>
                   {cv.fileName}
@@ -152,19 +155,19 @@ export default function CVAnalysis() {
             </select>
             {hiddenCvs.length > 0 && (
               <p className="mt-2 text-sm text-amber-700 dark:text-amber-300">
-                {hiddenCvs.length} CV PDF olmadığı için burada listelenmiyor: {hiddenCvs.join(', ')}. AI analizi yalnızca PDF destekler, bu dosyanın PDF halini CV Yönetimi sayfasından yükleyin.
+                {tx(`${hiddenCvs.length} CV PDF olmadığı için burada listelenmiyor: ${hiddenCvs.join(', ')}. AI analizi yalnızca PDF destekler, bu dosyanın PDF halini CV Yönetimi sayfasından yükleyin.`, `${hiddenCvs.length} file(s) are hidden because they are not PDF: ${hiddenCvs.join(', ')}. AI analysis supports PDF only, please upload a PDF version.`)}
               </p>
             )}
             {cvFiles.length === 0 && (
               <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-                Henüz PDF CV yüklemediniz. Önce CV Yönetimi sayfasından PDF formatında CV yükleyin.
+                {tx('Henüz PDF CV yüklemediniz. Önce CV Yönetimi sayfasından PDF formatında CV yükleyin.', 'You have not uploaded a PDF CV yet. Upload one on the My CVs page first.')}
               </p>
             )}
           </div>
           {}
           <div>
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
-              İş İlanı Açıklaması (Min 50 karakter)
+              {tx('İş İlanı Açıklaması (Min 50 karakter)', 'Job Description (min. 50 characters)')}
             </label>
             <textarea
               value={jobDescription}
@@ -173,17 +176,17 @@ export default function CVAnalysis() {
               minLength={50}
               disabled={analyzing}
               rows={10}
-              placeholder="İş ilanının tamamını buraya yapıştırın..."
+              placeholder={tx('İş ilanının tamamını buraya yapıştırın...', 'Paste the full job posting here...')}
               className="w-full px-4 py-2.5 text-base rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 disabled:opacity-50"
             />
             <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-              {jobDescription.length} / 50 karakter
+              {jobDescription.length} / 50 {tx('karakter', 'characters')}
             </p>
           </div>
           {}
           <div>
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
-              İlan URL (Opsiyonel)
+              {tx('İlan URL (Opsiyonel)', 'Job URL (optional)')}
             </label>
             <input
               type="url"
@@ -205,10 +208,10 @@ export default function CVAnalysis() {
             } text-white`}
           >
             {analyzing ? (
-              jobStatus === 'queued' ? 'Sırada Bekliyor...' :
-              jobStatus === 'active' ? `Analiz Ediliyor... ${progress}%` :
-              'Analiz Ediliyor...'
-            ) : 'Analiz Et'}
+              jobStatus === 'queued' ? tx('Sırada Bekliyor...', 'Waiting in queue...') :
+              jobStatus === 'active' ? tx(`Analiz Ediliyor... ${progress}%`, `Analyzing... ${progress}%`) :
+              tx('Analiz Ediliyor...', 'Analyzing...')
+            ) : tx('Analiz Et', 'Analyze')}
           </button>
         </form>
         {}
@@ -238,13 +241,13 @@ export default function CVAnalysis() {
       {}
       {result && (
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white"><Icon name="chart" className="w-[1.1em] h-[1.1em] mr-1.5" />Analiz Sonuçları</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white"><Icon name="chart" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('Analiz Sonuçları', 'Analysis Results')}</h2>
           {}
           <div
             className="card p-8 text-center"
             style={{ borderColor: getScoreColor(result.matchScore), borderWidth: '2px' }}
           >
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Eşleşme Puanı</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{tx('Eşleşme Puanı', 'Match Score')}</h3>
             <div
               className="text-7xl font-black mb-2"
               style={{ color: getScoreColor(result.matchScore) }}
@@ -256,15 +259,15 @@ export default function CVAnalysis() {
               className="inline-block px-6 py-3 rounded-lg font-bold text-gray-900 dark:text-white"
               style={{ backgroundColor: getScoreColor(result.matchScore) + '30' }}
             >
-              {result.matchScore >= 80 && 'Mükemmel eşleşme!'}
-              {result.matchScore >= 60 && result.matchScore < 80 && 'İyi eşleşme'}
-              {result.matchScore < 60 && 'Geliştirme alanları var'}
+              {result.matchScore >= 80 && tx('Mükemmel eşleşme!', 'Excellent match!')}
+              {result.matchScore >= 60 && result.matchScore < 80 && tx('İyi eşleşme', 'Good match')}
+              {result.matchScore < 60 && tx('Geliştirme alanları var', 'Room for improvement')}
             </div>
           </div>
           {}
           {result.missingSkills.length > 0 && (
             <div className="card p-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4"><Icon name="x" className="w-[1.1em] h-[1.1em] mr-1.5" />Eksik Beceriler</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4"><Icon name="x" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('Eksik Beceriler', 'Missing Skills')}</h3>
               <div className="flex flex-wrap gap-2">
                 {result.missingSkills.map((skill, index) => (
                   <span
@@ -280,7 +283,7 @@ export default function CVAnalysis() {
           {}
           {result.recommendations.length > 0 && (
             <div className="card p-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4"><Icon name="lightbulb" className="w-[1.1em] h-[1.1em] mr-1.5" />İyileştirme Önerileri</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4"><Icon name="lightbulb" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('İyileştirme Önerileri', 'Recommendations')}</h3>
               <ul className="space-y-3 text-gray-700 dark:text-gray-300">
                 {result.recommendations.map((rec, index) => (
                   <li key={index} className="flex items-start">
@@ -292,7 +295,7 @@ export default function CVAnalysis() {
             </div>
           )}
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            Analiz tarihi: {new Date(result.createdAt).toLocaleString('tr-TR')}
+            {tx('Analiz tarihi', 'Analyzed on')}: {new Date(result.createdAt).toLocaleString(locale)}
           </p>
         </div>
       )}

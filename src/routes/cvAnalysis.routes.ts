@@ -8,6 +8,7 @@ router.post('/', async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.id;
     const { cvFileId, jobDescription, jobUrl } = req.body;
+    const language: 'tr' | 'en' = req.body.language === 'en' ? 'en' : 'tr';
     if (!cvFileId) {
       return res.status(400).json({
         error: {
@@ -30,6 +31,7 @@ router.post('/', async (req: AuthRequest, res: Response) => {
         jobDescription: jobDescription.trim(),
         userId,
         jobUrl: jobUrl?.trim(),
+        language,
       });
       return res.status(202).json({
         data: {
@@ -44,7 +46,8 @@ router.post('/', async (req: AuthRequest, res: Response) => {
         cvFileId,
         jobDescription,
         userId,
-        jobUrl
+        jobUrl,
+        language
       );
       return res.status(201).json({
         data: {

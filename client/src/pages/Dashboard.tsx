@@ -4,7 +4,9 @@ import { dashboardApi, applicationsApi } from '../services/api';
 import type { DashboardStats, Application } from '../types';
 import AddJobByLink from '../components/AddJobByLink';
 import Icon from '../components/Icon';
+import { useLanguage } from '../context/LanguageContext';
 export const Dashboard = () => {
+  const { tx, locale } = useLanguage();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [recentActivity, setRecentActivity] = useState<Application[]>([]);
   const [upcomingReminders, setUpcomingReminders] = useState<Application[]>([]);
@@ -66,14 +68,14 @@ export const Dashboard = () => {
     setModalApplications([]);
   };
   const handleDelete = async (id: string) => {
-    if (!confirm('Bu başvuruyu silmek istediğinizden emin misiniz?')) return;
+    if (!confirm(tx('Bu başvuruyu silmek istediğinizden emin misiniz?', 'Are you sure you want to delete this application?'))) return;
     try {
       await applicationsApi.delete(id);
       setModalApplications(modalApplications.filter(app => app.id !== id));
       loadDashboard(); // Refresh stats
     } catch (error) {
       console.error('Failed to delete application:', error);
-      alert('Silme işlemi başarısız oldu');
+      alert(tx('Silme işlemi başarısız oldu', 'Delete failed'));
     }
   };
   if (loading) {
@@ -85,7 +87,7 @@ export const Dashboard = () => {
   }
   const statCards = [
     {
-      title: 'Toplam Başvuru',
+      title: tx('Toplam Başvuru', 'Total Applications'),
       value: stats?.total || 0,
       icon: 'chart',
       color: 'from-blue-500 to-blue-600',
@@ -94,7 +96,7 @@ export const Dashboard = () => {
       filterStatus: '',
     },
     {
-      title: 'Mülakat',
+      title: tx('Mülakat', 'Interviews'),
       value: stats?.interview || 0,
       icon: 'briefcase',
       color: 'from-yellow-500 to-yellow-600',
@@ -103,7 +105,7 @@ export const Dashboard = () => {
       filterStatus: 'Interview',
     },
     {
-      title: 'Teklif',
+      title: tx('Teklif', 'Offers'),
       value: stats?.offer || 0,
       icon: 'party',
       color: 'from-green-500 to-green-600',
@@ -112,7 +114,7 @@ export const Dashboard = () => {
       filterStatus: 'Offer',
     },
     {
-      title: 'Reddedildi',
+      title: tx('Reddedildi', 'Rejected'),
       value: stats?.rejected || 0,
       icon: 'x',
       color: 'from-red-500 to-red-600',
@@ -123,10 +125,10 @@ export const Dashboard = () => {
   ];
   const getStatusLabel = (status: string) => {
     const labels: Record<string, string> = {
-      'Applied': 'Başvuruldu',
-      'Interview': 'Mülakat',
-      'Offer': 'Teklif',
-      'Rejected': 'Reddedildi',
+      'Applied': tx('Başvuruldu', 'Applied'),
+      'Interview': tx('Mülakat', 'Interview'),
+      'Offer': tx('Teklif', 'Offer'),
+      'Rejected': tx('Reddedildi', 'Rejected'),
     };
     return labels[status] || status;
   };
@@ -145,24 +147,24 @@ export const Dashboard = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-          <p className="mt-1 text-gray-600 dark:text-gray-400">İş başvurularınızın özeti</p>
+          <p className="mt-1 text-gray-600 dark:text-gray-400">{tx('İş başvurularınızın özeti', 'Your job search at a glance')}</p>
         </div>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <button
             onClick={loadDashboard}
             disabled={loading}
             className="btn-secondary flex items-center justify-center space-x-2"
-            title="Yenile"
+            title={tx('Yenile', 'Refresh')}
           >
             <span className={loading ? 'animate-spin' : ''}><Icon name="refresh" /></span>
-            <span>Yenile</span>
+            <span>{tx('Yenile', 'Refresh')}</span>
           </button>
           <Link
             to="/applications/new"
             className="btn-primary flex items-center justify-center space-x-2"
           >
             <span><Icon name="plus" /></span>
-            <span>Yeni Başvuru</span>
+            <span>{tx('Yeni Başvuru', 'New Application')}</span>
           </Link>
         </div>
       </div>
@@ -190,12 +192,12 @@ export const Dashboard = () => {
       {}
       <div className="card p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Son Aktiviteler</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">{tx('Son Aktiviteler', 'Recent Activity')}</h2>
           <Link
             to="/applications"
             className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors dark:text-indigo-300"
           >
-            Tümünü Gör →
+            {tx('Tümünü Gör →', 'View all →')}
           </Link>
         </div>
         {recentActivity.length === 0 ? (
@@ -203,10 +205,10 @@ export const Dashboard = () => {
             <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-3xl"><Icon name="note" /></span>
             </div>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">Henüz başvuru yok</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">{tx('Henüz başvuru yok', 'No applications yet')}</p>
             <Link to="/applications/new" className="btn-primary inline-flex items-center space-x-2">
               <span><Icon name="plus" /></span>
-              <span>İlk Başvurunuzu Ekleyin</span>
+              <span>{tx('İlk Başvurunuzu Ekleyin', 'Add your first application')}</span>
             </Link>
           </div>
         ) : (
@@ -222,12 +224,12 @@ export const Dashboard = () => {
                     <div className="flex items-center space-x-3">
                       <h3 className="font-semibold text-gray-900 dark:text-white">{app.companyName}</h3>
                       <span className={`badge ${getStatusBadge(app.status)}`}>
-                        {app.status}
+                        {getStatusLabel(app.status)}
                       </span>
                     </div>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{app.position}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                      {new Date(app.applicationDate).toLocaleDateString('tr-TR')}
+                      {new Date(app.applicationDate).toLocaleDateString(locale)}
                     </p>
                   </div>
                   <div className="text-gray-400 dark:text-gray-600">
@@ -250,8 +252,8 @@ export const Dashboard = () => {
           <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <span className="text-2xl"><Icon name="bot" /></span>
           </div>
-          <h3 className="font-bold text-gray-900 dark:text-white mb-2">AI CV Analizi</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">CV'nizi yapay zeka ile analiz edin</p>
+          <h3 className="font-bold text-gray-900 dark:text-white mb-2">{tx('AI CV Analizi', 'AI CV Analysis')}</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{tx("CV'nizi yapay zeka ile analiz edin", 'Analyze your CV with AI')}</p>
         </Link>
         <Link
           to="/cover-letter-generator"
@@ -260,8 +262,8 @@ export const Dashboard = () => {
           <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <span className="text-2xl"><Icon name="pen" /></span>
           </div>
-          <h3 className="font-bold text-gray-900 dark:text-white mb-2">Ön Yazı Oluştur</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">AI ile özel ön yazı hazırlayın</p>
+          <h3 className="font-bold text-gray-900 dark:text-white mb-2">{tx('Ön Yazı Oluştur', 'Create Cover Letter')}</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{tx('AI ile özel ön yazı hazırlayın', 'Write a tailored cover letter with AI')}</p>
         </Link>
         <Link
           to="/cv"
@@ -270,8 +272,8 @@ export const Dashboard = () => {
           <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <span className="text-2xl"><Icon name="doc" /></span>
           </div>
-          <h3 className="font-bold text-gray-900 dark:text-white mb-2">CV Yönetimi</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">CV'lerinizi yükleyin ve yönetin</p>
+          <h3 className="font-bold text-gray-900 dark:text-white mb-2">{tx('CV Yönetimi', 'Manage CVs')}</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{tx("CV'lerinizi yükleyin ve yönetin", 'Upload and organize your CVs')}</p>
         </Link>
       </div>
       {}
@@ -283,12 +285,12 @@ export const Dashboard = () => {
                 <span className="text-2xl"><Icon name="bell" /></span>
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Yaklaşan Hatırlatmalar</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Önümüzdeki 7 gün</p>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">{tx('Yaklaşan Hatırlatmalar', 'Upcoming Reminders')}</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{tx('Önümüzdeki 7 gün', 'Next 7 days')}</p>
               </div>
             </div>
             <span className="badge bg-orange-100 text-orange-700">
-              {upcomingReminders.length} hatırlatma
+              {upcomingReminders.length} {tx('hatırlatma', 'reminders')}
             </span>
           </div>
           <div className="space-y-3">
@@ -315,10 +317,10 @@ export const Dashboard = () => {
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{app.position}</p>
                       <div className="flex items-center space-x-2 mt-2">
                         <span className="text-xs text-orange-700 dark:text-orange-400 font-medium">
-                          {isToday ? 'Bugün!' : isTomorrow ? 'Yarın' : `${daysUntil} gün sonra`}
+                          {isToday ? tx('Bugün!', 'Today!') : isTomorrow ? tx('Yarın', 'Tomorrow') : tx(`${daysUntil} gün sonra`, `In ${daysUntil} days`)}
                         </span>
                         <span className="text-xs text-gray-500 dark:text-gray-500">
-                          ({reminderDate.toLocaleDateString('tr-TR')})
+                          ({reminderDate.toLocaleDateString(locale)})
                         </span>
                       </div>
                     </div>
@@ -341,7 +343,7 @@ export const Dashboard = () => {
             {}
             <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                {getStatusLabel(modalStatus)} Başvurular
+                {tx(`${getStatusLabel(modalStatus)} Başvurular`, `${getStatusLabel(modalStatus)} applications`)}
               </h2>
               <button
                 onClick={closeModal}
@@ -360,7 +362,7 @@ export const Dashboard = () => {
                 </div>
               ) : modalApplications.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-gray-600 dark:text-gray-400">Bu durumda başvuru bulunamadı</p>
+                  <p className="text-gray-600 dark:text-gray-400">{tx('Bu durumda başvuru bulunamadı', 'No applications with this status')}</p>
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -373,13 +375,13 @@ export const Dashboard = () => {
                         <h3 className="font-semibold text-gray-900 dark:text-white">{app.companyName}</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{app.position}</p>
                         <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                          {new Date(app.applicationDate).toLocaleDateString('tr-TR')}
+                          {new Date(app.applicationDate).toLocaleDateString(locale)}
                         </p>
                       </div>
                       <button
                         onClick={() => handleDelete(app.id)}
                         className="ml-4 p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
-                        title="Sil"
+                        title={tx('Sil', 'Delete')}
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

@@ -1,6 +1,7 @@
 ﻿import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Layout } from './components/Layout';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
@@ -25,6 +26,7 @@ import CoverLetterList from './pages/CoverLetterList';
 function App() {
   return (
     <ThemeProvider>
+      <LanguageProvider>
       <AuthProvider>
         <BrowserRouter>
         <PWAInstallPrompt />
@@ -54,6 +56,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </LanguageProvider>
     </ThemeProvider>
   );
 }

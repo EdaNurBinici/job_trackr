@@ -2,12 +2,14 @@
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import Icon from '../components/Icon';
+import { useLanguage } from '../context/LanguageContext';
 interface CVFile {
   id: string;
   fileName: string;
 }
 export default function CoverLetterGenerator() {
   const { user: _user } = useAuth();
+  const { tx, language: uiLanguage } = useLanguage();
   const [cvFiles, setCvFiles] = useState<CVFile[]>([]);
   const [hiddenCvs, setHiddenCvs] = useState<string[]>([]);
   const [selectedCVId, setSelectedCVId] = useState('');
@@ -15,7 +17,7 @@ export default function CoverLetterGenerator() {
   const [position, setPosition] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [tone, setTone] = useState<'formal' | 'casual' | 'creative'>('formal');
-  const [language, setLanguage] = useState<'tr' | 'en'>('tr');
+  const [language, setLanguage] = useState<'tr' | 'en'>(uiLanguage);
   const [generating, setGenerating] = useState(false);
   const [coverLetter, setCoverLetter] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -25,6 +27,10 @@ export default function CoverLetterGenerator() {
   useEffect(() => {
     loadCVs();
   }, []);
+  // Arayüz dili değişince ön yazı dili de onu takip etsin (kullanıcı sonradan değiştirebilir)
+  useEffect(() => {
+    setLanguage(uiLanguage);
+  }, [uiLanguage]);
   const loadCVs = async () => {
     try {
       const response = await api.get('/cv/user/list');
@@ -38,17 +44,17 @@ export default function CoverLetterGenerator() {
           .map((cv: any) => cv.fileName)
       );
     } catch (err: any) {
-      setError('CV listesi yüklenemedi');
+      setError(tx('CV listesi yüklenemedi', 'Could not load your CV list'));
     }
   };
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCVId) {
-      setError('Lütfen bir CV seçin');
+      setError(tx('Lütfen bir CV seçin', 'Please select a CV'));
       return;
     }
     if (jobDescription.trim().length < 50) {
-      setError('İş ilanı açıklaması en az 50 karakter olmalıdır');
+      setError(tx('İş ilanı açıklaması en az 50 karakter olmalıdır', 'The job description must be at least 50 characters'));
       return;
     }
     try {
@@ -66,11 +72,11 @@ export default function CoverLetterGenerator() {
       });
       setCoverLetter(response.data.data.content);
       setCoverLetterId(response.data.data.id);
-      setSuccess('Ön yazı başarıyla oluşturuldu!');
+      setSuccess(tx('Ön yazı başarıyla oluşturuldu!', 'Cover letter created!'));
     } catch (err: any) {
       setError(
         err.response?.data?.error?.message ||
-          'Ön yazı oluşturulamadı. Lütfen tekrar deneyin.'
+          tx('Ön yazı oluşturulamadı. Lütfen tekrar deneyin.', 'Could not create the cover letter. Please try again.')
       );
     } finally {
       setGenerating(false);
@@ -78,7 +84,7 @@ export default function CoverLetterGenerator() {
   };
   const handleCopy = () => {
     navigator.clipboard.writeText(coverLetter);
-    setSuccess('Panoya kopyalandı!');
+    setSuccess(tx('Panoya kopyalandı!', 'Copied to clipboard!'));
     setTimeout(() => setSuccess(''), 3000);
   };
   const handleDownload = () => {
@@ -91,7 +97,7 @@ export default function CoverLetterGenerator() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    setSuccess('İndirildi!');
+    setSuccess(tx('İndirildi!', 'Downloaded!'));
     setTimeout(() => setSuccess(''), 3000);
   };
   const handleSaveEdit = async () => {
@@ -100,24 +106,24 @@ export default function CoverLetterGenerator() {
       await api.put(`/cover-letter/${coverLetterId}`, {
         content: coverLetter,
       });
-      setSuccess('Değişiklikler kaydedildi!');
+      setSuccess(tx('Değişiklikler kaydedildi!', 'Changes saved!'));
       setIsEditing(false);
       setTimeout(() => setSuccess(''), 3000);
     } catch (err: any) {
-      setError('Kaydetme başarısız oldu');
+      setError(tx('Kaydetme başarısız oldu', 'Saving failed'));
     }
   };
   return (
     <div className="p-5 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white"><Icon name="pen" className="w-[1.1em] h-[1.1em] mr-1.5" />Ön Yazı Oluştur</h1>
-      <p className="mt-2 text-gray-600 dark:text-gray-400">AI ile kişiselleştirilmiş ön yazı (cover letter) oluşturun!</p>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white"><Icon name="pen" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('Ön Yazı Oluştur', 'Cover Letter Generator')}</h1>
+      <p className="mt-2 text-gray-600 dark:text-gray-400">{tx('AI ile kişiselleştirilmiş ön yazı (cover letter) oluşturun!', 'Create a personalized cover letter with AI!')}</p>
       {}
       <div className="mt-8 p-8 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
         <form onSubmit={handleGenerate}>
           {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
-              CV Seçin (Sadece PDF)
+              {tx('CV Seçin (Sadece PDF)', 'Select a CV (PDF only)')}
             </label>
             <select
               value={selectedCVId}
@@ -126,7 +132,7 @@ export default function CoverLetterGenerator() {
               disabled={generating}
               className="w-full px-4 py-2.5 text-base rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
-              <option value="">-- CV Seçin --</option>
+              <option value="">{tx('-- CV Seçin --', '-- Select a CV --')}</option>
               {cvFiles.map((cv) => (
                 <option key={cv.id} value={cv.id}>
                   {cv.fileName}
@@ -135,14 +141,14 @@ export default function CoverLetterGenerator() {
             </select>
             {hiddenCvs.length > 0 && (
               <p className="mt-2 text-sm text-amber-700 dark:text-amber-300">
-                {hiddenCvs.length} CV PDF olmadığı için burada listelenmiyor: {hiddenCvs.join(', ')}. AI analizi yalnızca PDF destekler, bu dosyanın PDF halini CV Yönetimi sayfasından yükleyin.
+                {tx(`${hiddenCvs.length} CV PDF olmadığı için burada listelenmiyor: ${hiddenCvs.join(', ')}. AI analizi yalnızca PDF destekler, bu dosyanın PDF halini CV Yönetimi sayfasından yükleyin.`, `${hiddenCvs.length} file(s) are hidden because they are not PDF: ${hiddenCvs.join(', ')}. AI features support PDF only, please upload a PDF version.`)}
               </p>
             )}
           </div>
           {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
-              Şirket Adı
+              {tx('Şirket Adı', 'Company Name')}
             </label>
             <input
               type="text"
@@ -150,14 +156,14 @@ export default function CoverLetterGenerator() {
               onChange={(e) => setCompanyName(e.target.value)}
               required
               disabled={generating}
-              placeholder="Örn: Google"
+              placeholder={tx('Örn: Google', 'e.g. Google')}
               className="w-full px-4 py-2.5 text-base rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
           {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
-              Pozisyon
+              {tx('Pozisyon', 'Position')}
             </label>
             <input
               type="text"
@@ -165,14 +171,14 @@ export default function CoverLetterGenerator() {
               onChange={(e) => setPosition(e.target.value)}
               required
               disabled={generating}
-              placeholder="Örn: Senior Software Engineer"
+              placeholder={tx('Örn: Senior Software Engineer', 'e.g. Senior Software Engineer')}
               className="w-full px-4 py-2.5 text-base rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
           {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
-              İş İlanı Açıklaması (Min 50 karakter)
+              {tx('İş İlanı Açıklaması (Min 50 karakter)', 'Job Description (min. 50 characters)')}
             </label>
             <textarea
               value={jobDescription}
@@ -181,17 +187,17 @@ export default function CoverLetterGenerator() {
               minLength={50}
               disabled={generating}
               rows={8}
-              placeholder="İş ilanının tamamını buraya yapıştırın..."
+              placeholder={tx('İş ilanının tamamını buraya yapıştırın...', 'Paste the full job posting here...')}
               className="w-full px-4 py-2.5 text-base rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
             <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-              {jobDescription.length} / 50 karakter
+              {jobDescription.length} / 50 {tx('karakter', 'characters')}
             </p>
           </div>
           {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
-              Ton
+              {tx('Ton', 'Tone')}
             </label>
             <div className="flex gap-4">
               <label className="flex items-center cursor-pointer text-gray-900 dark:text-gray-300">
@@ -203,7 +209,7 @@ export default function CoverLetterGenerator() {
                   disabled={generating}
                   className="mr-2"
                 />
-                <Icon name="briefcase" className="w-[1.1em] h-[1.1em] mr-1.5" />Resmi
+                <Icon name="briefcase" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('Resmi', 'Formal')}
               </label>
               <label className="flex items-center cursor-pointer text-gray-900 dark:text-gray-300">
                 <input
@@ -214,7 +220,7 @@ export default function CoverLetterGenerator() {
                   disabled={generating}
                   className="mr-2"
                 />
-                <Icon name="smile" className="w-[1.1em] h-[1.1em] mr-1.5" />Samimi
+                <Icon name="smile" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('Samimi', 'Friendly')}
               </label>
               <label className="flex items-center cursor-pointer text-gray-900 dark:text-gray-300">
                 <input
@@ -225,14 +231,14 @@ export default function CoverLetterGenerator() {
                   disabled={generating}
                   className="mr-2"
                 />
-                <Icon name="palette" className="w-[1.1em] h-[1.1em] mr-1.5" />Yaratıcı
+                <Icon name="palette" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('Yaratıcı', 'Creative')}
               </label>
             </div>
           </div>
           {}
           <div className="mb-5">
             <label className="block mb-2 font-bold text-gray-900 dark:text-white">
-              Dil
+              {tx('Dil', 'Language')}
             </label>
             <div className="flex gap-4">
               <label className="flex items-center cursor-pointer text-gray-900 dark:text-gray-300">
@@ -244,7 +250,7 @@ export default function CoverLetterGenerator() {
                   disabled={generating}
                   className="mr-2"
                 />
-                🇹🇷 Türkçe
+                {tx('Türkçe', 'Turkish')}
               </label>
               <label className="flex items-center cursor-pointer text-gray-900 dark:text-gray-300">
                 <input
@@ -255,7 +261,7 @@ export default function CoverLetterGenerator() {
                   disabled={generating}
                   className="mr-2"
                 />
-                🇬🇧 English
+                English
               </label>
             </div>
           </div>
@@ -269,7 +275,7 @@ export default function CoverLetterGenerator() {
                 : 'bg-green-600 hover:bg-green-700 cursor-pointer'
             } text-white border-none`}
           >
-            {generating ? 'Oluşturuluyor...' : 'Ön Yazı Oluştur'}
+            {generating ? tx('Oluşturuluyor...', 'Generating...') : tx('Ön Yazı Oluştur', 'Generate Cover Letter')}
           </button>
         </form>
       </div>
@@ -289,25 +295,25 @@ export default function CoverLetterGenerator() {
       {coverLetter && (
         <div className="mt-8">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white"><Icon name="doc" className="w-[1.1em] h-[1.1em] mr-1.5" />Ön Yazınız</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white"><Icon name="doc" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('Ön Yazınız', 'Your Cover Letter')}</h2>
             <div className="flex gap-2">
               <button
                 onClick={() => setIsEditing(!isEditing)}
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded cursor-pointer"
               >
-                {isEditing ? 'Önizle' : 'Düzenle'}
+                {isEditing ? tx('Önizle', 'Preview') : tx('Düzenle', 'Edit')}
               </button>
               <button
                 onClick={handleCopy}
                 className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded cursor-pointer"
               >
-                <Icon name="clipboard" className="w-[1.1em] h-[1.1em] mr-1.5" />Kopyala
+                <Icon name="clipboard" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('Kopyala', 'Copy')}
               </button>
               <button
                 onClick={handleDownload}
                 className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded cursor-pointer"
               >
-                <Icon name="save" className="w-[1.1em] h-[1.1em] mr-1.5" />İndir
+                <Icon name="save" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('İndir', 'Download')}
               </button>
             </div>
           </div>
@@ -323,7 +329,7 @@ export default function CoverLetterGenerator() {
                 onClick={handleSaveEdit}
                 className="mt-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded cursor-pointer"
               >
-                <Icon name="save" className="w-[1.1em] h-[1.1em] mr-1.5" />Değişiklikleri Kaydet
+                <Icon name="save" className="w-[1.1em] h-[1.1em] mr-1.5" />{tx('Değişiklikleri Kaydet', 'Save Changes')}
               </button>
             </div>
           ) : (

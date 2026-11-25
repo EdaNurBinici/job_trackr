@@ -8,7 +8,8 @@ export class CVAnalysisService {
     cvFileId: string,
     jobDescription: string,
     userId: string,
-    jobUrl?: string
+    jobUrl?: string,
+    language: 'tr' | 'en' = 'tr'
   ): Promise<CVAnalysis> {
     if (!jobDescription || jobDescription.trim().length < 50) {
       throw new Error('Job description must be at least 50 characters');
@@ -28,7 +29,7 @@ export class CVAnalysisService {
     }
     const fileBuffer = await S3Service.getFileBuffer(cvFile.s3Key);
     const cvText = await PDFParserService.extractTextFromPDF(fileBuffer);
-    const aiResult = await AIService.analyzeCVMatch(cvText, jobDescription);
+    const aiResult = await AIService.analyzeCVMatch(cvText, jobDescription, language);
     const analysisData: CreateCVAnalysisDTO = {
       userId,
       cvFileId,
